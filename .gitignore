@@ -1,0 +1,14 @@
+# Exclude Jars
+jars/
+*.jar
+
+#Exclude Jsons
+*.json
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+#Visual Studio COde Files
+.vscode/
