@@ -1,11 +1,5 @@
 import ast
 
-from nl4dv_test import nl4dvQueryAnalyzerFinancialsDataset
-
-out_put = nl4dvQueryAnalyzerFinancialsDataset("Show me sales by country in a bar chart")
-
-
-
 def nl4dv_output_parser(nl4dv_output):
     output = nl4dv_output
 
@@ -35,6 +29,3 @@ def nl4dv_output_parser(nl4dv_output):
 
     #Return Dictionary
     return specification
-
-
-nl4dv_output_parser(out_put)
