@@ -13,7 +13,18 @@ class Barchart(Visualization):
 
     def __init__(self, dataframe):
         super().__init__(self, dataframe)
-        self.xaxis
+        #Class varibales with example Parameters
+        self.x_encoding = {
+            "aggregate": null,
+            "field": "Country",
+            "type": "nominal"
+        }
+        self.y_encoding = {
+            "aggregate": "mean",
+            "field": "Sales",
+            "type": "quantitative"
+        }
+        
     def change_axis(self):
 
     def get_barchart_data(self):

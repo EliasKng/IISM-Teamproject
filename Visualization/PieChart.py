@@ -18,5 +18,17 @@ class PieChart(Visualization):
 
     def __init__(self, dataframe):
         super().__init__(self, dataframe)
+        #Class varibales with example Parameters
+        self.color_encoding = {
+            "aggregate": null,
+            "field": "Country",
+            "type": "nominal"
+        }
+        #specifies the angle
+        self.theta_encoding = {
+            "aggregate": "mean",
+            "field": "Sales",
+            "type": "quantitative"
+        }
     
     def get_piechart_data(self):
