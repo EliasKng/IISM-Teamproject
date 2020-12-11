@@ -5,29 +5,25 @@ import matplotlib.pyplot as plt
 from QuickParser import getAttributes
 from Filter import filter_dataframe
 
-    def calculate_percentage(val, total):
-        #Calculates the percentage of a value over a total
-        percent = np.divide(val, total)
+def calculate_percentage(val, total):
+    #Calculates the percentage of a value over a total
+    percent = np.divide(val, total)
 
-        return percent
+    return percent
 
 
 class Visualization(object): 
 
     def __init__(self, dataframe ):
         self.dataframe = dataframe
-        self.dataframe-filtered = []
+        self.dataframe_filtered = [0]
         #Properties
-        self.xaxis= ""
-        self.yaxis= ""
-        self.aggregate= ""
-        self.columnnames= []
 
     def filter(self, xaxis, yaxis, aggregate, filterkeywords): 
         #SetProperties....
         #self.xaxis = xaxis 
         #und so weiter... evt. könnte man noch eine set Properties methode hinzufügen, die hier nur gecalled wird. 
-        return self.dataframe-filtered = filter_dataframe(self.dataframe, xaxis, yaxis, aggregate, filterkeywords)
+        return self.dataframe_filtered = filter_dataframe(self.dataframe, xaxis, yaxis, aggregate, filterkeywords)
 
     def get_column_datatype(self):
 
