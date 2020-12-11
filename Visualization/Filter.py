@@ -11,10 +11,10 @@ def filter_dataframe(dataframe, filterindex, aggregatevalues, aggregate, filterk
      ''' for k, v in filterkeywords.items():
             if v[1] is dataframe.select_dtypes(include='object').to_dict():
                 v[1] = "\'" + v[1] + "\'" '''
-    return pd.pivot_table(dataframe.query(" & ".join('{0} {1} {2}'.format(k, cond[0], cond[1]) for k, cond in filterkeywords.items())), index=["Country"], values=["Sales"], aggfunc={"Sales": "sum"})
-    #return pd.pivot_table(dataframe.query(" & ".join('{0} {1} {2}'.format(k, cond[0], "\'" + cond[1] + "\'" if dataframe.select_dtypes(include='object').to_dict().get(cond[1]), else: cond[1] ) for k, cond in filterkeywords.items())), index=["Country"], values=["Sales"], aggfunc={"Sales": "sum"})
+    #return pd.pivot_table(dataframe.query(" & ".join('{0} {1} {2}'.format(k, cond[0], cond[1]) for k, cond in filterkeywords.items())), index=["Country"], values=["Sales"], aggfunc={"Sales": "sum"})
+    return pd.pivot_table(dataframe.query(" & ".join('{0} {1} {2}'.format(k, cond[0], cond[1] if cond[1].isnumeric(), else: "\'" + cond[1] + "\'") for k, cond in filterkeywords.items())), index=["Country"], values=["Sales"], aggfunc={"Sales": "sum"})
 
-    return pd.pivot_table(dataframe, index=[filterindex], values=[aggregatevalues], aggfunc={aggregatevalues: aggregate})
+    #return pd.pivot_table(dataframe, index=[filterindex], values=[aggregatevalues], aggfunc={aggregatevalues: aggregate})
 
 
 #Test 
