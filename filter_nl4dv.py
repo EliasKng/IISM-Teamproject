@@ -6,6 +6,10 @@ from QuickParser import getAttributes
 from filter_functions import filterDataframe, mask
 
 
+
+
+
+
 #loading csv
 working_dataframe = pd.read_csv(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "examples", "assets", "data", "FinancialSample.csv"))
 print(working_dataframe.head(20))
@@ -13,7 +17,13 @@ print(working_dataframe.head(20))
 #pivot table for visualization
 #table = pd.pivot_table(working_dataframe, index=["Country"], values=["Sales"], aggfunc={"Sales": np.sum})
 #Query with filter. Shows Sales per Country for Product Carretera
-table = pd.pivot_table(working_dataframe[working_dataframe.Product=="Carretera"], index=["Country"], values=["Sales"], aggfunc={"Sales": np.sum})
+
+Aggregation = "sum"
+Query = "Carretera"
+
+
+table = pd.pivot_table(working_dataframe.query('Product=="Carretera"', inplace = True), index=["Country"], values=["Sales"], aggfunc={"Sales": Aggregation})
+
 
 #Integrating Output Nl4DV
 #attributes = getAttributes()
@@ -25,7 +35,7 @@ print(table.head())
 table.plot(kind='bar')
 plt.show()
 
-
+'''
 #Option to select values on x axis
 table_new = table.reset_index()
 print(table_new.head())
@@ -36,7 +46,7 @@ print(table_filtered)
 
 
 
-
+'''
 
 
 
