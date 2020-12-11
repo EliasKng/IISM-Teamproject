@@ -2,20 +2,27 @@ import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from QuickParser import getAttributes
-from filter_functions import filterDataframe, mask
+
+
+
+def filter_dataframe(dataframe, filterindex, aggregatevalues, aggregate, filterkeywords): 
+    
+    if  filterkeywords: 
+     ''' for k, v in filterkeywords.items():
+            if v[1] is dataframe.select_dtypes(include='object').to_dict():
+                v[1] = "\'" + v[1] + "\'" '''
+    return pd.pivot_table(dataframe.query(" & ".join('{0} {1} {2}'.format(k, cond[0], cond[1]) for k, cond in filterkeywords.items())), index=["Country"], values=["Sales"], aggfunc={"Sales": "sum"})
+
+    return pd.pivot_table(dataframe, index=[filterindex], values=[aggregatevalues], aggfunc={aggregatevalues: aggregate})
+
+
+working_dataframe = pd.read_csv(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "examples", "assets", "data", "FinancialSample.csv"))
+table_new = filter_dataframe(working_dataframe, "Country", "Sales", "mean", { "Product": ["==", "\'Carretera\'"], "Sales" : [">", "10000"], "Country": ["==", "\'Canada\'"]})
+
+
+print(table_new.head())
 
 
 
 
 
-table = pd.pivot_table(working_dataframe.query('Product=="Carretera"', inplace = True), index=["Country"], values=["Sales"], aggfunc={"Sales": Aggregation})
-
-table = pd.pivot_table(working_dataframe[working_dataframe.Product=="Carretera"], index=["Country"], values=["Sales"], aggfunc={"Sales": np.sum})
-
-
-def filter_dataframe(dataframe, xaxis, yaxis, aggregate, filterkeywords): 
-filterquery = ""
-    for key, value in filterkeywords: 
-
-    table = pd.pivot_table(dataframe, index=[xaxis], values=[yaxis], aggfunc={yaxis: aggregate})
