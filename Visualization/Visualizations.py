@@ -16,8 +16,10 @@ class Visualization(object):
     def __init__(self, dataframe):
         self.dataframe = dataframe
         self.dataframe_prepared = dataframe
-        self.columns = list(dataframe.columns) 
-        #Properties
+        self.columns = list(dataframe.columns)
+        self.column_dtypes = dataframe.dtypes
+        #Propertiesstatus
+        
 
     
     # def get_column_datatype(self):
