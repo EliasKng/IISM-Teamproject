@@ -23,6 +23,10 @@ class ScatterPlot(Visualization):
             "type": "quantitative"
         }
     
+    def set_axis(self, xaxis=None, yaxis=None):
+        self.x_encoding["field"] = xaxis
+        self.y_encoding["field"] = yaxis
+
     #Returns the prepared Data for this visualization
     def get_data(self):
         self.dataframe_prepared = prepare_dataframe(self.dataframe,self.x_encoding["field"],self.y_encoding["field"],self.y_encoding["aggregate"])

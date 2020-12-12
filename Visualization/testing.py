@@ -34,13 +34,16 @@ working_dataframe = pd.read_csv(os.path.join(".", os.path.dirname(os.path.abspat
 
 # BarChart
 b1 = Barchart(working_dataframe)
+b1.set_axis()
 print(b1.get_data())
 print(b1.normalize_values("sum"))
 
+
+
 # ColumnChart
-c1 = ColumnChart(working_dataframe)
-print(c1.get_data())
-print(c1.normalize_values("sum"))
+#c1 = ColumnChart(working_dataframe)
+#print(c1.get_data())
+#print(c1.normalize_values("sum"))
 
 # #PieChart
 # p1 = PieChart(working_dataframe)

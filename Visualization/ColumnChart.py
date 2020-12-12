@@ -24,6 +24,10 @@ class ColumnChart(Visualization):
             "type": "nominal"
         }
 
+    def set_axis(self, xaxis=None, yaxis=None):
+        self.x_encoding["field"] = xaxis
+        self.y_encoding["field"] = yaxis
+
     def normalize_values(self, maxsum):
         if not (self.dataframe_prepared.empty): 
             if self.x_encoding["type"]=="quantitative" : 
@@ -37,8 +41,6 @@ class ColumnChart(Visualization):
                     min_value = self.dataframe_prepared[self.x_encoding["field"]].min()
                     self.dataframe_prepared[self.x_encoding["field"]] = (self.dataframe_prepared[self.x_encoding["field"]]) / (sum_value)
                     return self.dataframe_prepared
-
-    #def change_axis():
     
     def get_data(self):
         self.dataframe_prepared = prepare_dataframe(self.dataframe,self.y_encoding["field"],self.x_encoding["field"],self.x_encoding["aggregate"])
