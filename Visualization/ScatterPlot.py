@@ -23,6 +23,7 @@ class ScatterPlot(Visualization):
             "type": "quantitative"
         }
     
+    #Returns the prepared Data for this visualization
     def get_data(self):
         self.dataframe_prepared = prepare_dataframe(self.dataframe,self.x_encoding["field"],self.y_encoding["field"],self.y_encoding["aggregate"])
         return self.dataframe_prepared

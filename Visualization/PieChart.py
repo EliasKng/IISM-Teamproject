@@ -23,7 +23,9 @@ class PieChart(Visualization):
             "field": "Sales",
             "type": "quantitative"
         }
-    
+
+
+    #Returns the prepared Data for this visualization. Instead of total Values, it returns angles
     def get_data(self):
         self.dataframe_prepared = prepare_dataframe(self.dataframe,self.color_encoding["field"],self.theta_encoding["field"],self.theta_encoding["aggregate"])
         angleRowName = self.dataframe_prepared.columns.values[0]
