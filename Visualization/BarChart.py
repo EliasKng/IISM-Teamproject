@@ -2,9 +2,8 @@ import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from QuickParser import getAttributes
-from Filter import filter_dataframe
 from Visualizations import Visualization
+from Filter import prepare_dataframe
 
 
 
@@ -12,10 +11,10 @@ from Visualizations import Visualization
 class Barchart(Visualization): 
 
     def __init__(self, dataframe):
-        super().__init__(self, dataframe)
+        super().__init__(dataframe)
         #Class varibales with example Parameters
         self.x_encoding = {
-            "aggregate": null,
+            "aggregate": None,
             "field": "Country",
             "type": "nominal"
         }
@@ -25,7 +24,8 @@ class Barchart(Visualization):
             "type": "quantitative"
         }
         
-    def change_axis(self):
+    #def change_axis(self):
 
-    def get_barchart_data(self):
-        return JSONdata
+    def get_data(self):
+        self.dataframe_prepared = prepare_dataframe(self.dataframe,self.x_encoding["field"],self.y_encoding["field"],self.y_encoding["aggregate"])
+        return self.dataframe_prepared

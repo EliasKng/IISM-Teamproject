@@ -2,25 +2,18 @@ import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from QuickParser import getAttributes
-from Filter import filter_dataframe
 from Visualizations import Visualization
+from Filter import prepare_dataframe, calculate_theta
 
 
 
 class PieChart(Visualization): 
-    #override
-    def filter(self, xaxis, yaxis, aggregate, filterkeywords): 
-        #SetProperties....
-        #self.xaxis = xaxis 
-        #und so weiter... evt. könnte man noch eine set Properties methode hinzufügen, die hier nur gecalled wird. 
-        return self.dataframe-filtered = filterDataframe(self.dataframe, xaxis, yaxis, aggregate, filterkeywords)
 
     def __init__(self, dataframe):
-        super().__init__(self, dataframe)
+        super().__init__(dataframe)
         #Class varibales with example Parameters
         self.color_encoding = {
-            "aggregate": null,
+            "aggregate": None,
             "field": "Country",
             "type": "nominal"
         }
@@ -31,4 +24,10 @@ class PieChart(Visualization):
             "type": "quantitative"
         }
     
-    def get_piechart_data(self):
+    def get_data(self):
+        self.dataframe_prepared = prepare_dataframe(self.dataframe,self.color_encoding["field"],self.theta_encoding["field"],self.theta_encoding["aggregate"])
+        angleRowName = self.dataframe_prepared.columns.values[0]
+        angle_series = calculate_theta(self.dataframe_prepared[angleRowName])
+        
+        self.dataframe_prepared["Sales"] = angle_series.values
+        return self.dataframe_prepared

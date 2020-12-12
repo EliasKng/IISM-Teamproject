@@ -26,14 +26,10 @@ def prepare_dataframe(dataframe, filter_index_row, values_row, aggregate=None, f
     return dataframe.filter([filter_index_row, values_row])
 
 def calculate_theta(value_series):
-    llist = []
+    angle_list = []
     summe = value_series.sum()
     for x in value_series:
         angle = x/summe*360
-        llist.append(angle)
-    data = np.array(llist)
+        angle_list.append(angle)
+    data = np.array(angle_list)
     return pd.Series(data)
-
-
-
-

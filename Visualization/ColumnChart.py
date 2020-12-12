@@ -2,20 +2,19 @@ import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from QuickParser import getAttributes
-from Filter import filter_dataframe
 from Visualizations import Visualization
+from Filter import prepare_dataframe
 
 
 
 class ColumnChart(Visualization): 
 
     def __init__(self, dataframe):
-        super().__init__(self, dataframe)
+        super().__init__(dataframe)
 
         #Class varibales with example Parameters
         self.x_encoding = {
-            "aggregate": null,
+            "aggregate": None,
             "field": "Country",
             "type": "nominal"
         }
@@ -25,6 +24,8 @@ class ColumnChart(Visualization):
             "type": "quantitative"
         }
     
-    def change_axis():
+    #def change_axis():
     
-    def get_columnchart_data(self):
+    def get_data(self):
+        self.dataframe_prepared = prepare_dataframe(self.dataframe,self.x_encoding["field"],self.y_encoding["field"],self.y_encoding["aggregate"])
+        return self.dataframe_prepared
