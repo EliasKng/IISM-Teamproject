@@ -28,6 +28,10 @@ class ColumnChart(Visualization):
         self.x_encoding["field"] = xaxis
         self.y_encoding["field"] = yaxis
 
+    def set_aggregate(self, xaggregate=None, yaggregate=None):
+        self.x_encoding["aggregate"] = xaggregate
+        self.y_encoding["aggregate"] = yaggregate
+
     def normalize_values(self, maxsum):
         if not (self.dataframe_prepared.empty): 
             if self.x_encoding["type"]=="quantitative" : 
