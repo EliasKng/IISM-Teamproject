@@ -16,6 +16,7 @@ class Visualization(object):
     def __init__(self, dataframe):
         self.dataframe = dataframe
         self.dataframe_prepared = dataframe
+        self.columns = list(dataframe.columns) 
         #Properties
 
     
