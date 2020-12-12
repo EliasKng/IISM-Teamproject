@@ -18,12 +18,7 @@ class Visualization(object):
         self.dataframe_prepared = dataframe
         #Properties
 
-    #def filter(self, xaxis, yaxis, aggregate, filterkeywords): 
-        #SetProperties....
-        #self.xaxis = xaxis 
-        #und so weiter... evt. könnte man noch eine set Properties methode hinzufügen, die hier nur gecalled wird. 
-        #return self.dataframe_prepared = filter_dataframe(self.dataframe, xaxis, yaxis, aggregate, filterkeywords)
-
+    
     # def get_column_datatype(self):
 
     # def get_properties(self): 

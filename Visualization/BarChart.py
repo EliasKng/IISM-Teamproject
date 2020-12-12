@@ -24,6 +24,21 @@ class Barchart(Visualization):
             "type": "quantitative"
         }
         
+    def normalize_values(self, maxsum):
+        if not (self.dataframe_prepared.empty): 
+            if self.y_encoding["type"]=="quantitative" : 
+                if maxsum == "max":
+                    max_value = self.dataframe_prepared[self.y_encoding["field"]].max()
+                    min_value = self.dataframe_prepared[self.y_encoding["field"]].min()
+                    self.dataframe_prepared[self.y_encoding["field"]] = (self.dataframe_prepared[self.y_encoding["field"]] - min_value) / (max_value - min_value)
+                    return self.dataframe_prepared
+                elif maxsum == "sum":
+                    sum_value = self.dataframe_prepared[self.y_encoding["field"]].sum()
+                    min_value = self.dataframe_prepared[self.y_encoding["field"]].min()
+                    self.dataframe_prepared[self.y_encoding["field"]] = (self.dataframe_prepared[self.y_encoding["field"]]) / (sum_value)
+                    return self.dataframe_prepared
+
+    
     #def change_axis(self):
 
     def get_data(self):
