@@ -46,9 +46,9 @@ b1.set_axis()
 print(type(b1))
 print(b1.get_data())
 #print(b1.normalize_values("sum"))
-converted_b1 = vishandler(b1, "PieChart")
-print(converted_b1.get_data())
-print(type(converted_b1))
+b1 = vishandler(b1, "PieChart")
+print(b1.get_data())
+print(type(b1))
 
 
 
