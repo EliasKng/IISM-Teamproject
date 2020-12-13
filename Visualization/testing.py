@@ -30,25 +30,38 @@ working_dataframe = pd.read_csv(os.path.join(".", os.path.dirname(os.path.abspat
 
 
 
+
+
 #********Testing Visualization Obejcts (bacrchat...)
 
+keywords = {"Product" : ["==", "Carretera"]}
+x_encoding = {"field": "Country", "type": "nominal"}
+y_encoding = {"aggregate": "mean", "field": "Sales", "type": "quantitative"}
+
+
 # BarChart
-b1 = Barchart(working_dataframe)
+b1 = Barchart(working_dataframe, x_encoding, y_encoding, keywords)
 b1.set_axis()
 print(b1.get_data())
 print(b1.normalize_values("sum"))
 
 
-
 # ColumnChart
-#c1 = ColumnChart(working_dataframe)
-#print(c1.get_data())
-#print(c1.normalize_values("sum"))
+c1 = ColumnChart(working_dataframe, y_encoding, x_encoding)
+print(c1.get_data())
+print(c1.normalize_values("sum"))
 
-# #PieChart
-# p1 = PieChart(working_dataframe)
-# print(p1.get_data())
+
+# #PieChart      
+color_encoding = {"aggregate": None, "field": "Country", "type": "nominal"}
+theta_encoding = {"aggregate": "mean", "field": "Sales", "type": "quantitative"}
+p1 = PieChart(working_dataframe, color_encoding, theta_encoding, keywords)
+print(p1.get_data())
+
+
 
 # #Scatterplot
-# s1 = ScatterPlot(working_dataframe)
-# print(s1.get_data())
+scatterplot_x_encoding = {"aggregate": None,"field": "Sale Price","type": "ordinal"}
+scatterplot_y_encoding = {"aggregate": None, "field": "Profit", "type": "quantitative"}  
+s1 = ScatterPlot(working_dataframe, scatterplot_x_encoding, scatterplot_y_encoding, keywords)
+print(s1.get_data().head(50))

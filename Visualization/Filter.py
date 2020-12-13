@@ -19,11 +19,29 @@ def prepare_string(xstr):
 
 #Takes a dataframe and filters for filterkeywords & aggregates by aggretae parameter (e.g. SUM)
 def prepare_dataframe(dataframe, filter_index_row, values_row, aggregate=None, filterkeywords=None): 
-    if filterkeywords :
+    if aggregate:
+        if filterkeywords: 
+            return pd.pivot_table(dataframe.query(" & ".join('{0} {1} {2}'.format(k, cond[0], prepare_string(cond[1])) for k, cond in filterkeywords.items())), index=[filter_index_row], values=[values_row], aggfunc={values_row: aggregate})
+        else: 
+            return pd.pivot_table(dataframe, index=[filter_index_row], values=[values_row], aggfunc={values_row: aggregate})
+    else:
+        if filterkeywords: 
+            return dataframe.query(" & ".join('{0} {1} {2}'.format(k, cond[0], prepare_string(cond[1])) for k, cond in filterkeywords.items())).filter([filter_index_row, values_row])
+        else: 
+            return dataframe.filter([filter_index_row, values_row])
+
+
+
+'''
+def prepare_dataframe(dataframe, filter_index_row, values_row, aggregate=None, filterkeywords=None): 
+    if filterkeywords:
         return pd.pivot_table(dataframe.query(" & ".join('{0} {1} {2}'.format(k, cond[0], prepare_string(cond[1])) for k, cond in filterkeywords.items())), index=[filter_index_row], values=[values_row], aggfunc={values_row: aggregate})
-    elif aggregate :
+    elif aggregate:
         return pd.pivot_table(dataframe, index=[filter_index_row], values=[values_row], aggfunc={values_row: aggregate})
     return dataframe.filter([filter_index_row, values_row])
+'''
+
+
 
 def calculate_theta(value_series):
     angle_list = []

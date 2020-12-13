@@ -9,24 +9,29 @@ from Filter import prepare_dataframe
 
 class ColumnChart(Visualization): 
 
-    def __init__(self, dataframe):
-        super().__init__(dataframe)
+    def __init__(self, dataframe, x_encoding, y_encoding, keywords=None):
+        super().__init__(dataframe, keywords)
 
-        #Class varibales with example Parameters
+        #Class varibales 
         self.x_encoding = {
-            "aggregate": "mean",
-            "field": "Sales",
-            "type": "quantitative"
+            "aggregate": x_encoding["aggregate"],
+            "field": x_encoding["field"],
+            "type": x_encoding["type"]
         }
         self.y_encoding = {
             "aggregate": None,
-            "field": "Country",
-            "type": "nominal"
+            "field": y_encoding["field"],
+            "type": y_encoding["type"]
         }
 
+    def get_encoding(self): 
+        return {"x_encoding": self.x_encoding, "y_encoding": self.y_encoding}
+
     def set_axis(self, xaxis=None, yaxis=None):
-        self.x_encoding["field"] = xaxis
-        self.y_encoding["field"] = yaxis
+        if not xaxis==None:
+            self.x_encoding["field"] = xaxis
+        if not yaxis==None:    
+            self.y_encoding["field"] = yaxis
 
     def set_aggregate(self, xaggregate=None, yaggregate=None):
         self.x_encoding["aggregate"] = xaggregate
@@ -47,5 +52,5 @@ class ColumnChart(Visualization):
                     return self.dataframe_prepared
     
     def get_data(self):
-        self.dataframe_prepared = prepare_dataframe(self.dataframe,self.y_encoding["field"],self.x_encoding["field"],self.x_encoding["aggregate"])
+        self.dataframe_prepared = prepare_dataframe(self.dataframe,self.y_encoding["field"],self.x_encoding["field"],self.x_encoding["aggregate"], self.keywords)
         return self.dataframe_prepared
