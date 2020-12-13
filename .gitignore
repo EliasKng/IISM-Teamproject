@@ -12,6 +12,8 @@ __pycache__/
 
 #Visual Studio COde Files
 .vscode/
+.vs/
 
 #Virtual Environment
 .venv/
+
