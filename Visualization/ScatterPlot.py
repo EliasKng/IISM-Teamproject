@@ -23,8 +23,11 @@ class ScatterPlot(Visualization):
             "type": y_encoding["type"]
         }
 
-    def get_encoding(self): 
-        return {"x_encoding": self.x_encoding, "y_encoding": self.y_encoding}
+    def get_x_encoding(self): 
+        return self.x_encoding
+
+    def get_y_encoding(self): 
+        return self.y_encoding
     
     def set_axis(self, xaxis=None, yaxis=None):
         if not xaxis==None:

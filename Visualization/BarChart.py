@@ -8,11 +8,11 @@ from Filter import prepare_dataframe
 
 
 
-class Barchart(Visualization): 
+class BarChart(Visualization): 
 
     def __init__(self, dataframe, x_encoding, y_encoding, keywords=None):
         super().__init__(dataframe, keywords)
-        #Class varibales 
+        #Class variables 
         self.x_encoding = {
             "aggregate": None,
             "field": x_encoding["field"],
@@ -24,10 +24,13 @@ class Barchart(Visualization):
             "type": y_encoding["type"]
         }
         
-    def get_encoding(self): 
-        return {"x_encoding": self.x_encoding, "y_encoding": self.y_encoding}
+    def get_x_encoding(self): 
+        return self.x_encoding
 
-    #set fields for x and or y axis 
+    def get_y_encoding(self): 
+        return self.y_encoding
+
+    #set fields for x and or y axis s
     def set_axis(self, xaxis=None, yaxis=None):
         if not xaxis==None:
             self.x_encoding["field"] = xaxis

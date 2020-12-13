@@ -3,10 +3,11 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from Filter import prepare_dataframe, calculate_theta
-from BarChart import Barchart
+from BarChart import BarChart
 from ColumnChart import ColumnChart
 from PieChart import PieChart
 from ScatterPlot import ScatterPlot
+from VisHandler import vishandler
 
 #Import CSV Data
 working_dataframe = pd.read_csv(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "examples", "assets", "data", "FinancialSample.csv"))
@@ -40,10 +41,15 @@ y_encoding = {"aggregate": "mean", "field": "Sales", "type": "quantitative"}
 
 
 # BarChart
-b1 = Barchart(working_dataframe, x_encoding, y_encoding, keywords)
+b1 = BarChart(working_dataframe, x_encoding, y_encoding, keywords)
 b1.set_axis()
+print(type(b1))
 print(b1.get_data())
-print(b1.normalize_values("sum"))
+#print(b1.normalize_values("sum"))
+converted_b1 = vishandler(b1, "PieChart")
+print(converted_b1.get_data())
+print(type(converted_b1))
+
 
 
 # ColumnChart
@@ -57,8 +63,9 @@ color_encoding = {"aggregate": None, "field": "Country", "type": "nominal"}
 theta_encoding = {"aggregate": "mean", "field": "Sales", "type": "quantitative"}
 p1 = PieChart(working_dataframe, color_encoding, theta_encoding, keywords)
 print(p1.get_data())
-
-
+converted_p1 = vishandler(p1,"BarChart")
+print(converted_p1.get_data())
+print(type(converted_p1))
 
 # #Scatterplot
 scatterplot_x_encoding = {"aggregate": None,"field": "Sale Price","type": "ordinal"}

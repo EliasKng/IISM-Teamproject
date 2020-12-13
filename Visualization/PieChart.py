@@ -33,8 +33,12 @@ class PieChart(Visualization):
     def set_aggregate(self, theta_aggregate):
         self.theta_encoding["aggregate"] = theta_aggregate
 
-    def get_encoding(self): 
-        return {"color_encoding": self.color_encoding, "theta_encoding": self.theta_encoding}
+    def get_color_encoding(self): 
+        return self.color_encoding
+
+    def get_theta_encoding(self): 
+        return self.theta_encoding
+
 
 
     #Returns the prepared Data for this visualization. Instead of total Values, it returns angles
