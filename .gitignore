@@ -16,3 +16,6 @@ __pycache__/
 #Virtual Environment
 .venv/
 IISMvenv/
+
+#Testdokumente
+d3test
