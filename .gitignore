@@ -9,10 +9,18 @@ __pycache__/
 
 #Visual Studio COde Files
 .vscode/
-.vs/
 
 #Virtual Environment
 .venv/
 
-#Cache Files
-*.cach
+#Visual Studio Gitignore
+*.dll
+*.pdb
+obj/**
+bin/**
+runtimes/**
+*.user
+*.PublishSettings
+publish.cmd
+packages/
+.vs/
