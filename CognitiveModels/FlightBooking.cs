@@ -16,9 +16,9 @@ namespace Microsoft.BotBuilderSamples
         public string Text;
         public string AlteredText;
         public enum Intent {
-            ChangeAttribute,
-            ChangeCharttype,
-            Filter,
+            BookFlight,
+            Cancel,
+            GetWeather,
             None
         };
         public Dictionary<Intent, IntentScore> Intents;
@@ -26,18 +26,44 @@ namespace Microsoft.BotBuilderSamples
         public class _Entities
         {
 
+            // Built-in entities
+            public DateTimeSpec[] datetime;
 
             // Lists
-            public string[][] Attribute;
-            public string[][] Charttype;
-            public string[][] Countries;
+            public string[][] Airport;
+
+            // Composites
+            public class _InstanceFrom
+            {
+                public InstanceData[] Airport;
+            }
+            public class FromClass
+            {
+                public string[][] Airport;
+                [JsonProperty("$instance")]
+                public _InstanceFrom _instance;
+            }
+            public FromClass[] From;
+
+            public class _InstanceTo
+            {
+                public InstanceData[] Airport;
+            }
+            public class ToClass
+            {
+                public string[][] Airport;
+                [JsonProperty("$instance")]
+                public _InstanceTo _instance;
+            }
+            public ToClass[] To;
 
             // Instance
             public class _Instance
             {
-                public InstanceData[] Attribute;
-                public InstanceData[] Charttype;
-                public InstanceData[] Countries;
+                public InstanceData[] datetime;
+                public InstanceData[] Airport;
+                public InstanceData[] From;
+                public InstanceData[] To;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
@@ -49,7 +75,7 @@ namespace Microsoft.BotBuilderSamples
 
         public void Convert(dynamic result)
         {
-            var app = JsonConvert.DeserializeObject<FlightBooking>(JsonConvert.SerializeObject(result, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore })); 
+            var app = JsonConvert.DeserializeObject<FlightBooking>(JsonConvert.SerializeObject(result, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
             Text = app.Text;
             AlteredText = app.AlteredText;
             Intents = app.Intents;
