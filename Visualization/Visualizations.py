@@ -4,8 +4,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-
-
 class Visualization(object): 
 
     def __init__(self, dataframe, keywords=None):
