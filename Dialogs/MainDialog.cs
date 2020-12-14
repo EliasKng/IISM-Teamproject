@@ -50,7 +50,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             }
 
             // Use the text provided in FinalStepAsync or the default if it is the first time.
-            var messageText = stepContext.Options?.ToString() ?? "What can I help you with today?\nSay something like \"Book a flight from Paris to Berlin on March 22, 2020\"";
+            var messageText = stepContext.Options?.ToString() ?? "What can I help you with today?\nSay something like \"Show me a bar chart with ... on the x- and ... y-axis\"";
             var promptMessage = MessageFactory.Text(messageText, messageText, InputHints.ExpectingInput);
             return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
         }
@@ -67,7 +67,10 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             var luisResult = await _luisRecognizer.RecognizeAsync<FlightBooking>(stepContext.Context, cancellationToken);
             switch (luisResult.TopIntent().intent)
             {
-                case FlightBooking.Intent.BookFlight:
+                // cases mit Intents: Filter, ChangeCharttype, ChangeAttribute
+
+                /*
+                case FlightBooking.Intent.ChangeCharttype:
                     await ShowWarningForUnsupportedCities(stepContext.Context, luisResult, cancellationToken);
 
                     // Initialize BookingDetails with any entities we may have found in the response.
@@ -81,10 +84,10 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
                     // Run the BookingDialog giving it whatever details we have from the LUIS call, it will fill out the remainder.
                     return await stepContext.BeginDialogAsync(nameof(BookingDialog), bookingDetails, cancellationToken);
-
-                case FlightBooking.Intent.GetWeather:
+                */
+                case FlightBooking.Intent.Filter:
                     // We haven't implemented the GetWeatherDialog so we just display a TODO message.
-                    var getWeatherMessageText = "TODO: get weather flow here";
+                    var getWeatherMessageText = "TODO: " + luisResult.TopIntent().intent + " for " + luisResult.Entities.ToString();
                     var getWeatherMessage = MessageFactory.Text(getWeatherMessageText, getWeatherMessageText, InputHints.IgnoringInput);
                     await stepContext.Context.SendActivityAsync(getWeatherMessage, cancellationToken);
                     break;
@@ -100,6 +103,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             return await stepContext.NextAsync(null, cancellationToken);
         }
 
+        /*
         // Shows a warning if the requested From or To cities are recognized as entities but they are not in the Airport entity list.
         // In some cases LUIS will recognize the From and To composite entities as a valid cities but the From and To Airport values
         // will be empty if those entity values can't be mapped to a canonical item in the Airport.
@@ -126,6 +130,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 await context.SendActivityAsync(message, cancellationToken);
             }
         }
+        */
 
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
