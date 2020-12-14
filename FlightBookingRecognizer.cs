@@ -2,6 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -43,6 +44,8 @@ namespace Microsoft.BotBuilderSamples
         public virtual async Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
             => await _recognizer.RecognizeAsync(turnContext, cancellationToken);
 
+
+        //Hier wird auf das Luis-Feedback gewartet (?)
         public virtual async Task<T> RecognizeAsync<T>(ITurnContext turnContext, CancellationToken cancellationToken)
             where T : IRecognizerConvert, new()
             => await _recognizer.RecognizeAsync<T>(turnContext, cancellationToken);
