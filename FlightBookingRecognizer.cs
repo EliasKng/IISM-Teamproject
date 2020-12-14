@@ -1,3 +1,4 @@
+//Können wir fast so lassen, ist nicht auf das Flugzeugbeispiel angewandt
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 

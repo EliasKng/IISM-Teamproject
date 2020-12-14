@@ -1,3 +1,4 @@
+//Neu schreiben / abändern
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
@@ -13,7 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 
 namespace Microsoft.BotBuilderSamples.Dialogs
-{
+{ 
     public class MainDialog : ComponentDialog
     {
         private readonly FlightBookingRecognizer _luisRecognizer;
