@@ -19,3 +19,6 @@ IISMvenv/
 
 #Testdokumente
 d3test
+
+#gitignore
+.gitignore
