@@ -17,10 +17,3 @@ __pycache__/
 .venv/
 IISMvenv/
 
-#Testdokumente
-d3test
-
-#gitignore
-.gitignore
-
-sdf
