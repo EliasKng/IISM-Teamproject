@@ -4,11 +4,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-def calculate_percentage(val, total):
-    #Calculates the percentage of a value over a total
-    percent = np.divide(val, total)
-
-    return percent
 
 
 class Visualization(object): 
