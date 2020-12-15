@@ -9,7 +9,7 @@ from ColumnChart import ColumnChart
 from ScatterPlot import ScatterPlot
 
 
-def vishandler(current_vis, target_vis): 
+def change_vistype(current_vis, target_vis): 
     keywords = current_vis.keywords
 
     #currentvis==BarChart 

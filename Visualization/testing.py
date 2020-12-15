@@ -7,7 +7,7 @@ from BarChart import BarChart
 from ColumnChart import ColumnChart
 from PieChart import PieChart
 from ScatterPlot import ScatterPlot
-from VisHandler import vishandler
+from VisHandler import change_vistype
 
 #Import CSV Data
 working_dataframe = pd.read_csv(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "examples", "assets", "data", "FinancialSample.csv"))
@@ -46,7 +46,7 @@ b1.set_axis()
 print(type(b1))
 print(b1.get_data())
 #print(b1.normalize_values("sum"))
-b1 = vishandler(b1, "PieChart")
+b1 = change_vistype(b1, "PieChart")
 print(b1.get_data())
 print(type(b1))
 
@@ -63,7 +63,7 @@ color_encoding = {"aggregate": None, "field": "Country", "type": "nominal"}
 theta_encoding = {"aggregate": "mean", "field": "Sales", "type": "quantitative"}
 p1 = PieChart(working_dataframe, color_encoding, theta_encoding, keywords)
 print(p1.get_data())
-converted_p1 = vishandler(p1,"BarChart")
+converted_p1 = change_vistype(p1,"BarChart")
 print(converted_p1.get_data())
 print(type(converted_p1))
 
