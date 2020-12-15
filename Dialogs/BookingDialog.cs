@@ -2,6 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -35,10 +36,11 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             InitialDialogId = nameof(WaterfallDialog);
         }
 
+        //Hier findet er raus, wo du hin willst, also dann wenn er nachfragen muss
         private async Task<DialogTurnResult> DestinationStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var bookingDetails = (BookingDetails)stepContext.Options;
-
+            Console.WriteLine("\n\n\n\n call DestinationStepAsync \n\n\n\n");
             if (bookingDetails.Destination == null)
             {
                 var promptMessage = MessageFactory.Text(DestinationStepMsgText, DestinationStepMsgText, InputHints.ExpectingInput);
@@ -51,6 +53,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         private async Task<DialogTurnResult> OriginStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var bookingDetails = (BookingDetails)stepContext.Options;
+
+            Console.WriteLine("\n\n\n\n call OriginStepAsync \n\n\n\n");
 
             bookingDetails.Destination = (string)stepContext.Result;
 
@@ -66,7 +70,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         private async Task<DialogTurnResult> TravelDateStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var bookingDetails = (BookingDetails)stepContext.Options;
-
+            Console.WriteLine("\n***TravelDateStep**\n");
             bookingDetails.Origin = (string)stepContext.Result;
 
             if (bookingDetails.TravelDate == null || IsAmbiguous(bookingDetails.TravelDate))
@@ -80,7 +84,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         private async Task<DialogTurnResult> ConfirmStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var bookingDetails = (BookingDetails)stepContext.Options;
-
+            Console.WriteLine("\n\n\n*** direkt in ConfirmStepAsync**" + bookingDetails + "***\n\n\n");
             bookingDetails.TravelDate = (string)stepContext.Result;
 
             var messageText = $"Please confirm, I have you traveling to: {bookingDetails.Destination} from: {bookingDetails.Origin} on: {bookingDetails.TravelDate}. Is this correct?";
@@ -91,6 +95,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
+            Console.WriteLine("\n\n\n\n call FinalStepAsync \n\n\n\n");
             if ((bool)stepContext.Result)
             {
                 var bookingDetails = (BookingDetails)stepContext.Options;

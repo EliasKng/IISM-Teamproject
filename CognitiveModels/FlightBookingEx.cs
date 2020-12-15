@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Linq;
+using System;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -13,7 +14,9 @@ namespace Microsoft.BotBuilderSamples
             get
             {
                 var fromValue = Entities?._instance?.From?.FirstOrDefault()?.Text;
+                Console.WriteLine("\n\n**********" + fromValue);
                 var fromAirportValue = Entities?.From?.FirstOrDefault()?.Airport?.FirstOrDefault()?.FirstOrDefault();
+                Console.WriteLine("\nAirportValue: " + fromAirportValue);
                 return (fromValue, fromAirportValue);
             }
         }

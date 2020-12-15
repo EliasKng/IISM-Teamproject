@@ -66,6 +66,10 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 return await stepContext.BeginDialogAsync(nameof(BookingDialog), new BookingDetails(), cancellationToken);
             }
 
+            ////FLUGZEUG
+            //var luisResult = await _luisRecognizer.RecognizeAsync<FlightBooking>(stepContext.Context, cancellationToken);
+
+            //Visualization
             //HIER WIRD LOUIS AUFGERUFEN
             // Call LUIS and gather any potential booking details. (Note the TurnContext has the response to the prompt.)
             var luisResult = await _luisRecognizer.RecognizeAsync<VisualizationInteraction>(stepContext.Context, cancellationToken);
@@ -73,9 +77,11 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
             switch (luisResult.TopIntent().intent)
             {
+                //FLUGZEUG******************
                 //case FlightBooking.Intent.BookFlight:
                 //    await ShowWarningForUnsupportedCities(stepContext.Context, luisResult, cancellationToken);
 
+                //    //Hier wird das BookingDetails objekt erstellt! also die Information von Luis "zusammengetragen"
                 //    // Initialize BookingDetails with any entities we may have found in the response.
                 //    var bookingDetails = new BookingDetails()
                 //    {
@@ -84,6 +90,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 //        Origin = luisResult.FromEntities.Airport,
                 //        TravelDate = luisResult.TravelDate,
                 //    };
+
 
                 //    // Run the BookingDialog giving it whatever details we have from the LUIS call, it will fill out the remainder.
                 //    return await stepContext.BeginDialogAsync(nameof(BookingDialog), bookingDetails, cancellationToken);
@@ -95,11 +102,19 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 //    await stepContext.Context.SendActivityAsync(getWeatherMessage, cancellationToken);
                 //    break;
 
+                //VISUALIZATION ********************
                 case VisualizationInteraction.Intent.ChangeChartType:
-                    var getMessageText = "TODO: " + luisResult.TopIntent().intent + " to ";
-                    var getMessage = MessageFactory.Text(getMessageText, getMessageText, InputHints.IgnoringInput);
-                    await stepContext.Context.SendActivityAsync(getMessage, cancellationToken);
+
+                    var ChangeCharttypeDetails = new ChangeCharttypeDetails()
+                    {
+                        ToChartType = luisResult.ToChartTypeEntity,
+                    };
                     break;
+
+                    //var getMessageText = "TODO: " + luisResult.TopIntent().intent + " to ";
+                    //var getMessage = MessageFactory.Text(getMessageText, getMessageText, InputHints.IgnoringInput);
+                    //await stepContext.Context.SendActivityAsync(getMessage, cancellationToken);
+                    //break;
 
 
                 default:
@@ -119,6 +134,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         // will be empty if those entity values can't be mapped to a canonical item in the Airport.
         private static async Task ShowWarningForUnsupportedCities(ITurnContext context, FlightBooking luisResult, CancellationToken cancellationToken)
         {
+            Console.WriteLine("\n\n\ncall ShowWarningForUnsupportedCities\n\n\n");
+
             var unsupportedCities = new List<string>();
 
             var fromEntities = luisResult.FromEntities;

@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
@@ -74,5 +75,37 @@ namespace Microsoft.BotBuilderSamples
             }
             return (maxIntent, max);
         }
+
+        //public (string To, string Airport) ToEntities
+        //{
+        //    get
+        //    {
+        //        var toValue = Entities?._instance?.To?.FirstOrDefault()?.Text;
+        //        var toAirportValue = Entities?.To?.FirstOrDefault()?.Airport?.FirstOrDefault()?.FirstOrDefault();
+        //        return (toValue, toAirportValue);
+        //    }
+        //}
+
+        public string ToChartTypeEntity
+        {
+            get
+            {
+                //string toChartValue = Entities?._instance?.chartType.ToString();
+
+                //string toChartValue = Entities.chartType[1][0];
+                //string toChartValue = Entities.chartType[0][0];
+                string toChartValue = Entities._instance.chartType[0].Text;
+
+                Console.WriteLine("\n\n\n " +  toChartValue + "\n\n\n");
+
+
+                return (null);
+            }
+        }
+
+        //// This value will be a TIMEX. And we are only interested in a Date so grab the first result and drop the Time part.
+        //// TIMEX is a format that represents DateTime expressions that include some ambiguity. e.g. missing a Year.
+        //public string TravelDate
+        //    => Entities.datetime?.FirstOrDefault()?.Expressions.FirstOrDefault()?.Split('T')[0];
     }
 }
