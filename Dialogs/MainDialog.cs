@@ -53,7 +53,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             }
 
             // Use the text provided in FinalStepAsync or the default if it is the first time.
-            var messageText = stepContext.Options?.ToString() ?? "What can I help you with today?\nSay something like \"Book a flight from Paris to Berlin on March 22, 2020\"";
+            var messageText = stepContext.Options?.ToString() ?? "What can I help you with today?";
             var promptMessage = MessageFactory.Text(messageText, messageText, InputHints.ExpectingInput);
             return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
         }
@@ -96,7 +96,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 //    break;
 
                 case VisualizationInteraction.Intent.ChangeChartType:
-                    var getMessageText = "TODO: " + luisResult.TopIntent().intent + " to " + luisResult.;
+                    var getMessageText = "TODO: " + luisResult.TopIntent().intent + " to ";
                     var getMessage = MessageFactory.Text(getMessageText, getMessageText, InputHints.IgnoringInput);
                     await stepContext.Context.SendActivityAsync(getMessage, cancellationToken);
                     break;
