@@ -109,11 +109,12 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     {
                         ToChartType = luisResult.ToChartTypeEntity,
                     };
-                    Console.ForegroundColor = ConsoleColor.Magenta;
-                    Console.Write("info");
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write(": ");
-                    Console.WriteLine("Change charttype to: " + ChangeCharttypeDetails.ToChartType);
+                    //Console.ForegroundColor = ConsoleColor.Magenta;
+                    //Console.Write("info");
+                    //Console.ForegroundColor = ConsoleColor.White;
+                    //Console.Write(": ");
+                    //Console.WriteLine("Change charttype to: " + ChangeCharttypeDetails.ToChartType);
+                    ConsoleWriter.WriteLineInfo("Change charttype to: " + ChangeCharttypeDetails.ToChartType);
                     //Hier müsste jetzt der ChangeCharttypeDialog gestartet werden, der überprüft, dass alle benötigten Parameter vorhanden sind und diese ggf. noch einmal abfragt z.B. so:
                     //return await stepContext.BeginDialogAsync(nameof(BookingDialog), bookingDetails, cancellationToken);
                     break;
