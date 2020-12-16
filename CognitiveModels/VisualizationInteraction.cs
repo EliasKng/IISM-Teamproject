@@ -20,25 +20,10 @@ namespace Microsoft.BotBuilderSamples
 
         public class _Entities
         {
-            // Lists
+            // Lists: Hier drin wird das erkannte entity gespeichert (z.B. barchart)
             public string[][] chartType;
 
-
-            ////Instances
-            //public class _InstanceChartType
-            //{
-            //    public InstanceData[] chartType;
-            //}
-            //public class chartTypeClass
-            //{
-            //    public string[][] chartType;
-            //    [JsonProperty("$instance")]
-            //    public _InstanceChartType _instance;
-            //}
-            //public chartTypeClass[] chartType2222;
-
-
-            // Instance
+            // Instance: Hier wird gespeichert, welchen Text der Benutzer in der Query tatsächlich eingegeben hat (z.B. bar-chart aus Entities._instance.chartType[0].Text)
             public class _Instance
             {
                 public InstanceData[] chartType;
@@ -90,16 +75,17 @@ namespace Microsoft.BotBuilderSamples
         {
             get
             {
-                //string toChartValue = Entities?._instance?.chartType.ToString();
+                //Nimm das erste erkannte Entity heraus und gebe es zurück
+                string toChartValue = Entities.chartType[0][0];
 
+                //Das hier wäre das zweite erkannte entity (falls es existiert (z.B: change charttype to barchart and scatterplot) dann wäre scatterplot das zweite
                 //string toChartValue = Entities.chartType[1][0];
-                //string toChartValue = Entities.chartType[0][0];
-                string toChartValue = Entities._instance.chartType[0].Text;
 
-                Console.WriteLine("\n\n\n " +  toChartValue + "\n\n\n");
+                //Hier drin steht das erste erkannte entity, aber in Textform, so wie der Nutzer es tatsächelich eingegeben hat (z.B. bar-chart)
+                //string toChartValue = Entities._instance.chartType[0].Text;
 
 
-                return (null);
+                return toChartValue;
             }
         }
 

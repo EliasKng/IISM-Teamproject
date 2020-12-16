@@ -109,17 +109,17 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     {
                         ToChartType = luisResult.ToChartTypeEntity,
                     };
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.Write("info");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(": ");
+                    Console.WriteLine("Change charttype to: " + ChangeCharttypeDetails.ToChartType);
+                    //Hier müsste jetzt der ChangeCharttypeDialog gestartet werden, der überprüft, dass alle benötigten Parameter vorhanden sind und diese ggf. noch einmal abfragt z.B. so:
+                    //return await stepContext.BeginDialogAsync(nameof(BookingDialog), bookingDetails, cancellationToken);
                     break;
-
-                    //var getMessageText = "TODO: " + luisResult.TopIntent().intent + " to ";
-                    //var getMessage = MessageFactory.Text(getMessageText, getMessageText, InputHints.IgnoringInput);
-                    //await stepContext.Context.SendActivityAsync(getMessage, cancellationToken);
-                    //break;
-
 
                 default:
                     // Catch all for unhandled intents
-                    //Hier jetzt noch den passenden Entity (charrtype) hinzufügen
                     var didntUnderstandMessageText = $"Sorry, I didn't get that. Please try asking in a different way (intent was {luisResult.TopIntent().intent})";
                     var didntUnderstandMessage = MessageFactory.Text(didntUnderstandMessageText, didntUnderstandMessageText, InputHints.IgnoringInput);
                     await stepContext.Context.SendActivityAsync(didntUnderstandMessage, cancellationToken);
