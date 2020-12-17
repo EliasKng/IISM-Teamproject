@@ -81,6 +81,12 @@ namespace Microsoft.BotBuilderSamples
                 //Das hier wäre das zweite erkannte entity (falls es existiert (z.B: change charttype to barchart and scatterplot) dann wäre scatterplot das zweite
                 //string toChartValue = Entities.chartType[1][0];
 
+                ////ruft alle gefundenen entities auf
+                //for (int i = 0; i < Entities.chartType.Length; i++)
+                //{
+                //    Console.WriteLine(Entities.chartType[i][0]);
+                //}
+
                 //Hier drin steht das erste erkannte entity, aber in Textform, so wie der Nutzer es tatsächelich eingegeben hat (z.B. bar-chart)
                 //string toChartValue = Entities._instance.chartType[0].Text;
 
