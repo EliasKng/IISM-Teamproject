@@ -21,14 +21,14 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         protected readonly ILogger Logger;
 
         // Dependency injection uses this constructor to instantiate MainDialog
-        public MainDialog(FlightBookingRecognizer luisRecognizer, BookingDialog bookingDialog, ILogger<MainDialog> logger)
+        public MainDialog(FlightBookingRecognizer luisRecognizer, ChangeChartTypeDialog chartTypeDialog, ILogger<MainDialog> logger)
             : base(nameof(MainDialog))
         {
             _luisRecognizer = luisRecognizer;
             Logger = logger;
 
             AddDialog(new TextPrompt(nameof(TextPrompt)));
-            AddDialog(bookingDialog);
+            AddDialog(chartTypeDialog);
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 IntroStepAsync,
@@ -60,11 +60,12 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
         private async Task<DialogTurnResult> ActStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            if (!_luisRecognizer.IsConfigured)
-            {
-                // LUIS is not configured, we just run the BookingDialog path with an empty BookingDetailsInstance.
-                return await stepContext.BeginDialogAsync(nameof(BookingDialog), new BookingDetails(), cancellationToken);
-            }
+            //Brauchen wir nicht, weil wir davon ausgehen, dass LUIS konfiguriert ist.
+            //if (!_luisRecognizer.IsConfigured)
+            //{
+            //    // LUIS is not configured, we just run the BookingDialog path with an empty BookingDetailsInstance.
+            //    return await stepContext.BeginDialogAsync(nameof(BookingDialog), new BookingDetails(), cancellationToken);
+            //}
 
             ////FLUGZEUG
             //var luisResult = await _luisRecognizer.RecognizeAsync<FlightBooking>(stepContext.Context, cancellationToken);
@@ -105,14 +106,14 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 //VISUALIZATION ********************
                 case VisualizationInteraction.Intent.ChangeChartType:
 
-                    var ChangeCharttypeDetails = new ChangeCharttypeDetails()
+                    var changeChartTypeDetails = new ChangeChartTypeDetails()
                     {
                         ToChartType = luisResult.ToChartTypeEntity,
                     };
-                    ConsoleWriter.WriteLineInfo("Change charttype to: " + ChangeCharttypeDetails.ToChartType);
+
+                    ConsoleWriter.WriteLineInfo("Change charttype to: " + changeChartTypeDetails.ToChartType);
                     //Hier müsste jetzt der ChangeCharttypeDialog gestartet werden, der überprüft, dass alle benötigten Parameter vorhanden sind und diese ggf. noch einmal abfragt z.B. so:
-                    //return await stepContext.BeginDialogAsync(nameof(BookingDialog), bookingDetails, cancellationToken);
-                    break;
+                    return await stepContext.BeginDialogAsync(nameof(ChangeChartTypeDialog), changeChartTypeDetails, cancellationToken);
 
                 default:
                     // Catch all for unhandled intents

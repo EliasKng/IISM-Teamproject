@@ -84,7 +84,6 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         private async Task<DialogTurnResult> ConfirmStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var bookingDetails = (BookingDetails)stepContext.Options;
-            Console.WriteLine("\n\n\n*** direkt in ConfirmStepAsync**" + bookingDetails + "***\n\n\n");
             bookingDetails.TravelDate = (string)stepContext.Result;
 
             var messageText = $"Please confirm, I have you traveling to: {bookingDetails.Destination} from: {bookingDetails.Origin} on: {bookingDetails.TravelDate}. Is this correct?";
@@ -95,7 +94,6 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            Console.WriteLine("\n\n\n\n call FinalStepAsync \n\n\n\n");
             if ((bool)stepContext.Result)
             {
                 var bookingDetails = (BookingDetails)stepContext.Options;
