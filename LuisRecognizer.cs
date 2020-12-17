@@ -2,7 +2,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -11,11 +10,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class FlightBookingRecognizer : IRecognizer
+    public class LuisRecognizer : IRecognizer
     {
-        private readonly LuisRecognizer _recognizer;
+        private readonly Bot.Builder.AI.Luis.LuisRecognizer _recognizer;
 
-        public FlightBookingRecognizer(IConfiguration configuration)
+        public LuisRecognizer(IConfiguration configuration)
         {
             var luisIsConfigured = !string.IsNullOrEmpty(configuration["LuisAppId"]) && !string.IsNullOrEmpty(configuration["LuisAPIKey"]) && !string.IsNullOrEmpty(configuration["LuisAPIHostName"]);
             if (luisIsConfigured)
@@ -34,7 +33,7 @@ namespace Microsoft.BotBuilderSamples
                     }
                 };
 
-                _recognizer = new LuisRecognizer(recognizerOptions);
+                _recognizer = new Bot.Builder.AI.Luis.LuisRecognizer(recognizerOptions);
             }
         }
 
