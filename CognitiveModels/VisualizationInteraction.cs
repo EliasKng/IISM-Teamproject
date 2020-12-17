@@ -76,7 +76,13 @@ namespace Microsoft.BotBuilderSamples
             get
             {
                 //Nimm das erste erkannte Entity heraus und gebe es zurück
-                string toChartValue = Entities?.chartType?[0][0];
+                string[][] toChartValue = Entities?.chartType;
+
+                ConsoleWriter.WriteLineInfo(toChartValue[0][0]);
+                //ConsoleWriter.WriteLineInfo(toChartValue?[0]?[1]);
+
+                //***********Hier müsste dann ein Ambiguity-Dialog erstellt werden, falls das feldtoChartValue[0] länger als 1 ist, wo dann abgefragt wird, welchen entity man tatsächlich wollte
+                //***********Hier müsste dann ein Ambiguity-Dialog erstellt werden, falls das feldtoChartValue[] länger als 1 ist, wo dann abgefragt wird, welchen entity man tatsächlich wollte
 
                 //Das hier wäre das zweite erkannte entity (falls es existiert (z.B: change charttype to barchart and scatterplot) dann wäre scatterplot das zweite
                 //string toChartValue = Entities.chartType[1][0];
@@ -90,7 +96,7 @@ namespace Microsoft.BotBuilderSamples
                 //Hier drin steht das erste erkannte entity, aber in Textform, so wie der Nutzer es tatsächelich eingegeben hat (z.B. bar-chart)
                 //string toChartValue = Entities._instance.chartType[0].Text;
 
-                return toChartValue;
+                return toChartValue?[0]?[0];
             }
         }
 
