@@ -43,7 +43,14 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         private async Task<DialogTurnResult> DestinationStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var changeChartTypeDetails = (ChangeChartTypeDetails)stepContext.Options;
-            if (changeChartTypeDetails.ToChartType == null)
+
+            
+
+            if(changeChartTypeDetails.AmbiguousChartTypes?.Length > 1)
+            {
+                //We have ambiguities (more than one Entity) ==> ask the user with the AmbiguityDialog
+                return await stepContext.BeginDialogAsync(nameof(AmbiguityDialog), changeChartTypeDetails, cancellationToken);
+            } else if (changeChartTypeDetails.ToChartType == null)
             {
                 var options = _chartTypeOptions.ToList();
                 var promptOptions = new PromptOptions
@@ -58,7 +65,6 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 //var promptMessage = MessageFactory.Text(DestinationStepMsgText, DestinationStepMsgText, InputHints.ExpectingInput);
                 // return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
             }
-
             return await stepContext.NextAsync(changeChartTypeDetails.ToChartType, cancellationToken);
         }
 
@@ -67,15 +73,23 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var changeChartTypeDetails = (ChangeChartTypeDetails)stepContext.Options;
-            //Extract the picked result from the step-context
-            var pickedChoice = (FoundChoice)stepContext.Result;
-            var choiceText = pickedChoice.Value;
 
-            //Set the result to the ChangeCharttypeDetails-Object
-            changeChartTypeDetails.ToChartType = choiceText;
+            //We are comming from a ChoicePromt ==> Convert result to FoundCHoice
+            if (stepContext.Result.GetType().ToString().Equals("Microsoft.Bot.Builder.Dialogs.Choices.FoundChoice"))
+            {
+                //Extract the picked result from the step-context
+                var pickedChoice = (FoundChoice)stepContext.Result;
+                var choiceText = pickedChoice.Value;
 
-            ConsoleWriter.WriteLineInfo("Change Charttype to: " + changeChartTypeDetails.ToChartType);
-
+                //Set the result to the ChangeCharttypeDetails-Object
+                changeChartTypeDetails.ToChartType = choiceText;
+                changeChartTypeDetails.AmbiguousChartTypes = new string[] { choiceText };
+            }  
+            else
+            {
+                changeChartTypeDetails = (ChangeChartTypeDetails) stepContext.Result;
+            }
+            ConsoleWriter.WriteLineInfo("Change Charttype to: " + changeChartTypeDetails.AmbiguousChartTypes[0]);
             return await stepContext.EndDialogAsync(changeChartTypeDetails,cancellationToken);
         }
     }

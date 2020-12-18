@@ -112,18 +112,11 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     var changeChartTypeDetails = new ChangeChartTypeDetails()
                     {
                         AmbiguousChartTypes = chartTypeResults,
-                        ToChartType = chartTypeResults?[0]
-                    };
+                        ToChartType = chartTypeResults?[0],
+                    };                       
 
-                    if (changeChartTypeDetails.AmbiguousChartTypes?.Length > 1)
-                    {
-                        //We have ambiguities ==> remove them
-                        return await stepContext.BeginDialogAsync(nameof(AmbiguityDialog), changeChartTypeDetails, cancellationToken);
-                    } else //We have no ambiguities, but probably the AmbiguousChartTypes-List is empty ==> we have no chartType to change to
-                    {
-                        //Check if changechartTypeDetails is null (in the Dialog) and ask for information if it is null
-                        return await stepContext.BeginDialogAsync(nameof(ChangeChartTypeDialog), changeChartTypeDetails, cancellationToken);
-                    }
+                    //Check if changechartTypeDetails is null (in the Dialog) and ask for information if it is null
+                    return await stepContext.BeginDialogAsync(nameof(ChangeChartTypeDialog), changeChartTypeDetails, cancellationToken);
 
                 default:
                     // Catch all for unhandled intents
