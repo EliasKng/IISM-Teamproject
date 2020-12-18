@@ -67,6 +67,14 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var changeChartTypeDetails = (ChangeChartTypeDetails)stepContext.Options;
+            //Extract the picked result from the step-context
+            var pickedChoice = (FoundChoice)stepContext.Result;
+            var choiceText = pickedChoice.Value;
+
+            //Set the result to the ChangeCharttypeDetails-Object
+            changeChartTypeDetails.ToChartType = choiceText;
+
+            ConsoleWriter.WriteLineInfo("Change Charttype to: " + changeChartTypeDetails.ToChartType);
 
             return await stepContext.EndDialogAsync(changeChartTypeDetails,cancellationToken);
         }

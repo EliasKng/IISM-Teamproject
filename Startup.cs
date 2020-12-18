@@ -36,8 +36,8 @@ namespace Microsoft.BotBuilderSamples
             // Register LUIS recognizer
             services.AddSingleton<LuisRecognizer>();
 
-            //// Register the BookingDialog.
-            //services.AddSingleton<BookingDialog>();
+            //Register the AmbiguityDialog
+            services.AddSingleton<AmbiguityDialog>();
 
             //Register the ChangeChartTypeDialog
             services.AddSingleton<ChangeChartTypeDialog>();

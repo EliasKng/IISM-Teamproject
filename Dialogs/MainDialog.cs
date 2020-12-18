@@ -21,7 +21,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         protected readonly ILogger Logger;
 
         // Dependency injection uses this constructor to instantiate MainDialog
-        public MainDialog(LuisRecognizer luisRecognizer, ChangeChartTypeDialog chartTypeDialog, ILogger<MainDialog> logger)
+        public MainDialog(LuisRecognizer luisRecognizer, ChangeChartTypeDialog chartTypeDialog, AmbiguityDialog ambiguityDialog, ILogger<MainDialog> logger)
             : base(nameof(MainDialog))
         {
             _luisRecognizer = luisRecognizer;
@@ -29,6 +29,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
             AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(chartTypeDialog);
+            AddDialog(ambiguityDialog);
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 IntroStepAsync,
@@ -106,14 +107,23 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 //VISUALIZATION ********************
                 case VisualizationInteraction.Intent.ChangeChartType:
 
+                    string[] chartTypeResults = luisResult.ToChartTypeEntity;
+
                     var changeChartTypeDetails = new ChangeChartTypeDetails()
                     {
-                        ToChartType = luisResult.ToChartTypeEntity,
+                        AmbiguousChartTypes = chartTypeResults,
+                        ToChartType = chartTypeResults?[0]
                     };
 
-                    ConsoleWriter.WriteLineInfo("Change charttype to: " + changeChartTypeDetails.ToChartType);
-                    //Hier müsste jetzt der ChangeCharttypeDialog gestartet werden, der überprüft, dass alle benötigten Parameter vorhanden sind und diese ggf. noch einmal abfragt z.B. so:
-                    return await stepContext.BeginDialogAsync(nameof(ChangeChartTypeDialog), changeChartTypeDetails, cancellationToken);
+                    if (changeChartTypeDetails.AmbiguousChartTypes?.Length > 1)
+                    {
+                        //We have ambiguities ==> remove them
+                        return await stepContext.BeginDialogAsync(nameof(AmbiguityDialog), changeChartTypeDetails, cancellationToken);
+                    } else //We have no ambiguities, but probably the AmbiguousChartTypes-List is empty ==> we have no chartType to change to
+                    {
+                        //Check if changechartTypeDetails is null (in the Dialog) and ask for information if it is null
+                        return await stepContext.BeginDialogAsync(nameof(ChangeChartTypeDialog), changeChartTypeDetails, cancellationToken);
+                    }
 
                 default:
                     // Catch all for unhandled intents
