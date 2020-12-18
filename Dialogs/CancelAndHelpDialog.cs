@@ -12,7 +12,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 {
     public class CancelAndHelpDialog : ComponentDialog
     {
-        protected string HelpMsgText = "Show help here";
+        protected string HelpMsgText = "What you could type in:\n\"Filter for e.g. country\" \n\"Change charttype to e.g. barchart\"";
         protected string CancelMsgText = "Cancelling...";
 
         public CancelAndHelpDialog(string id)

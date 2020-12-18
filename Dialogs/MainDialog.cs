@@ -21,13 +21,14 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         protected readonly ILogger Logger;
 
         // Dependency injection uses this constructor to instantiate MainDialog
-        public MainDialog(LuisRecognizer luisRecognizer, ChangeChartTypeDialog chartTypeDialog, AmbiguityDialog ambiguityDialog, ILogger<MainDialog> logger)
+        public MainDialog(LuisRecognizer luisRecognizer,FilterDialog filterDialog, ChangeChartTypeDialog chartTypeDialog, AmbiguityDialog ambiguityDialog, ILogger<MainDialog> logger)
             : base(nameof(MainDialog))
         {
             _luisRecognizer = luisRecognizer;
             Logger = logger;
 
             AddDialog(new TextPrompt(nameof(TextPrompt)));
+            AddDialog(filterDialog);
             AddDialog(chartTypeDialog);
             AddDialog(ambiguityDialog);
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
@@ -117,6 +118,15 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
                     //Check if changechartTypeDetails is null (in the Dialog) and ask for information if it is null
                     return await stepContext.BeginDialogAsync(nameof(ChangeChartTypeDialog), changeChartTypeDetails, cancellationToken);
+
+                case VisualizationInteraction.Intent.Filter:
+
+                    string[] filterResults = luisResult.filterTypeEntity;
+                    var filterDetails = new FilterDetails()
+                    {
+                        multipleFilters = filterResults,
+                    };
+                    return await stepContext.BeginDialogAsync(nameof(FilterDialog), filterDetails, cancellationToken);
 
                 default:
                     // Catch all for unhandled intents

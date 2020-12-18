@@ -14,6 +14,7 @@ namespace Microsoft.BotBuilderSamples
         public enum Intent
         {
             ChangeChartType,
+            Filter,
             None
         };
         public Dictionary<Intent, IntentScore> Intents;
@@ -22,11 +23,13 @@ namespace Microsoft.BotBuilderSamples
         {
             // Lists: Hier drin wird das erkannte entity gespeichert (z.B. barchart)
             public string[][] chartType;
+            public string[][] filterType;
 
             // Instance: Hier wird gespeichert, welchen Text der Benutzer in der Query tatsächlich eingegeben hat (z.B. bar-chart aus Entities._instance.chartType[0].Text)
             public class _Instance
             {
                 public InstanceData[] chartType;
+                public InstanceData[] filterType;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
@@ -80,10 +83,6 @@ namespace Microsoft.BotBuilderSamples
                 ConsoleWriter.WriteLineInfo("FirstChartType From Luis Result: " + toChartValue?[0]?[0]);
                 return toChartValue?[0];
 
-
-                
-
-                
                 //ConsoleWriter.WriteLineInfo(toChartValue?[0]?[1]);
 
                 //***********Hier müsste dann ein Ambiguity-Dialog erstellt werden, falls das feldtoChartValue[0] länger als 1 ist, wo dann abgefragt wird, welchen entity man tatsächlich wollte
@@ -102,6 +101,32 @@ namespace Microsoft.BotBuilderSamples
                 //string toChartValue = Entities._instance.chartType[0].Text;
 
 
+            }
+        }
+
+        public string[] filterTypeEntity
+        {
+            get
+            {
+                string[][] filterValue = Entities?.filterType;
+
+                //Innere for schleife würde Ambiguität überprüfen
+                //for (int i = 0; i < Entities.country.Length; i++)
+                //{
+                //    for (int j = 0; j < Entities.country[i].Length; j++)
+                //    {
+                //        ConsoleWriter.WriteLineInfo(Entities.country[i][j]);
+                //    }
+                //}
+
+                for (int i = 0; i < Entities?.filterType?.Length; i++)
+                {
+                    ConsoleWriter.WriteLineInfo(Entities.filterType[i][0]);
+                    filterValue[0][0] = String.Join(",", Entities.filterType[i][0]);
+                }
+                ConsoleWriter.WriteLineInfo(filterValue?[0]?[0]);
+
+                return filterValue?[0];
             }
         }
 

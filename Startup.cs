@@ -36,6 +36,9 @@ namespace Microsoft.BotBuilderSamples
             // Register LUIS recognizer
             services.AddSingleton<LuisRecognizer>();
 
+            //Register the FilterDialog
+            services.AddSingleton<FilterDialog>();
+
             //Register the AmbiguityDialog
             services.AddSingleton<AmbiguityDialog>();
 
