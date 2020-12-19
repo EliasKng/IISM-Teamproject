@@ -84,8 +84,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 //Set the result to the ChangeCharttypeDetails-Object
                 changeChartTypeDetails.ToChartType = choiceText;
                 changeChartTypeDetails.AmbiguousChartTypes = new string[] { choiceText };
-            }  
-            else
+            } 
+            else if(stepContext.Result.GetType().Equals("Microsoft.BotBuilderSamples.ChangeChartTypeDetails"))
             {
                 changeChartTypeDetails = (ChangeChartTypeDetails) stepContext.Result;
             }
