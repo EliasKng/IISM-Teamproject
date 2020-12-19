@@ -83,11 +83,13 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 //Set the result to the ChangeCharttypeDetails-Object
                 changeChartTypeDetails.ToChartType = choiceText;
                 changeChartTypeDetails.AmbiguousChartTypes = new string[] { choiceText };
-            } 
-            else if(stepContext.Result.GetType().ToString().Equals("Microsoft.BotBuilderSamples.ChangeChartTypeDetails"))
+            }
+            //We probably come from the AMbiguity Dialog which returns a ChangeChartTypeDetails Object ==> get the Object if yes
+            else if (stepContext.Result.GetType().ToString().Equals("Microsoft.BotBuilderSamples.ChangeChartTypeDetails")) 
             {
                 changeChartTypeDetails = (ChangeChartTypeDetails) stepContext.Result;
             }
+            //Now the Object is set right and we can print, what we want to change our charttype to
             ConsoleWriter.WriteLineInfo("Change Charttype to: " + changeChartTypeDetails.AmbiguousChartTypes[0]);
             return await stepContext.EndDialogAsync(changeChartTypeDetails,cancellationToken);
         }
