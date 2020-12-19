@@ -73,7 +73,6 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var changeChartTypeDetails = (ChangeChartTypeDetails)stepContext.Options;
-
             //We are comming from a ChoicePromt ==> Convert result to FoundCHoice
             if (stepContext.Result.GetType().ToString().Equals("Microsoft.Bot.Builder.Dialogs.Choices.FoundChoice"))
             {
@@ -85,7 +84,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 changeChartTypeDetails.ToChartType = choiceText;
                 changeChartTypeDetails.AmbiguousChartTypes = new string[] { choiceText };
             } 
-            else if(stepContext.Result.GetType().Equals("Microsoft.BotBuilderSamples.ChangeChartTypeDetails"))
+            else if(stepContext.Result.GetType().ToString().Equals("Microsoft.BotBuilderSamples.ChangeChartTypeDetails"))
             {
                 changeChartTypeDetails = (ChangeChartTypeDetails) stepContext.Result;
             }
