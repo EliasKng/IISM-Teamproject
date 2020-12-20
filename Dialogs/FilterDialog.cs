@@ -45,9 +45,15 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             InitialDialogId = nameof(WaterfallDialog);
         }
 
-        //Hier findet er raus, zu welchem Charttyp wir wechseln wollen
+        //Hier findet er raus, nach welchen Attributen gefiltert werden soll
         private async Task<DialogTurnResult> SelectionStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
+            /* if stepContext contains "country" -> ask if filter for attributes like country and sales or filter for countries specifically -> take _countryOptions as list
+             * if stepContext contains Country names like "Germany" for example, ask if you want to add other attributes, if yes: take _countryOptions as list, add "Germany to list and continue
+             * 
+             */
+
+
             // Continue using the same selection list, if any, from the previous iteration of this dialog.
             var list = stepContext.Options as List<string> ?? new List<string>();
             stepContext.Values[CountriesSelected] = list;
@@ -101,6 +107,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             if (done)
             {
                 // If they're done, exit and return their list.
+                ConsoleWriter.WriteLineInfo(list.ToArray()[0]);
                 return await stepContext.EndDialogAsync(list, cancellationToken);
             }
             else

@@ -121,11 +121,12 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
                 case VisualizationInteraction.Intent.Filter:
 
-                    string[] filterResults = luisResult.filterTypeEntity;
+                    string[] filterResults = luisResult.FilterTypeEntity;
                     var filterDetails = new FilterDetails()
                     {
-                        multipleFilters = filterResults,
+                        multipleFilters = filterResults?[0],
                     };
+                    ConsoleWriter.WriteLineInfo("FILTERDETAILS: " +filterDetails.multipleFilters);
                     return await stepContext.BeginDialogAsync(nameof(FilterDialog), filterDetails, cancellationToken);
 
                 default:

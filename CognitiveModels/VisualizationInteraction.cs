@@ -104,12 +104,12 @@ namespace Microsoft.BotBuilderSamples
             }
         }
 
-        public string[] filterTypeEntity
+        public string[] FilterTypeEntity
         {
             get
             {
                 string[][] filterValue = Entities?.filterType;
-
+                ConsoleWriter.WriteLineInfo("FirstFilterAttribute From Luis Result: " + filterValue?[0]?[0]);
                 //Innere for schleife würde Ambiguität überprüfen
                 //for (int i = 0; i < Entities.country.Length; i++)
                 //{
@@ -118,14 +118,14 @@ namespace Microsoft.BotBuilderSamples
                 //        ConsoleWriter.WriteLineInfo(Entities.country[i][j]);
                 //    }
                 //}
-
+                
                 for (int i = 0; i < Entities?.filterType?.Length; i++)
                 {
                     ConsoleWriter.WriteLineInfo(Entities.filterType[i][0]);
-                    filterValue[0][0] = String.Join(",", Entities.filterType[i][0]);
+                    //filterValue[0][0] = String.Join(",", Entities.filterType[i][0]);
                 }
                 ConsoleWriter.WriteLineInfo(filterValue?[0]?[0]);
-
+                ConsoleWriter.WriteLineInfo("FILTER AUSGABE **************");
                 return filterValue?[0];
             }
         }
