@@ -141,8 +141,17 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
                 case VisualizationInteraction.Intent.ChangeVisualizationPart:
 
-                    (string visualizationPart, string toValue) = luisResult.ChangeVisualizationPartEntities;
-                    ConsoleWriter.WriteLineInfo("Change " + visualizationPart + " to: " + toValue);
+                    (string visualizationPartLuis, string[] toValueLuis) = luisResult.ChangeVisualizationPartEntities;
+                    ConsoleWriter.WriteLineInfo("Change " + visualizationPartLuis + " to (first Value): " + toValueLuis[0]);
+
+                    var changeVisualizationPartDetails = new ChangeVisualizationPartDetails
+                    {
+                        visualizationPart = visualizationPartLuis,
+                        toValue = toValueLuis
+                    };
+
+
+
                     break;
 
 

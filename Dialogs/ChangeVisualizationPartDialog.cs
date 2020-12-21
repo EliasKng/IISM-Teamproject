@@ -10,21 +10,13 @@ using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 
 namespace Microsoft.BotBuilderSamples.Dialogs
 {
-    public class ChangeChartTypeDialog : CancelAndHelpDialog
+    public class ChangeVisualizationPartDialog : CancelAndHelpDialog
     {
-        //Zu dem CHarttyp wollen wir wechseln
-        private const string DestinationStepMsgText = "Please choose a charttype from the list!";
 
-        private readonly string[] _chartTypeOptions = new string[]
+        public ChangeVisualizationPartDialog() : base(nameof(ChangeVisualizationPartDialog))
         {
-            "barchart", "columnchart", "piechart", "scatterplot",
-        };
-
-        public ChangeChartTypeDialog()
-            : base(nameof(ChangeChartTypeDialog))
-        {
-            HelpMsgText = "In this step type in: \"Change charttype to e.g. \"barchart\" or \"scatterplot\"\"";
-            CancelMsgText = "Cancelling the change charttype Dialog";
+            HelpMsgText = "In this step type in e.g.: \"Change x-Axis to e.g. \"sales\" or \"profit\"\"";
+            CancelMsgText = "Cancelling the change visualization part Dialog";
             //AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
@@ -42,37 +34,39 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         //Hier findet er raus, zu welchem Charttyp wir wechseln wollen
         private async Task<DialogTurnResult> DestinationStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var changeChartTypeDetails = (ChangeChartTypeDetails)stepContext.Options;
+            var changeVisualizationPartDetails = (ChangeVisualizationPartDetails)stepContext.Options;
 
             
 
-            if(changeChartTypeDetails.AmbiguousChartTypes?.Length > 1)
-            {
-                //We have ambiguities (more than one Entity) ==> ask the user with the AmbiguityDialog
-                return await stepContext.BeginDialogAsync(nameof(AmbiguityDialog), changeChartTypeDetails.AmbiguousChartTypes, cancellationToken);
-            } else if (changeChartTypeDetails.ToChartType == null)
-            {
-                var options = _chartTypeOptions.ToList();
-                var promptOptions = new PromptOptions
-                {
-                    Prompt = MessageFactory.Text("Please choose an option from the list."),
-                    RetryPrompt = MessageFactory.Text("You have to choose an option from the list."),
-                    Choices = ChoiceFactory.ToChoices(options),
-                };
+            //if(changeVisualizationPartDetails.toValue?.Length > 1)
+            //{
+            //    //We have ambiguities (more than one Entity) ==> ask the user with the AmbiguityDialog
+            //    return await stepContext.BeginDialogAsync(nameof(AmbiguityDialog), changeVisualizationPartDetails, cancellationToken);
+            //} else if (changeChartTypeDetails.ToChartType == null)
+            //{
+            //    var options = _chartTypeOptions.ToList();
+            //    var promptOptions = new PromptOptions
+            //    {
+            //        Prompt = MessageFactory.Text("Please choose an option from the list."),
+            //        RetryPrompt = MessageFactory.Text("You have to choose an option from the list."),
+            //        Choices = ChoiceFactory.ToChoices(options),
+            //    };
 
-                return await stepContext.PromptAsync(nameof(ChoicePrompt), promptOptions, cancellationToken);
+            //    return await stepContext.PromptAsync(nameof(ChoicePrompt), promptOptions, cancellationToken);
 
-                //var promptMessage = MessageFactory.Text(DestinationStepMsgText, DestinationStepMsgText, InputHints.ExpectingInput);
-                // return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
-            }
-            return await stepContext.NextAsync(changeChartTypeDetails.ToChartType, cancellationToken);
+            //    //var promptMessage = MessageFactory.Text(DestinationStepMsgText, DestinationStepMsgText, InputHints.ExpectingInput);
+            //    // return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
+            //}
+            //return await stepContext.NextAsync(changeChartTypeDetails.ToChartType, cancellationToken);
+
+
+            return null;
         }
 
         //Hier wird bestätigt, dass wohin gewechselt wurde
         //WaterfallStepContext wird von vorherigem Step übernommen
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            ConsoleWriter.WriteLineInfo("ResultTypeString: " + stepContext.Result.GetType().ToString());
             var changeChartTypeDetails = (ChangeChartTypeDetails)stepContext.Options;
             //We are comming from a ChoicePromt ==> Convert result to FoundCHoice
             if (stepContext.Result.GetType().ToString().Equals("Microsoft.Bot.Builder.Dialogs.Choices.FoundChoice"))
@@ -86,9 +80,9 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 changeChartTypeDetails.AmbiguousChartTypes = new string[] { choiceText };
             }
             //We probably come from the AMbiguity Dialog which returns a ChangeChartTypeDetails Object ==> get the Object if yes
-            else if (stepContext.Result.GetType().ToString().Equals("System.String[]")) 
+            else if (stepContext.Result.GetType().ToString().Equals("Microsoft.BotBuilderSamples.ChangeChartTypeDetails")) 
             {
-                changeChartTypeDetails.AmbiguousChartTypes = (string[]) stepContext.Result;
+                changeChartTypeDetails = (ChangeChartTypeDetails) stepContext.Result;
             }
             //Now the Object is set right and we can print, what we want to change our charttype to
             ConsoleWriter.WriteLineInfo("Change Charttype to: " + changeChartTypeDetails.AmbiguousChartTypes[0]);

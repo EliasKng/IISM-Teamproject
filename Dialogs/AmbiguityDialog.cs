@@ -17,8 +17,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
 
 
-        public AmbiguityDialog()
-            : base(nameof(AmbiguityDialog))
+        public AmbiguityDialog() : base(nameof(AmbiguityDialog))
         {
             HelpMsgText = "You are in the Ambiguity-Dialog. Please choose one of the suggested options.";
             CancelMsgText = "Cancelling the ambiguity dialog";
@@ -39,8 +38,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         //Hier findet er raus, zu welchem Charttyp wir wechseln wollen
         private async Task<DialogTurnResult> ChosenAttributeStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            ChangeChartTypeDetails changeChartTypeDetails = (ChangeChartTypeDetails)stepContext.Options;
-            var options = changeChartTypeDetails.AmbiguousChartTypes.ToList();
+            string[] ambiguityArray = (string[]) stepContext.Options;
+            var options = ambiguityArray.ToList();
             var promptOptions = new PromptOptions
             {
                 Prompt = MessageFactory.Text("Please choose an option from the list."),
@@ -57,16 +56,15 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         //WaterfallStepContext wird von vorherigem Step übernommen
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var changeChartTypeDetails = (ChangeChartTypeDetails)stepContext.Options;
+            string[] ambiguityArray = (string[])stepContext.Options;
             //Extract the picked result from the step-context
             var pickedChoice = (FoundChoice)stepContext.Result;
             var choiceText = pickedChoice.Value;
 
             //Overwrite with the picked choice
-            changeChartTypeDetails.ToChartType = choiceText;
-            changeChartTypeDetails.AmbiguousChartTypes[0] = choiceText;
+            ambiguityArray[0] = choiceText;
 
-            ConsoleWriter.WriteLineInfo("PickedChoice: " + changeChartTypeDetails.ToChartType);
+            ConsoleWriter.WriteLineInfo("PickedChoice: " + ambiguityArray[0]);
 
             //ConsoleWriter.WriteLineInfo("resulttype: " + stepContext.Options.GetType().ToString());
             //for(string s : (string[]) stepContext.Options)
@@ -75,7 +73,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             //}
             //var finalChartType = (string)stepContext.Options;
             //var changeChartTypeDetails = (ChangeChartTypeDetails)stepContext.Options;
-            return await stepContext.EndDialogAsync(changeChartTypeDetails, cancellationToken);
+            return await stepContext.EndDialogAsync(ambiguityArray, cancellationToken);
         }
     }
 }

@@ -139,14 +139,14 @@ namespace Microsoft.BotBuilderSamples
             }
         }
 
-        public (string, string) ChangeVisualizationPartEntities
+        public (string, string[]) ChangeVisualizationPartEntities
         {
             get
             {
                 //Nimm das erste erkannte Entity heraus und gebe es zurück (visualizationPart)
                 string visualizationPart = Entities?.visualizationPart?[0]?[0];
                 //Nimm das erste erkannte Entity heraus und gebe es zurück (toValue (also zu was es geändert werden soll))
-                string toValue = Entities?.financialSampleColumnName?[0]?[0];
+                string[] toValue = Entities?.financialSampleColumnName?[0];
                 ConsoleWriter.WriteLineInfo("Get ChangeVisualizationPartEntities: Change " + visualizationPart + "To " + toValue);
 
                 //Gib beide Werte zurück

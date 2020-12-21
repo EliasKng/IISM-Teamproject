@@ -8,7 +8,7 @@ namespace Microsoft.BotBuilderSamples
     {
         //Name of the part to change (e.g. xAxis)
         public string visualizationPart { get; set; }
-        //What should this aprt be changed to (e.g. sales)
-        public string toValue { get; set; }
+        //What should this aprt be changed to (e.g. sales). Can contain multiple entities ==> Ambiguity. At the end of the AmbiguityDialog the right one will be on the toValue[0]
+        public string[] toValue { get; set; }
     }
 }
