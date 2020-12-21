@@ -126,7 +126,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     {
                         multipleFilters = filterResults?[0],
                     };
-                    ConsoleWriter.WriteLineInfo("FILTERDETAILS: " +filterDetails.multipleFilters);
+                    ConsoleWriter.WriteLineInfo("FILTERDETAILS: " + filterDetails.multipleFilters);
                     return await stepContext.BeginDialogAsync(nameof(FilterDialog), filterDetails, cancellationToken);
 
                 case VisualizationInteraction.Intent.Nl4dv:

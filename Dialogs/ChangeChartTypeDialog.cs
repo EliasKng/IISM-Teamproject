@@ -20,8 +20,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             "barchart", "columnchart", "piechart", "scatterplot",
         };
 
-        public ChangeChartTypeDialog()
-            : base(nameof(ChangeChartTypeDialog))
+        public ChangeChartTypeDialog() : base(nameof(ChangeChartTypeDialog))
         {
             HelpMsgText = "In this step type in: \"Change charttype to e.g. \"barchart\" or \"scatterplot\"\"";
             CancelMsgText = "Cancelling the change charttype Dialog";
@@ -73,6 +72,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             ConsoleWriter.WriteLineInfo("ResultTypeString: " + stepContext.Result.GetType().ToString());
+            ConsoleWriter.WriteLineInfo("Result: " + stepContext.Result.ToString());
             var changeChartTypeDetails = (ChangeChartTypeDetails)stepContext.Options;
             //We are comming from a ChoicePromt/Ambiguity Dialog ==> Convert result to FoundCHoice
             if (stepContext.Result.GetType().ToString().Equals("Microsoft.Bot.Builder.Dialogs.Choices.FoundChoice"))

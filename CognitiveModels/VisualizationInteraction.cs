@@ -25,17 +25,26 @@ namespace Microsoft.BotBuilderSamples
         {
             // Lists: Hier drin wird das erkannte entity gespeichert (z.B. barchart)
             public string[][] chartType;
-            public string[][] filterType;
+            public string[] filterAttribute;
             public string[][] visualizationPart;
+
+
+            //Attributes which depend on the dataset
+            public string[][] country;
             public string[][] financialSampleColumnName;
+            public string[][] segment;
+
+            
 
             // Instance: Hier wird gespeichert, welchen Text der Benutzer in der Query tatsächlich eingegeben hat (z.B. bar-chart aus Entities._instance.chartType[0].Text)
             public class _Instance
             {
                 public InstanceData[] chartType;
-                public InstanceData[] filterType;
+                public InstanceData[] filterAttribute;
                 public InstanceData[] visualitationPart;
                 public InstanceData[] financialSampleColumnName;
+                public InstanceData[] country;
+                public InstanceData[] segment;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
@@ -114,28 +123,11 @@ namespace Microsoft.BotBuilderSamples
         {
             get
             {
-                string[][] filterValue = Entities?.filterType;
-                
-                //Print recognized Filters
-                //ConsoleWriter.WriteLineInfo("FirstFilterAttribute From Luis Result: " + filterValue?[0]?[0]);
-                
-                //Innere for schleife würde Ambiguität überprüfen
-                //for (int i = 0; i < Entities.country.Length; i++)
-                //{
-                //    for (int j = 0; j < Entities.country[i].Length; j++)
-                //    {
-                //        ConsoleWriter.WriteLineInfo(Entities.country[i][j]);
-                //    }
-                //}
-                
-                for (int i = 0; i < Entities?.filterType?.Length; i++)
+                for(int i = 0; i < Entities?.filterAttribute?.Length; i++)
                 {
-                    ConsoleWriter.WriteLineInfo(Entities.filterType[i][0]);
-                    //filterValue[0][0] = String.Join(",", Entities.filterType[i][0]);
+                    ConsoleWriter.WriteLineInfo("Attribute " + i + ": " + Entities?.filterAttribute[i]);
                 }
-                ConsoleWriter.WriteLineInfo(filterValue?[0]?[0]);
-                ConsoleWriter.WriteLineInfo("FILTER AUSGABE **************");
-                return filterValue?[0];
+                return Entities?.filterAttribute;
             }
         }
 

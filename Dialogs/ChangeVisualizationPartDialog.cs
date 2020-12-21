@@ -36,30 +36,6 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         {
             var changeVisualizationPartDetails = (ChangeVisualizationPartDetails)stepContext.Options;
 
-            
-
-            //if(changeVisualizationPartDetails.toValue?.Length > 1)
-            //{
-            //    //We have ambiguities (more than one Entity) ==> ask the user with the AmbiguityDialog
-            //    return await stepContext.BeginDialogAsync(nameof(AmbiguityDialog), changeVisualizationPartDetails, cancellationToken);
-            //} else if (changeChartTypeDetails.ToChartType == null)
-            //{
-            //    var options = _chartTypeOptions.ToList();
-            //    var promptOptions = new PromptOptions
-            //    {
-            //        Prompt = MessageFactory.Text("Please choose an option from the list."),
-            //        RetryPrompt = MessageFactory.Text("You have to choose an option from the list."),
-            //        Choices = ChoiceFactory.ToChoices(options),
-            //    };
-
-            //    return await stepContext.PromptAsync(nameof(ChoicePrompt), promptOptions, cancellationToken);
-
-            //    //var promptMessage = MessageFactory.Text(DestinationStepMsgText, DestinationStepMsgText, InputHints.ExpectingInput);
-            //    // return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
-            //}
-            //return await stepContext.NextAsync(changeChartTypeDetails.ToChartType, cancellationToken);
-
-
             return null;
         }
 
