@@ -56,24 +56,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         //WaterfallStepContext wird von vorherigem Step übernommen
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            string[] ambiguityArray = (string[])stepContext.Options;
-            //Extract the picked result from the step-context
-            var pickedChoice = (FoundChoice)stepContext.Result;
-            var choiceText = pickedChoice.Value;
-
-            //Overwrite with the picked choice
-            ambiguityArray[0] = choiceText;
-
-            ConsoleWriter.WriteLineInfo("PickedChoice: " + ambiguityArray[0]);
-
-            //ConsoleWriter.WriteLineInfo("resulttype: " + stepContext.Options.GetType().ToString());
-            //for(string s : (string[]) stepContext.Options)
-            //{
-
-            //}
-            //var finalChartType = (string)stepContext.Options;
-            //var changeChartTypeDetails = (ChangeChartTypeDetails)stepContext.Options;
-            return await stepContext.EndDialogAsync(ambiguityArray, cancellationToken);
+            //Return the foundchoice (it is in the stepContext.Result). It Contains the picked button
+            return await stepContext.EndDialogAsync(stepContext.Result, cancellationToken);
         }
     }
 }
