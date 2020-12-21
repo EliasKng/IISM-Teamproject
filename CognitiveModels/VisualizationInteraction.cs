@@ -16,6 +16,7 @@ namespace Microsoft.BotBuilderSamples
             ChangeChartType,
             Filter,
             Nl4dv,
+            ChangeVisualizationPart,
             None
         };
         public Dictionary<Intent, IntentScore> Intents;
@@ -25,12 +26,16 @@ namespace Microsoft.BotBuilderSamples
             // Lists: Hier drin wird das erkannte entity gespeichert (z.B. barchart)
             public string[][] chartType;
             public string[][] filterType;
+            public string[][] visualizationPart;
+            public string[][] financialSampleColumnName;
 
             // Instance: Hier wird gespeichert, welchen Text der Benutzer in der Query tatsächlich eingegeben hat (z.B. bar-chart aus Entities._instance.chartType[0].Text)
             public class _Instance
             {
                 public InstanceData[] chartType;
                 public InstanceData[] filterType;
+                public InstanceData[] visualitationPart;
+                public InstanceData[] financialSampleColumnName;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
@@ -81,7 +86,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 //Nimm das erste erkannte Entity heraus und gebe es zurück
                 string[][] toChartValue = Entities?.chartType;
-                ConsoleWriter.WriteLineInfo("FirstChartType From Luis Result: " + toChartValue?[0]?[0]);
+                //ConsoleWriter.WriteLineInfo("FirstChartType From Luis Result: " + toChartValue?[0]?[0]);
                 return toChartValue?[0];
 
                 //ConsoleWriter.WriteLineInfo(toChartValue?[0]?[1]);
@@ -110,7 +115,10 @@ namespace Microsoft.BotBuilderSamples
             get
             {
                 string[][] filterValue = Entities?.filterType;
-                ConsoleWriter.WriteLineInfo("FirstFilterAttribute From Luis Result: " + filterValue?[0]?[0]);
+                
+                //Print recognized Filters
+                //ConsoleWriter.WriteLineInfo("FirstFilterAttribute From Luis Result: " + filterValue?[0]?[0]);
+                
                 //Innere for schleife würde Ambiguität überprüfen
                 //for (int i = 0; i < Entities.country.Length; i++)
                 //{
@@ -128,6 +136,21 @@ namespace Microsoft.BotBuilderSamples
                 ConsoleWriter.WriteLineInfo(filterValue?[0]?[0]);
                 ConsoleWriter.WriteLineInfo("FILTER AUSGABE **************");
                 return filterValue?[0];
+            }
+        }
+
+        public (string, string) ChangeVisualizationPartEntities
+        {
+            get
+            {
+                //Nimm das erste erkannte Entity heraus und gebe es zurück (visualizationPart)
+                string visualizationPart = Entities?.visualizationPart?[0]?[0];
+                //Nimm das erste erkannte Entity heraus und gebe es zurück (toValue (also zu was es geändert werden soll))
+                string toValue = Entities?.financialSampleColumnName?[0]?[0];
+                ConsoleWriter.WriteLineInfo("Get ChangeVisualizationPartEntities: Change " + visualizationPart + "To " + toValue);
+
+                //Gib beide Werte zurück
+                return (visualizationPart, toValue);
             }
         }
 

@@ -6,8 +6,6 @@ namespace Microsoft.BotBuilderSamples
 {
     public class ChangeChartTypeDetails
     {
-        
-        public bool isAmbiguous { get; set; }
         public string ToChartType { get; set; }
         public string[] AmbiguousChartTypes { get; set; }
     }

@@ -139,6 +139,13 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     //Here we would have to call the NL4DV function in the event handler (in the Python project)
                     break;
 
+                case VisualizationInteraction.Intent.ChangeVisualizationPart:
+
+                    (string visualizationPart, string toValue) = luisResult.ChangeVisualizationPartEntities;
+                    ConsoleWriter.WriteLineInfo("Change " + visualizationPart + " to: " + toValue);
+                    break;
+
+
                 default:
                     // Catch all for unhandled intents
                     var didntUnderstandMessageText = $"Sorry, I didn't get that. Please try asking in a different way (intent was {luisResult.TopIntent().intent})";
