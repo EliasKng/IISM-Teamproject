@@ -104,7 +104,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 //    var getWeatherMessage = MessageFactory.Text(getWeatherMessageText, getWeatherMessageText, InputHints.IgnoringInput);
                 //    await stepContext.Context.SendActivityAsync(getWeatherMessage, cancellationToken);
                 //    break;
-
+                 
                 //VISUALIZATION ********************
                 case VisualizationInteraction.Intent.ChangeChartType:
 
