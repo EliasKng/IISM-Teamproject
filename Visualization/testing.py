@@ -7,7 +7,7 @@ from BarChart import BarChart
 from ColumnChart import ColumnChart
 from PieChart import PieChart
 from ScatterPlot import ScatterPlot
-from VisHandler import change_vistype
+#from VisHandler import change_vistype
 
 #Import CSV Data
 working_dataframe = pd.read_csv(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "examples", "assets", "data", "FinancialSample.csv"))
@@ -37,7 +37,7 @@ working_dataframe = pd.read_csv(os.path.join(".", os.path.dirname(os.path.abspat
 
 keywords = {"Product" : ["==", "Carretera"]}
 x_encoding = {"field": "Country", "type": "nominal"}
-y_encoding = {"aggregate": "mean", "field": "Sales", "type": "quantitative"}
+y_encoding = {"aggregate": "", "field": "Sales", "type": "quantitative"}
 
 
 # BarChart
@@ -46,9 +46,9 @@ b1.set_axis()
 print(type(b1))
 print(b1.get_data())
 #print(b1.normalize_values("sum"))
-b1 = change_vistype(b1, "PieChart")
-print(b1.get_data())
-print(type(b1))
+b#1 = change_vistype(b1, "PieChart")
+p#rint(b1.get_data())
+#print(type(b1))
 
 
 
@@ -64,8 +64,8 @@ theta_encoding = {"aggregate": "mean", "field": "Sales", "type": "quantitative"}
 p1 = PieChart(working_dataframe, color_encoding, theta_encoding, keywords)
 print(p1.get_data())
 converted_p1 = change_vistype(p1,"BarChart")
-print(converted_p1.get_data())
-print(type(converted_p1))
+#print(converted_p1.get_data())
+#print(type(converted_p1))
 
 # #Scatterplot
 scatterplot_x_encoding = {"aggregate": None,"field": "Sale Price","type": "ordinal"}
