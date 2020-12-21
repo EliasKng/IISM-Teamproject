@@ -15,6 +15,7 @@ namespace Microsoft.BotBuilderSamples
         {
             ChangeChartType,
             Filter,
+            Nl4dv,
             None
         };
         public Dictionary<Intent, IntentScore> Intents;

@@ -129,6 +129,16 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     ConsoleWriter.WriteLineInfo("FILTERDETAILS: " +filterDetails.multipleFilters);
                     return await stepContext.BeginDialogAsync(nameof(FilterDialog), filterDetails, cancellationToken);
 
+                case VisualizationInteraction.Intent.Nl4dv:
+
+                    //Gets the whole message from the User to the bot out of the luis result
+                    string nl4dvQuery = luisResult.Text;
+
+                    ConsoleWriter.WriteLineInfo("nl4dvQuery: " + nl4dvQuery);
+
+                    //Here we would have to call the NL4DV function in the event handler (in the Python project)
+                    break;
+
                 default:
                     // Catch all for unhandled intents
                     var didntUnderstandMessageText = $"Sorry, I didn't get that. Please try asking in a different way (intent was {luisResult.TopIntent().intent})";
