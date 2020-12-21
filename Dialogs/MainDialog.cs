@@ -124,7 +124,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     string[] filterResults = luisResult.FilterTypeEntity;
                     var filterDetails = new FilterDetails()
                     {
-                        multipleFilters = filterResults?[0],
+                        multipleFilters = filterResults,
                     };
                     ConsoleWriter.WriteLineInfo("FILTERDETAILS: " + filterDetails.multipleFilters);
                     return await stepContext.BeginDialogAsync(nameof(FilterDialog), filterDetails, cancellationToken);
@@ -149,9 +149,6 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                         visualizationPart = visualizationPartLuis,
                         toValue = toValueLuis
                     };
-
-
-
                     break;
 
 
@@ -166,53 +163,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             return await stepContext.NextAsync(null, cancellationToken);
         }
 
-        //// Shows a warning if the requested From or To cities are recognized as entities but they are not in the Airport entity list.
-        //// In some cases LUIS will recognize the From and To composite entities as a valid cities but the From and To Airport values
-        //// will be empty if those entity values can't be mapped to a canonical item in the Airport.
-        //private static async Task ShowWarningForUnsupportedCities(ITurnContext context, FlightBooking luisResult, CancellationToken cancellationToken)
-        //{
-        //    Console.WriteLine("\n\n\ncall ShowWarningForUnsupportedCities\n\n\n");
-
-        //    var unsupportedCities = new List<string>();
-
-        //    var fromEntities = luisResult.FromEntities;
-        //    if (!string.IsNullOrEmpty(fromEntities.From) && string.IsNullOrEmpty(fromEntities.Airport))
-        //    {
-        //        unsupportedCities.Add(fromEntities.From);
-        //    }
-
-        //    var toEntities = luisResult.ToEntities;
-        //    if (!string.IsNullOrEmpty(toEntities.To) && string.IsNullOrEmpty(toEntities.Airport))
-        //    {
-        //        unsupportedCities.Add(toEntities.To);
-        //    }
-
-        //    if (unsupportedCities.Any())
-        //    {
-        //        var messageText = $"Sorry but the following airports are not supported: {string.Join(',', unsupportedCities)}";
-        //        var message = MessageFactory.Text(messageText, messageText, InputHints.IgnoringInput);
-        //        await context.SendActivityAsync(message, cancellationToken);
-        //    }
-        //}
-
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            // If the child dialog ("BookingDialog") was cancelled, the user failed to confirm or if the intent wasn't BookFlight
-            // the Result here will be null.
-            //if (stepContext.Result is BookingDetails result)
-            //{
-            //    // Now we have all the booking details call the booking service.
-
-            //    // If the call to the booking service was successful tell the user.
-
-            //    var timeProperty = new TimexProperty(result.TravelDate);
-            //    var travelDateMsg = timeProperty.ToNaturalLanguage(DateTime.Now);
-            //    var messageText = $"I have you booked to {result.Destination} from {result.Origin} on {travelDateMsg}";
-            //    var message = MessageFactory.Text(messageText, messageText, InputHints.IgnoringInput);
-            //    await stepContext.Context.SendActivityAsync(message, cancellationToken);
-            //}
-
-            // Restart the main dialog with a different message the second time around
             var promptMessage = "What else can I do for you?";
             return await stepContext.ReplaceDialogAsync(InitialDialogId, promptMessage, cancellationToken);
         }

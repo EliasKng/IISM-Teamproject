@@ -45,6 +45,30 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             InitialDialogId = nameof(WaterfallDialog);
         }
 
+        private async Task<DialogTurnResult> InitialStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+
+            FilterDetails filterDetails = (FilterDetails) stepContext.Options;
+
+            // Continue using the same selection list, if any, from the previous iteration of this dialog.
+
+            var list = filterDetails.multipleFilters.ToList<string>();
+
+            //return await stepContext.NextAsync(filterDetails.multipleFilters, cancellationToken);
+            return null;
+        }
+
+        static string UppercaseFirst(string s)
+        {
+            // Check for empty string.
+            if (string.IsNullOrEmpty(s))
+            {
+                return string.Empty;
+            }
+            // Return char and concat substring.
+            return char.ToUpper(s[0]) + s.Substring(1);
+        }
+
         //Hier findet er raus, nach welchen Attributen gefiltert werden soll
         private async Task<DialogTurnResult> SelectionStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
@@ -53,9 +77,36 @@ namespace Microsoft.BotBuilderSamples.Dialogs
              * 
              */
 
+            ConsoleWriter.WriteLineInfo("Type: " + stepContext.Options.GetType().ToString());
+
+            
 
             // Continue using the same selection list, if any, from the previous iteration of this dialog.
             var list = stepContext.Options as List<string> ?? new List<string>();
+
+            bool isCountry = false;
+
+            //We add the recognized Entities from Louis to the Selection list
+            if (stepContext.Options.GetType().ToString().Equals("Microsoft.BotBuilderSamples.FilterDetails")) {
+                FilterDetails filterDetails = (FilterDetails)stepContext.Options;
+                for (int i = 0; i < filterDetails.multipleFilters.Length; i++)
+                {
+                    
+                    string s = UppercaseFirst(filterDetails.multipleFilters[i]);
+                    list.Add(s);
+
+                    //Becomes true, when at least one Country is recognized
+                    isCountry = _countryOptions.Contains(s) | false;
+                }
+
+                //Breaks if we did not recognize any countries
+                if (!isCountry)
+                {
+                    return await stepContext.EndDialogAsync(filterDetails.multipleFilters);
+                }
+            }
+
+
             stepContext.Values[CountriesSelected] = list;
 
             //Create a prompt message
