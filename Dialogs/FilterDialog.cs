@@ -75,8 +75,10 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             if (stepContext.Options.GetType().ToString().Equals("Microsoft.BotBuilderSamples.FilterDetails"))
             {
                 FilterDetails filterDetails = (FilterDetails)stepContext.Options;
+                
                 if (filterDetails.multipleFilters == null)
                 {
+                    //Other dialog that reacts to "Filter!" ??
                     return await stepContext.EndDialogAsync(list, cancellationToken);
                 }
 
@@ -102,6 +104,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 //Breaks if we did not recognize any countries
                 if (!filterForCountry)
                 {
+                    ConsoleWriter.WriteLineInfo("Filter for: " + string.Join(", ", list));
                     return await stepContext.EndDialogAsync(filterDetails.multipleFilters);
                 }
             }

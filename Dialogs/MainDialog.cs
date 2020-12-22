@@ -96,6 +96,14 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 case VisualizationInteraction.Intent.Filter:
 
                     string[] filterResults = luisResult.FilterTypeEntity;
+                    if (filterResults is null)
+                    {
+                        var falseFilterMessageText = $"Sorry, I didn't get that. Please enter a valid {luisResult.TopIntent().intent}-request.";
+                        var falseFilterMessage = MessageFactory.Text(falseFilterMessageText, falseFilterMessageText, InputHints.IgnoringInput);
+                        await stepContext.Context.SendActivityAsync(falseFilterMessage, cancellationToken);
+                        break;
+                    }
+
                     var filterDetails = new FilterDetails()
                     {
                         multipleFilters = filterResults,

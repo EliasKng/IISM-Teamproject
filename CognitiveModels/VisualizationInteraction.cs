@@ -34,8 +34,6 @@ namespace Microsoft.BotBuilderSamples
             public string[][] financialSampleColumnName;
             public string[][] segment;
 
-            
-
             // Instance: Hier wird gespeichert, welchen Text der Benutzer in der Query tatsächlich eingegeben hat (z.B. bar-chart aus Entities._instance.chartType[0].Text)
             public class _Instance
             {
@@ -123,6 +121,16 @@ namespace Microsoft.BotBuilderSamples
         {
             get
             {
+             
+                if (string.Equals(Entities?.filterAttribute?[0], "country")) {
+                    return Entities?.filterAttribute;
+                }
+                
+                if ((Entities?.country?[0] == null) && (Entities?.segment?[0] == null))
+                {
+                    return null; 
+                }
+                
                 for(int i = 0; i < Entities?.filterAttribute?.Length; i++)
                 {
                     ConsoleWriter.WriteLineInfo("Attribute " + i + ": " + Entities?.filterAttribute[i]);
