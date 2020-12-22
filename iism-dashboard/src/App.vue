@@ -2,15 +2,16 @@
   <v-app>
     <v-app-bar
       app
-      color="primary"
-      dark
+      light 
+      height="100"
+      
     >
       <div class="d-flex align-center">
         <v-img
           alt="Vuetify Logo"
           class="shrink mr-2"
           contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          src=""
           transition="scale-transition"
           width="40"
         />
@@ -19,40 +20,30 @@
           alt="Vuetify Name"
           class="shrink mt-1 hidden-sm-and-down"
           contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
+          min-width="150"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Logo_KIT.svg/1024px-Logo_KIT.svg.png"
           width="100"
         />
       </div>
 
-      <v-spacer></v-spacer>
+     
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+
+
+ 
+    
     </v-app-bar>
 
     <v-main>
-      <HelloWorld/>
+    
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
 
 export default {
   name: 'App',
-
-  components: {
-    HelloWorld,
-  },
-
   data: () => ({
     //
   }),
