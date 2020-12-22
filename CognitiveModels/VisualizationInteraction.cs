@@ -122,10 +122,11 @@ namespace Microsoft.BotBuilderSamples
             get
             {
              
-                if (string.Equals(Entities?.filterAttribute?[0], "country")) {
+                if ((string.Equals(Entities?.filterAttribute?[0].ToLower(), "country")) || (string.Equals(Entities?.filterAttribute?[0].ToLower(), "countries"))) {
                     return Entities?.filterAttribute;
                 }
                 
+                //ADD ALL ENTITIES THAT CAN BE FILTERED FOR, ONE OF THOSE ENTITIES HAS TO BE != NULL 
                 if ((Entities?.country?[0] == null) && (Entities?.segment?[0] == null))
                 {
                     return null; 
