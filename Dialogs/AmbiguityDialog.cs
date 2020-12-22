@@ -42,7 +42,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             var options = ambiguityArray.ToList();
             var promptOptions = new PromptOptions
             {
-                Prompt = MessageFactory.Text("Please choose an option from the list."),
+                Prompt = MessageFactory.Text("Please choose an option from the list. I am suggesting these options because you entered an ambiguous entity."),
                 RetryPrompt = MessageFactory.Text("You have to choose an option from the list."),
                 Choices = ChoiceFactory.ToChoices(options),
             };
