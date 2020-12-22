@@ -1,0 +1,85 @@
+{
+    "alias": null,
+    "attributeMap": {
+        "Genre": {
+            "ambiguity": [],
+            "inferenceType": "explicit",
+            "isAmbiguous": false,
+            "name": "Genre",
+            "queryPhrase": [
+                "genres"
+            ]
+        },
+        "Worldwide Gross": {
+            "ambiguity": [],
+            "inferenceType": "explicit",
+            "isAmbiguous": false,
+            "name": "Worldwide Gross",
+            "queryPhrase": [
+                "gross"
+            ]
+        }
+    },
+    "contextObj": null,
+    "dataset": ".\\examples\\assets\\data\\movies-w-year.csv",
+    "followUpQuery": false,
+    "query": "create a barchart showing average gross across genres",
+    "query_raw": "create a barchart showing average gross across genres",
+    "taskMap": {
+        "derived_value": [
+            {
+                "attributes": [
+                    "Worldwide Gross"
+                ],
+                "inferenceType": "explicit",
+                "operator": "AVG",
+                "queryPhrase": "average",
+                "task": "derived_value",
+                "values": []
+            }
+        ]
+    },
+    "visList": [
+        {
+            "attributes": [
+                "Worldwide Gross",
+                "Genre"
+            ],
+            "inferenceType": "explicit",
+            "queryPhrase": "barchart",
+            "tasks": [
+                "derived_value"
+            ],
+            "visType": "barchart",
+            "vlSpec": {
+                "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+                "data": {
+                    "format": {
+                        "type": "csv"
+                    },
+                    "url": ".\\examples\\assets\\data\\movies-w-year.csv"
+                },
+                "encoding": {
+                    "x": {
+                        "aggregate": null,
+                        "field": "Genre",
+                        "type": "nominal"
+                    },
+                    "y": {
+                        "aggregate": "mean",
+                        "axis": {
+                            "format": "s"
+                        },
+                        "field": "Worldwide Gross",
+                        "type": "quantitative"
+                    }
+                },
+                "mark": {
+                    "tooltip": true,
+                    "type": "bar"
+                },
+                "transform": []
+            }
+        }
+    ]
+}
