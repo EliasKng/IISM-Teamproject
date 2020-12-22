@@ -163,7 +163,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             if (done)
             {
                 // If they're done, exit and return their list.
-                ConsoleWriter.WriteLineInfo(list.ToArray()[0]);
+                ConsoleWriter.WriteLineInfo( "Filter for: " + string.Join(", ", list));
+
                 return await stepContext.EndDialogAsync(list, cancellationToken);
             }
             else
