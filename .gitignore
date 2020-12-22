@@ -2,8 +2,10 @@
 jars/
 *.jar
 
+#Not in frontend
 #Exclude Jsons
-*.json
+#*.json
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
