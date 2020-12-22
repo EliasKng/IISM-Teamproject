@@ -14,6 +14,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
     {
         protected string HelpMsgText = "What you could type in:\n\"Filter for e.g. country\" \n\"Change charttype to e.g. barchart\"";
         protected string CancelMsgText = "Cancelling...";
+        protected string FilterMsgText = "Please type in: Filter for e.g. Canada.";
 
         public CancelAndHelpDialog(string id)
             : base(id)
@@ -50,6 +51,12 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     case "quit":
                         var cancelMessage = MessageFactory.Text(CancelMsgText, CancelMsgText, InputHints.IgnoringInput);
                         await innerDc.Context.SendActivityAsync(cancelMessage, cancellationToken);
+                        return await innerDc.CancelAllDialogsAsync(cancellationToken);
+                    case "filter":
+                    case "fitexit":
+                    case "filter for":
+                        var filterMessage = MessageFactory.Text(FilterMsgText, FilterMsgText, InputHints.IgnoringInput);
+                        await innerDc.Context.SendActivityAsync(filterMessage, cancellationToken);
                         return await innerDc.CancelAllDialogsAsync(cancellationToken);
                 }
             }
