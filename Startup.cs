@@ -45,6 +45,9 @@ namespace Microsoft.BotBuilderSamples
             //Register the ChangeChartTypeDialog
             services.AddSingleton<ChangeChartTypeDialog>();
 
+            //Register the ChangeChartTypeDialog
+            services.AddSingleton<ChangeVisualizationPartDialog>();
+
             // The MainDialog that will be run by the bot.
             services.AddSingleton<MainDialog>();
 

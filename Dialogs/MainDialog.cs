@@ -21,7 +21,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         protected readonly ILogger Logger;
 
         // Dependency injection uses this constructor to instantiate MainDialog
-        public MainDialog(LuisRecognizer luisRecognizer,FilterDialog filterDialog, ChangeChartTypeDialog chartTypeDialog, AmbiguityDialog ambiguityDialog, ILogger<MainDialog> logger)
+        public MainDialog(LuisRecognizer luisRecognizer, ChangeVisualizationPartDialog changeVisualizationPartDialog,FilterDialog filterDialog, ChangeChartTypeDialog chartTypeDialog, AmbiguityDialog ambiguityDialog, ILogger<MainDialog> logger)
             : base(nameof(MainDialog))
         {
             _luisRecognizer = luisRecognizer;
@@ -30,6 +30,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(filterDialog);
             AddDialog(chartTypeDialog);
+            AddDialog(changeVisualizationPartDialog);
             AddDialog(ambiguityDialog);
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
@@ -114,14 +115,15 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 case VisualizationInteraction.Intent.ChangeVisualizationPart:
 
                     (string visualizationPartLuis, string[] toValueLuis) = luisResult.ChangeVisualizationPartEntities;
-                    ConsoleWriter.WriteLineInfo("Change " + visualizationPartLuis + " to (first Value): " + toValueLuis[0]);
+                    
 
                     var changeVisualizationPartDetails = new ChangeVisualizationPartDetails
                     {
                         visualizationPart = visualizationPartLuis,
                         toValue = toValueLuis
                     };
-                    break;
+
+                    return await stepContext.BeginDialogAsync(nameof(ChangeVisualizationPartDialog), changeVisualizationPartDetails, cancellationToken);
 
 
                 default:

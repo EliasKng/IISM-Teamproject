@@ -35,15 +35,29 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         private async Task<DialogTurnResult> DestinationStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var changeVisualizationPartDetails = (ChangeVisualizationPartDetails)stepContext.Options;
+            if (changeVisualizationPartDetails.toValue?.Length > 1)
+            {
+                //We have ambiguities (more than one Entity) ==> ask the user with the AmbiguityDialog
+                return await stepContext.BeginDialogAsync(nameof(AmbiguityDialog), changeVisualizationPartDetails.toValue, cancellationToken);
+            }
+            else if (changeVisualizationPartDetails.toValue == null)
+            {
+                string message = "I could not regonize what Column you want to change that part to. Please say something like \"change xAxis to Sales\"";
 
-            return null;
+                var cancelMessage = MessageFactory.Text(message, CancelMsgText, InputHints.IgnoringInput);
+                await stepContext.Context.SendActivityAsync(cancelMessage, cancellationToken);
+                return await stepContext.CancelAllDialogsAsync(cancellationToken);
+            }
+
+            //It is not null and length is not larger than one ==> take the first one
+            return await stepContext.NextAsync(changeVisualizationPartDetails.toValue[0], cancellationToken);
         }
 
         //Hier wird bestätigt, dass wohin gewechselt wurde
         //WaterfallStepContext wird von vorherigem Step übernommen
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var changeChartTypeDetails = (ChangeChartTypeDetails)stepContext.Options;
+            var changeVisualizationPartDetails = (ChangeVisualizationPartDetails)stepContext.Options;
             //We are comming from a ChoicePromt ==> Convert result to FoundCHoice
             if (stepContext.Result.GetType().ToString().Equals("Microsoft.Bot.Builder.Dialogs.Choices.FoundChoice"))
             {
@@ -52,17 +66,11 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 var choiceText = pickedChoice.Value;
 
                 //Set the result to the ChangeCharttypeDetails-Object
-                changeChartTypeDetails.ToChartType = choiceText;
-                changeChartTypeDetails.AmbiguousChartTypes = new string[] { choiceText };
-            }
-            //We probably come from the AMbiguity Dialog which returns a ChangeChartTypeDetails Object ==> get the Object if yes
-            else if (stepContext.Result.GetType().ToString().Equals("Microsoft.BotBuilderSamples.ChangeChartTypeDetails")) 
-            {
-                changeChartTypeDetails = (ChangeChartTypeDetails) stepContext.Result;
+                changeVisualizationPartDetails.toValue = new string[] { choiceText };
             }
             //Now the Object is set right and we can print, what we want to change our charttype to
-            ConsoleWriter.WriteLineInfo("Change Charttype to: " + changeChartTypeDetails.AmbiguousChartTypes[0]);
-            return await stepContext.EndDialogAsync(changeChartTypeDetails,cancellationToken);
+            ConsoleWriter.WriteLineInfo("Change " + changeVisualizationPartDetails.visualizationPart + " to (first Value): " + changeVisualizationPartDetails.toValue[0]);
+            return await stepContext.EndDialogAsync(changeVisualizationPartDetails, cancellationToken);
         }
     }
 }
