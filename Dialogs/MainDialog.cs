@@ -69,7 +69,6 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             //    return await stepContext.BeginDialogAsync(nameof(BookingDialog), new BookingDetails(), cancellationToken);
             //}
 
-
             //Visualization
             //HIER WIRD LOUIS AUFGERUFEN
             // Call LUIS and gather any potential booking details. (Note the TurnContext has the response to the prompt.)
