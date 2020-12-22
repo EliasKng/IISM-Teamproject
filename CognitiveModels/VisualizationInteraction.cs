@@ -126,6 +126,7 @@ namespace Microsoft.BotBuilderSamples
                 for(int i = 0; i < Entities?.filterAttribute?.Length; i++)
                 {
                     ConsoleWriter.WriteLineInfo("Attribute " + i + ": " + Entities?.filterAttribute[i]);
+                    ConsoleWriter.WriteLineInfo("'''''''");
                 }
                 return Entities?.filterAttribute;
             }

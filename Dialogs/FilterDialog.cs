@@ -45,18 +45,18 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             InitialDialogId = nameof(WaterfallDialog);
         }
 
-        private async Task<DialogTurnResult> InitialStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        {
+        //private async Task<DialogTurnResult> InitialStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        //{
 
-            FilterDetails filterDetails = (FilterDetails) stepContext.Options;
+        //    FilterDetails filterDetails = (FilterDetails) stepContext.Options;
 
-            // Continue using the same selection list, if any, from the previous iteration of this dialog.
+        //    // Continue using the same selection list, if any, from the previous iteration of this dialog.
 
-            var list = filterDetails.multipleFilters.ToList<string>();
+        //    var list = filterDetails.multipleFilters.ToList<string>();
 
-            //return await stepContext.NextAsync(filterDetails.multipleFilters, cancellationToken);
-            return null;
-        }
+        //    //return await stepContext.NextAsync(filterDetails.multipleFilters, cancellationToken);
+        //    return null;
+        //}
 
         static string UppercaseFirst(string s)
         {
@@ -66,13 +66,15 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 return string.Empty;
             }
             // Return char and concat substring.
+            //s = s.ToLower(); //does'nt work for United States of America
             return char.ToUpper(s[0]) + s.Substring(1);
         }
 
         //Hier findet er raus, nach welchen Attributen gefiltert werden soll
         private async Task<DialogTurnResult> SelectionStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            /* if stepContext contains "country" -> ask if filter for attributes like country and sales or filter for countries specifically -> take _countryOptions as list
+            /* thoughts:
+             * if stepContext contains "country" -> ask if filter for attributes like country and sales or filter for countries specifically -> take _countryOptions as list
              * if stepContext contains Country names like "Germany" for example, ask if you want to add other attributes, if yes: take _countryOptions as list, add "Germany to list and continue
              * 
              */
@@ -96,7 +98,10 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     list.Add(s);
 
                     //Becomes true, when at least one Country is recognized
-                    isCountry = _countryOptions.Contains(s) | false;
+                    if (_countryOptions.Contains(s))
+                    {
+                        isCountry = true;
+                    }
                 }
 
                 //Breaks if we did not recognize any countries

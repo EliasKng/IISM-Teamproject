@@ -69,8 +69,6 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             //    return await stepContext.BeginDialogAsync(nameof(BookingDialog), new BookingDetails(), cancellationToken);
             //}
 
-            ////FLUGZEUG
-            //var luisResult = await _luisRecognizer.RecognizeAsync<FlightBooking>(stepContext.Context, cancellationToken);
 
             //Visualization
             //HIER WIRD LOUIS AUFGERUFEN
@@ -80,30 +78,6 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
             switch (luisResult.TopIntent().intent)
             {
-                //FLUGZEUG******************
-                //case FlightBooking.Intent.BookFlight:
-                //    await ShowWarningForUnsupportedCities(stepContext.Context, luisResult, cancellationToken);
-
-                //    //Hier wird das BookingDetails objekt erstellt! also die Information von Luis "zusammengetragen"
-                //    // Initialize BookingDetails with any entities we may have found in the response.
-                //    var bookingDetails = new BookingDetails()
-                //    {
-                //        // Get destination and origin from the composite entities arrays.
-                //        Destination = luisResult.ToEntities.Airport,
-                //        Origin = luisResult.FromEntities.Airport,
-                //        TravelDate = luisResult.TravelDate,
-                //    };
-
-
-                //    // Run the BookingDialog giving it whatever details we have from the LUIS call, it will fill out the remainder.
-                //    return await stepContext.BeginDialogAsync(nameof(BookingDialog), bookingDetails, cancellationToken);
-
-                //case FlightBooking.Intent.GetWeather:
-                //    // We haven't implemented the GetWeatherDialog so we just display a TODO message.
-                //    var getWeatherMessageText = "TODO: get weather flow here";
-                //    var getWeatherMessage = MessageFactory.Text(getWeatherMessageText, getWeatherMessageText, InputHints.IgnoringInput);
-                //    await stepContext.Context.SendActivityAsync(getWeatherMessage, cancellationToken);
-                //    break;
                 
                 //VISUALIZATION ********************
                 case VisualizationInteraction.Intent.ChangeChartType:
@@ -126,7 +100,6 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     {
                         multipleFilters = filterResults,
                     };
-                    ConsoleWriter.WriteLineInfo("FILTERDETAILS: " + filterDetails.multipleFilters);
                     return await stepContext.BeginDialogAsync(nameof(FilterDialog), filterDetails, cancellationToken);
 
                 case VisualizationInteraction.Intent.Nl4dv:
