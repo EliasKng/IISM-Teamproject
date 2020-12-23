@@ -31,7 +31,7 @@ def nl4dvQueryAnalyzerFinancialsDataset(query) :
     return nl4dv_instance.analyze_query(queryInput)
 
 
-# configuration
+#configuration
 DEBUG = True
 
 # instantiate the app
@@ -41,6 +41,12 @@ app.config.from_object(__name__)
 # enable CORS
 CORS(app, resources={r'/*': {'origins': '*'}})
 
+
+@app.route('/data', methods=['GET'])
+def all_data():
+    return jsonify({
+        'status': 'success',
+    })
 
 
 if __name__ == '__main__':

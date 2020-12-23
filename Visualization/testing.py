@@ -37,7 +37,7 @@ working_dataframe = pd.read_csv(os.path.join(".", os.path.dirname(os.path.abspat
 
 keywords = {"Product" : ["==", "Carretera"]}
 x_encoding = {"field": "Country", "type": "nominal"}
-y_encoding = {"aggregate": "", "field": "Sales", "type": "quantitative"}
+y_encoding = {"aggregate": "mean", "field": "Sales", "type": "quantitative"}
 
 
 # BarChart
