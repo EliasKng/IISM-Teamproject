@@ -69,11 +69,12 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             return await stepContext.NextAsync(filterForNumberDetails.columnName[0], cancellationToken);
         }
 
-        //Hier wird bestätigt, dass wohin gewechselt wurde
-        //WaterfallStepContext wird von vorherigem Step übernommen
+        //Hier wird ggf. der Ambiguity Dialog ausgewertet (erste if) und dann das finale Ergebnis des Dialogs auf der KOnsole ausgegeben
+        //stepContext wird von vorherigem Step übernommen
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var filterForNumberDetails = (FilterForNumberDetails)stepContext.Options;
+
             //We are comming from a ChoicePromt ==> Convert result to FoundCHoice
             if (stepContext.Result.GetType().ToString().Equals("Microsoft.Bot.Builder.Dialogs.Choices.FoundChoice"))
             {

@@ -44,8 +44,6 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             InitialDialogId = nameof(WaterfallDialog);
         }
 
-
-        //
         private async Task<DialogTurnResult> IntroStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             if (!_luisRecognizer.IsConfigured)
@@ -62,25 +60,15 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
         }
 
+        //Hiere wird das Luis Result ausgewertet. Daraus wird der jeweilige Intend abgeleitet (switch case) und dann je nach case anders vorgegangen
         private async Task<DialogTurnResult> ActStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            //Brauchen wir nicht, weil wir davon ausgehen, dass LUIS konfiguriert ist.
-            //if (!_luisRecognizer.IsConfigured)
-            //{
-            //    // LUIS is not configured, we just run the BookingDialog path with an empty BookingDetailsInstance.
-            //    return await stepContext.BeginDialogAsync(nameof(BookingDialog), new BookingDetails(), cancellationToken);
-            //}
-
-            //Visualization
-            //HIER WIRD LOUIS AUFGERUFEN
-            // Call LUIS and gather any potential booking details. (Note the TurnContext has the response to the prompt.)
             var luisResult = await _luisRecognizer.RecognizeAsync<VisualizationInteraction>(stepContext.Context, cancellationToken);
 
 
             switch (luisResult.TopIntent().intent)
             {
-                
-                //VISUALIZATION ********************
+                //Der Nutzer will den Visualisierungstypen ändern
                 case VisualizationInteraction.Intent.ChangeChartType:
 
                     string[] chartTypeResults = luisResult.ToChartTypeEntity;
@@ -94,6 +82,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     //Check if changechartTypeDetails is null (in the Dialog) and ask for information if it is null
                     return await stepContext.BeginDialogAsync(nameof(ChangeChartTypeDialog), changeChartTypeDetails, cancellationToken);
 
+                //Der Nuter will Filtern (nominal/ordinal)
                 case VisualizationInteraction.Intent.Filter:
 
                     string[] filterResults = luisResult.FilterTypeEntity;
@@ -111,6 +100,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     };
                     return await stepContext.BeginDialogAsync(nameof(FilterDialog), filterDetails, cancellationToken);
 
+                //Der Nutzer will Filtern (Metrisch (kardinal))
                 case VisualizationInteraction.Intent.FilterForNumber:
 
                     (string[] columnNameLuis, string comparisonOperatorLuis, string filterNumberLuis) = luisResult.FilterForNumberEntities;
@@ -124,6 +114,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     
                     return await stepContext.BeginDialogAsync(nameof(FilterForNumberDialog), filterForNumberDetails, cancellationToken);
 
+                //Der Nutzer hat eine Komplette Query zur erstellung einer Visualisierung eingegeben ==> sende diese an Nl4DV
                 case VisualizationInteraction.Intent.Nl4dv:
 
                     //Gets the whole message from the User to the bot out of the luis result
@@ -134,6 +125,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     //Here we would have to call the NL4DV function in the event handler (in the Python project)
                     break;
 
+                //Der nutzer will z.B. die Legende oder y-Achse ändern (eine andere Spalte darauf setzen)
                 case VisualizationInteraction.Intent.ChangeVisualizationPart:
 
                     (string visualizationPartLuis, string[] toValueLuis) = luisResult.ChangeVisualizationPartEntities;
@@ -147,7 +139,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
                     return await stepContext.BeginDialogAsync(nameof(ChangeVisualizationPartDialog), changeVisualizationPartDetails, cancellationToken);
 
-
+                //Der intent wurde nicht erkannt
                 default:
                     // Catch all for unhandled intents
                     var didntUnderstandMessageText = $"Sorry, I didn't get that. Please try asking in a different way (intent was {luisResult.TopIntent().intent})";
@@ -159,6 +151,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             return await stepContext.NextAsync(null, cancellationToken);
         }
 
+        //Wir haveb den Dialog durchlaufen ==> von vorne starten
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var promptMessage = "What else can I do for you?";

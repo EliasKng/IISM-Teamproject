@@ -6,6 +6,7 @@ using Microsoft.Bot.Builder.AI.Luis;
 
 namespace Microsoft.BotBuilderSamples
 {
+    //Diese Klasse speichert die JSON antwort von Luis
     //Die klasse muss genau zu den JSON Feedback passen, damit der RecognizeAsync aus der Flightbookingrecognizer.cs das LUIS Feedback richtig parsen kann.
     public partial class VisualizationInteraction : IRecognizerConvert
     {
@@ -102,6 +103,7 @@ namespace Microsoft.BotBuilderSamples
             }
         }
 
+        //Gibt die relevanten Daten für den Change Charttype-Intent zurück 
         public string[] ToChartTypeEntity
         {
             get
@@ -111,6 +113,7 @@ namespace Microsoft.BotBuilderSamples
             }
         }
 
+        //Gibt die relevanten Daten für den Filter-Intent zurück 
         public string[] FilterTypeEntity
         {
             get
@@ -135,6 +138,7 @@ namespace Microsoft.BotBuilderSamples
             }
         }
 
+        //Gibt die relevanten Daten für den ChangeVisualizationPart-Intent zurück 
         public (string, string[]) ChangeVisualizationPartEntities
         {
             get
