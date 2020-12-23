@@ -1,5 +1,6 @@
 namespace Microsoft.BotBuilderSamples
 {
+    //Hier werden alle Relevanten daten gespeichert, die gebraucht werden, wenn ein Metrischer Filter erstellt werden soll
     public class FilterForNumberDetails
     {
         //Speichert alle spalten die infrage kommen (ambiguity)

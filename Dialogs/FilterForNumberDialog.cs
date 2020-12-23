@@ -31,16 +31,16 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             InitialDialogId = nameof(WaterfallDialog);
         }
 
-        //Hier findet er raus, zu welchem Charttyp wir wechseln wollen
+        //Hier findet checkt er, ob Daten fehlen oder wir ambiguitäten vorliegen haben
         private async Task<DialogTurnResult> DestinationStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var filterForNumberDetails = (FilterForNumberDetails)stepContext.Options;
-            if (filterForNumberDetails.columnName?.Length > 1)
+            if (filterForNumberDetails.columnName?.Length > 1) //AMbiguitäten?
             {
                 //We have ambiguities (more than one Entity) ==> ask the user with the AmbiguityDialog
                 return await stepContext.BeginDialogAsync(nameof(AmbiguityDialog), filterForNumberDetails.columnName, cancellationToken);
             }
-            else if (filterForNumberDetails.columnName == null)
+            else if (filterForNumberDetails.columnName == null)//Spaltenname fehlt
             {
                 string message = "I could not regonize what Column you want to apply that filter to. Please say something like \"Filter for Sales >= 300\"";
 
@@ -48,7 +48,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 await stepContext.Context.SendActivityAsync(cancelMessage, cancellationToken);
                 return await stepContext.CancelAllDialogsAsync(cancellationToken);
             }
-            else if (filterForNumberDetails.comparisonOperator == null)
+            else if (filterForNumberDetails.comparisonOperator == null)//Vergleichsoperator fehlt
             {
                 string message = "I could not regonize what Number Operator (like >, <, >=,...) you want to use in that filter. Please say something like \"Filter for Sales >= 300\"";
 
@@ -56,7 +56,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 await stepContext.Context.SendActivityAsync(cancelMessage, cancellationToken);
                 return await stepContext.CancelAllDialogsAsync(cancellationToken);
             }
-            else if (filterForNumberDetails.filterNumber == null)
+            else if (filterForNumberDetails.filterNumber == null) //Die Zahl fehlt
             {
                 string message = "I could not regonize what Number want to filter for (like 300). Please say something like \"Filter for Sales >= 300\"";
 
@@ -65,7 +65,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 return await stepContext.CancelAllDialogsAsync(cancellationToken);
             }
 
-            //It is not null and length is not larger than one ==> take the first one
+            //Alle gegebenen Daten sind eindeutig ==> gehe zum FInalstep
             return await stepContext.NextAsync(filterForNumberDetails.columnName[0], cancellationToken);
         }
 

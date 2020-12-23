@@ -84,16 +84,7 @@ namespace Microsoft.BotBuilderSamples
             return (maxIntent, max);
         }
 
-        //public (string To, string Airport) ToEntities
-        //{
-        //    get
-        //    {
-        //        var toValue = Entities?._instance?.To?.FirstOrDefault()?.Text;
-        //        var toAirportValue = Entities?.To?.FirstOrDefault()?.Airport?.FirstOrDefault()?.FirstOrDefault();
-        //        return (toValue, toAirportValue);
-        //    }
-        //}
-
+        //Gibt die relevanten Daten für den FilterForNumber-Intent zurück (Spalte, Operator und Zahl)
         public (string[], string, string) FilterForNumberEntities
         {
             get
@@ -115,29 +106,8 @@ namespace Microsoft.BotBuilderSamples
         {
             get
             {
-                //Nimm das erste erkannte Entity heraus und gebe es zurück
                 string[][] toChartValue = Entities?.chartType;
-                //ConsoleWriter.WriteLineInfo("FirstChartType From Luis Result: " + toChartValue?[0]?[0]);
                 return toChartValue?[0];
-
-                //ConsoleWriter.WriteLineInfo(toChartValue?[0]?[1]);
-
-                //***********Hier müsste dann ein Ambiguity-Dialog erstellt werden, falls das feldtoChartValue[0] länger als 1 ist, wo dann abgefragt wird, welchen entity man tatsächlich wollte
-                //***********Hier müsste dann ein Ambiguity-Dialog erstellt werden, falls das feldtoChartValue[] länger als 1 ist, wo dann abgefragt wird, welchen entity man tatsächlich wollte
-
-                //Das hier wäre das zweite erkannte entity (falls es existiert (z.B: change charttype to barchart and scatterplot) dann wäre scatterplot das zweite
-                //string toChartValue = Entities.chartType[1][0];
-
-                ////ruft alle gefundenen entities auf
-                //for (int i = 0; i < Entities.chartType.Length; i++)
-                //{
-                //    Console.WriteLine(Entities.chartType[i][0]);
-                //}
-
-                //Hier drin steht das erste erkannte entity, aber in Textform, so wie der Nutzer es tatsächelich eingegeben hat (z.B. bar-chart)
-                //string toChartValue = Entities._instance.chartType[0].Text;
-
-
             }
         }
 
@@ -179,10 +149,5 @@ namespace Microsoft.BotBuilderSamples
                 return (visualizationPart, toValue);
             }
         }
-
-        //// This value will be a TIMEX. And we are only interested in a Date so grab the first result and drop the Time part.
-        //// TIMEX is a format that represents DateTime expressions that include some ambiguity. e.g. missing a Year.
-        //public string TravelDate
-        //    => Entities.datetime?.FirstOrDefault()?.Expressions.FirstOrDefault()?.Split('T')[0];
     }
 }
