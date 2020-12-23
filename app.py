@@ -31,6 +31,7 @@ def nl4dvQueryAnalyzerFinancialsDataset(query) :
     return nl4dv_instance.analyze_query(queryInput)
 
 
+
 #configuration
 DEBUG = True
 

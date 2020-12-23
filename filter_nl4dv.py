@@ -2,15 +2,14 @@ import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from QuickParser import getAttributes
-from filter_functions import filterDataframe, mask
+from nl4dv_parser import nl4dv_output_parser
 
 
 
 
 
 
-#loading csv
+'''#loading csv
 working_dataframe = pd.read_csv(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "examples", "assets", "data", "FinancialSample.csv"))
 print(working_dataframe.head(20))
 
@@ -23,10 +22,13 @@ Query = "Carretera"
 
 
 table = pd.pivot_table(working_dataframe.query('Product=="Carretera"', inplace = True), index=["Country"], values=["Sales"], aggfunc={"Sales": Aggregation})
-
+'''
 
 #Integrating Output Nl4DV
-#attributes = getAttributes()
+attributes = getAttributes()
+
+
+'''
 #table = pd.pivot_table(working_dataframe, index=[attributes[1]], values=[attributes[0]], aggfunc={attributes[0]: np.sum})
 
 
@@ -35,7 +37,9 @@ print(table.head())
 table.plot(kind='bar')
 plt.show()
 
-'''
+
+
+
 #Option to select values on x axis
 table_new = table.reset_index()
 print(table_new.head())
@@ -47,6 +51,3 @@ print(table_filtered)
 
 
 '''
-
-
-
