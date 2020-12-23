@@ -21,7 +21,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         protected readonly ILogger Logger;
 
         // Dependency injection uses this constructor to instantiate MainDialog
-        public MainDialog(LuisRecognizer luisRecognizer, ChangeVisualizationPartDialog changeVisualizationPartDialog,FilterDialog filterDialog, ChangeChartTypeDialog chartTypeDialog, AmbiguityDialog ambiguityDialog, ILogger<MainDialog> logger)
+        public MainDialog(LuisRecognizer luisRecognizer, FilterForNumberDialog filterForNumberDialog, ChangeVisualizationPartDialog changeVisualizationPartDialog,FilterDialog filterDialog, ChangeChartTypeDialog chartTypeDialog, AmbiguityDialog ambiguityDialog, ILogger<MainDialog> logger)
             : base(nameof(MainDialog))
         {
             _luisRecognizer = luisRecognizer;
@@ -32,6 +32,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             AddDialog(chartTypeDialog);
             AddDialog(changeVisualizationPartDialog);
             AddDialog(ambiguityDialog);
+            AddDialog(filterForNumberDialog);
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 IntroStepAsync,
@@ -109,6 +110,19 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                         multipleFilters = filterResults,
                     };
                     return await stepContext.BeginDialogAsync(nameof(FilterDialog), filterDetails, cancellationToken);
+
+                case VisualizationInteraction.Intent.FilterForNumber:
+
+                    (string[] columnNameLuis, string comparisonOperatorLuis, string filterNumberLuis) = luisResult.FilterForNumberEntities;
+
+                    var filterForNumberDetails = new FilterForNumberDetails
+                    {
+                        columnName = columnNameLuis,
+                        comparisonOperator = comparisonOperatorLuis,
+                        filterNumber = filterNumberLuis
+                    };
+                    
+                    return await stepContext.BeginDialogAsync(nameof(FilterForNumberDialog), filterForNumberDetails, cancellationToken);
 
                 case VisualizationInteraction.Intent.Nl4dv:
 

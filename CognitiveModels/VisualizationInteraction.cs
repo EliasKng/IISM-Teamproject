@@ -15,6 +15,7 @@ namespace Microsoft.BotBuilderSamples
         {
             ChangeChartType,
             Filter,
+            FilterForNumber,
             Nl4dv,
             ChangeVisualizationPart,
             None
@@ -34,6 +35,10 @@ namespace Microsoft.BotBuilderSamples
             public string[][] financialSampleColumnName;
             public string[][] segment;
 
+            //Filtering for numbers
+            public string[] number;
+            public string[][] comparisonOperator;
+
             // Instance: Hier wird gespeichert, welchen Text der Benutzer in der Query tatsächlich eingegeben hat (z.B. bar-chart aus Entities._instance.chartType[0].Text)
             public class _Instance
             {
@@ -43,6 +48,8 @@ namespace Microsoft.BotBuilderSamples
                 public InstanceData[] financialSampleColumnName;
                 public InstanceData[] country;
                 public InstanceData[] segment;
+                public InstanceData[] number;
+                public InstanceData[] comparisonOperator;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;
@@ -87,6 +94,23 @@ namespace Microsoft.BotBuilderSamples
         //    }
         //}
 
+        public (string[], string, string) FilterForNumberEntities
+        {
+            get
+            {
+                //Hole Den Spaltenname
+                string[] columnName = Entities?.financialSampleColumnName?[0];
+                //Hole den Operator
+                string comparisonOperator = Entities?.comparisonOperator?[0]?[0];
+                //Hole die Zahl
+                string filterNumber = Entities.number?[0];
+
+
+                //Gib beide Werte zurück
+                return (columnName, comparisonOperator, filterNumber);
+            }
+        }
+
         public string[] ToChartTypeEntity
         {
             get
@@ -122,6 +146,7 @@ namespace Microsoft.BotBuilderSamples
             get
             {
              
+                //Filter for country
                 if ((string.Equals(Entities?.filterAttribute?[0].ToLower(), "country")) || (string.Equals(Entities?.filterAttribute?[0].ToLower(), "countries"))) {
                     return Entities?.filterAttribute;
                 }

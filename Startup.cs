@@ -39,13 +39,16 @@ namespace Microsoft.BotBuilderSamples
             //Register the FilterDialog
             services.AddSingleton<FilterDialog>();
 
+            //Register the FilterForNumberDialog
+            services.AddSingleton<FilterForNumberDialog>();
+
             //Register the AmbiguityDialog
             services.AddSingleton<AmbiguityDialog>();
 
             //Register the ChangeChartTypeDialog
             services.AddSingleton<ChangeChartTypeDialog>();
 
-            //Register the ChangeChartTypeDialog
+            //Register the ChangeVisualizationPartDialog
             services.AddSingleton<ChangeVisualizationPartDialog>();
 
             // The MainDialog that will be run by the bot.
