@@ -38,13 +38,16 @@ class VisHandler():
         elif isinstance(current_vis, PieChart) and target_vis=="ColumnChart":
             self.vis_object = BarChart(current_vis.dataframe, current_vis.get_theta_encoding(), current_vis.get_color_encoding(), keywords)
             return self.vis_object
+        #currentvis=Scatterplot 
+
 
     #returns parsed JSON for frontend
     def jsonify_vis(self): 
         result = (self.vis_object.get_data()).reset_index().to_json(orient="split")
         parsed = json.loads(result)
-        print(self.vis_object.type)
         parsed.update({"-type": self.vis_object.type})
+        if self.vis_object.type=="ScatterPlot": 
+            parsed.pop("index")
         return json.dumps(parsed, indent=4)
 
 '''

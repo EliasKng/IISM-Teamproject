@@ -6,7 +6,7 @@ sys.path.append(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "V
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from Filter import prepare_dataframe, calculate_theta
+from Filter import prepare_dataframe, calculate_theta, final_prep
 from BarChart import BarChart
 from ColumnChart import ColumnChart
 from PieChart import PieChart
@@ -27,9 +27,9 @@ def nl4dvQueryAnalyzerFinancialsDataset(query) :
     return nl4dv_instance.analyze_query(queryInput)
 
 #test data
-keywords = {}
-x_encoding = {"field": "Country", "type": "nominal"}
-y_encoding = {"aggregate": "sum", "field": "Sales", "type": "quantitative"}
+keywords = {"Sales" : [">", [1000]], "Country": ["in", ["France", "Germany", "Canada"]]}
+x_encoding = {"field": "Country", "type": "quantitative"}
+y_encoding = {"aggregate":"sum", "field": "Sales", "type": "quantitative"}
 
 
 #Import CSV Data
