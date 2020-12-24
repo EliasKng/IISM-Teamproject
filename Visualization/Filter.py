@@ -29,7 +29,6 @@ def final_prep(input_list):
 def prepare_dataframe(dataframe, filter_index_row, values_row, aggregate=None, filterkeywords=None): 
     if aggregate:
         if filterkeywords:
-            #print("TEST" + (" & ".join('{0} {1} {2}'.format(k, cond[0], (final_prep(cond[1]))) for k, cond in filterkeywords.items()))) 
             return pd.pivot_table(dataframe.query(" & ".join('{0} {1} {2}'.format(k, cond[0], (final_prep(cond[1]))) for k, cond in filterkeywords.items())), index=[filter_index_row], values=[values_row], aggfunc={values_row: aggregate})
 
         else: 
@@ -50,8 +49,6 @@ def calculate_theta(value_series):
         angle_list.append(angle)
     data = np.array(angle_list)
     return pd.Series(data)
-
-
 
 
 '''
