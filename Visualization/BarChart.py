@@ -11,7 +11,7 @@ from Filter import prepare_dataframe
 class BarChart(Visualization): 
 
     def __init__(self, dataframe, x_encoding, y_encoding, keywords=None):
-        super().__init__(dataframe, keywords)
+        super().__init__(dataframe, "BarChart", keywords)
         #Class variables 
         self.x_encoding = {
             "aggregate": None,

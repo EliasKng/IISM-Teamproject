@@ -10,7 +10,7 @@ from Filter import prepare_dataframe, calculate_theta
 class PieChart(Visualization): 
 
     def __init__(self, dataframe, color_encoding,theta_encoding, keywords=None):
-        super().__init__(dataframe, keywords)
+        super().__init__(dataframe, "PieChart", keywords)
         #Class varibales 
         self.color_encoding = {
             "aggregate": None,

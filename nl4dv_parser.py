@@ -6,14 +6,15 @@ def nl4dv_output_parser(nl4dv_output):
 
     #Remove the "[" & "]" Brackets around the Dictionary-String from the Vega-Lite Spec
     #Convert the String to a dictionary
-    #vega_spec =  json.loads(str(output["visList"])[1:-1])
+    #
+    # 
+    vega_spec =  json.loads(str(output["visList"])[1:-1])
     
-    #Approach doesnt work
     #vega_spec =  ast.literal_eval(str(output["visList"])[1:-1])
-    vega_spec =  dict(output)
+    #vega_spec =  dict(output)
     print(vega_spec)
     #Read the Attributes out of the vegaspec (is a Dictionary)
-    #attributes = vega_spec["attributes"]
+    attributes = vega_spec["attributes"]
 
     #Extraxt the visualization-type
     vis_type = vega_spec["visType"]

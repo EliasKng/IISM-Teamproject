@@ -10,7 +10,8 @@ from ScatterPlot import ScatterPlot
 #from VisHandler import change_vistype
 
 #Import CSV Data
-working_dataframe = pd.read_csv(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "examples", "assets", "data", "FinancialSample.csv"))
+#working_dataframe = pd.read_csv(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "examples", "assets", "data", "FinancialSample.csv"))
+working_dataframe = pd.read_excel(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "examples", "assets", "data", "FinancialSample.xlsx"), engine='openpyxl')
 
 #*****TESTING prepare_dataframe-Method and calculate_theta-Method
 #Test 
@@ -40,14 +41,25 @@ x_encoding = {"field": "Country", "type": "nominal"}
 y_encoding = {"aggregate": "mean", "field": "Sales", "type": "quantitative"}
 
 
+#pd.set_option("display.max_rows", None, "display.max_columns", None)
+#print(working_dataframe["Sales"].to_string())
+
+
+
+
+print(pd.pivot_table(working_dataframe, index='Country', aggfunc='sum'))
+
+
+
+'''
 # BarChart
 b1 = BarChart(working_dataframe, x_encoding, y_encoding, keywords)
 b1.set_axis()
 print(type(b1))
 print(b1.get_data())
 #print(b1.normalize_values("sum"))
-b#1 = change_vistype(b1, "PieChart")
-p#rint(b1.get_data())
+#b1 = change_vistype(b1, "PieChart")
+#print(b1.get_data())
 #print(type(b1))
 
 
@@ -72,3 +84,4 @@ scatterplot_x_encoding = {"aggregate": None,"field": "Sale Price","type": "ordin
 scatterplot_y_encoding = {"aggregate": None, "field": "Profit", "type": "quantitative"}  
 s1 = ScatterPlot(working_dataframe, scatterplot_x_encoding, scatterplot_y_encoding, keywords)
 print(s1.get_data().head(50))
+'''

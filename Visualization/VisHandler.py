@@ -41,4 +41,28 @@ class VisHandler():
 
     #returns parsed JSON for frontend
     def jsonify_vis(self): 
-        return json.dumps(json.loads(self.vis_object.dataframe.to_json(orient="split")), indent=4)
+        result = (self.vis_object.get_data()).reset_index().to_json(orient="split")
+        parsed = json.loads(result)
+        print(self.vis_object.type)
+        parsed.update({"-type": self.vis_object.type})
+        return json.dumps(parsed, indent=4)
+
+'''
+#test data
+keywords = {"Product" : ["==", "Carretera"]}
+x_encoding = {"field": "Country", "type": "nominal"}
+y_encoding = {"aggregate": "mean", "field": "Sales", "type": "quantitative"}
+
+
+#Import CSV Data
+working_dataframe = pd.read_csv(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "examples", "assets", "data", "FinancialSample.csv"))
+
+
+#create Objects
+b1 = BarChart(working_dataframe, x_encoding, y_encoding, keywords)
+vishandler1 =  VisHandler(b1)
+result = vishandler1.vis_object.get_data().to_json(orient="split")
+parsed = 
+print(vishandler1.vis_object.get_data())
+print(result)
+'''

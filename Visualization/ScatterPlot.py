@@ -10,7 +10,7 @@ from Filter import prepare_dataframe, calculate_theta
 class ScatterPlot(Visualization): 
 
     def __init__(self, dataframe, x_encoding, y_encoding, keywords=None):
-        super().__init__(dataframe, keywords)
+        super().__init__(dataframe, "ScatterPlot", keywords)
         #Class varibales
         self.x_encoding = {
             "aggregate": None,

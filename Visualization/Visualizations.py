@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 
 class Visualization(object): 
 
-    def __init__(self, dataframe, keywords=None):
+    def __init__(self, dataframe, type, keywords=None):
+        self.type = type
         self.dataframe = dataframe
         self.dataframe_prepared = dataframe
         self.keywords = keywords
