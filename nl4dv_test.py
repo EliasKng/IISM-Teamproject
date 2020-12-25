@@ -22,6 +22,7 @@ def nl4dvQueryAnalyzerFinancialsDataset(query) :
 
 
 results = nl4dvQueryAnalyzerFinancialsDataset("show me a distribution of sales")
-print(nl4dv_output_parser(results))
+#results = nl4dvQueryAnalyzerFinancialsDataset("show me sales by country")
+(nl4dv_output_parser(results))
 #results_dic = dict(results)
 #print((results_dic["query_raw"]))

@@ -2,17 +2,19 @@ import ast
 import json
 
 def nl4dv_output_parser(nl4dv_output):
+    
     output = nl4dv_output
-
+    #print((output))
     #Remove the "[" & "]" Brackets around the Dictionary-String from the Vega-Lite Spec
     #Convert the String to a dictionary
     #
     # 
-    vega_spec =  json.loads(str(output["visList"])[1:-1])
-    
+    #vega_spec =  json.loads(str(output["visList"])[1:-1])
+    #print(output["visList"][0])
+    vega_spec =  output["visList"][0]
     #vega_spec =  ast.literal_eval(str(output["visList"])[1:-1])
     #vega_spec =  dict(output)
-    print(vega_spec)
+    #print(vega_spec)
     #Read the Attributes out of the vegaspec (is a Dictionary)
     attributes = vega_spec["attributes"]
 

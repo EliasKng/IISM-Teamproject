@@ -32,7 +32,7 @@ x_encoding = {"field": "Country", "type": "quantitative"}
 y_encoding = {"aggregate":"sum", "field": "Sales", "type": "quantitative"}
 
 
-#Import CSV Data
+#Import XLXS Data
 #working_dataframe = pd.read_csv(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "examples", "assets", "data", "FinancialSample.csv"))
 working_dataframe = pd.read_excel(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "examples", "assets", "data", "FinancialSample.xlsx"), engine='openpyxl')
 
