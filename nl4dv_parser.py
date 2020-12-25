@@ -15,12 +15,12 @@ def nl4dv_output_parser(nl4dv_output):
     #vega_spec =  ast.literal_eval(str(output["visList"])[1:-1])
     #vega_spec =  dict(output)
     #print(vega_spec)
+   
     #Read the Attributes out of the vegaspec (is a Dictionary)
     attributes = vega_spec["attributes"]
-
     #Extraxt the visualization-type
-    vis_type = vega_spec["visType"]
-
+    #vis_type = vega_spec["visType"]
+    vis_type = vega_spec["vlSpec"]["mark"]["type"]
     #Extract the Encoding: includes (Barchart) Axis, Aggregate Functions, Field Information (also in "attributes") and variable type (e.g. nominal, quantitative)
     # Or (Pie Chart)  [Color: field, type] and [theta (angle): aggregate, field, type]
     #It depends on the VisType, which information is shown
@@ -33,7 +33,7 @@ def nl4dv_output_parser(nl4dv_output):
         "encoding" : axisEncoding
     }
 
-    print(specification)
+    #print(specification)
 
     #Return Dictionary
     return specification

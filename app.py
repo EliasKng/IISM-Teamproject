@@ -1,5 +1,7 @@
 import os
 import sys
+import json
+import requests
 
 sys.path.append(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "Visualization"))
 
@@ -15,6 +17,7 @@ from VisHandler import VisHandler
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from nl4dv import NL4DV
+from nl4dv_parser import nl4dv_output_parser
 from jsonPrinter import jsonPrettyPrinter
 
 #NL4DV
@@ -54,6 +57,13 @@ app.config.from_object(__name__)
 # enable CORS
 CORS(app, resources={r'/*': {'origins': '*'}})
 
+
+#"main"
+@app.route('/nl4dv', methods=['GET', 'POST'])
+def nl4dv_query():
+    post_data = request.get_json()
+    nl4dv_results = (nl4dvQueryAnalyzerFinancialsDataset(post_data["query"]))
+    return jsonify(nl4dv_results)
 
 @app.route('/data', methods=['GET'])
 def all_data():
