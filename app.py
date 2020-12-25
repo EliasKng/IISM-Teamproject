@@ -27,7 +27,7 @@ def nl4dvQueryAnalyzerFinancialsDataset(query) :
     return nl4dv_instance.analyze_query(queryInput)
 
 #test data
-keywords = {"Sales" : [">", [1000]], "Country": ["in", ["France", "Germany", "Canada"]]}
+keywords = {"Country": ["in", ["France", "Canada"]], "Segment": ["in", ["Government", "Enterprise"]]}
 x_encoding = {"field": "Country", "type": "quantitative"}
 y_encoding = {"aggregate":"sum", "field": "Sales", "type": "quantitative"}
 
