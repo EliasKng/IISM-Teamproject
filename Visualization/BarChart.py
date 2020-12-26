@@ -14,7 +14,7 @@ class BarChart(Visualization):
         super().__init__(dataframe, "BarChart", keywords)
         #Class variables 
         self.x_encoding = {
-            "aggregate": None,
+            "aggregate": x_encoding["aggregate"],
             "field": x_encoding["field"],
             "type": x_encoding["type"]
         }

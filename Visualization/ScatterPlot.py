@@ -13,12 +13,12 @@ class ScatterPlot(Visualization):
         super().__init__(dataframe, "ScatterPlot", keywords)
         #Class varibales
         self.x_encoding = {
-            "aggregate": None,
+            "aggregate": "Null",
             "field": x_encoding["field"],
             "type": x_encoding["type"]
         }
         self.y_encoding = {
-            "aggregate": None,
+            "aggregate": "Null",
             "field": y_encoding["field"],
             "type": y_encoding["type"]
         }

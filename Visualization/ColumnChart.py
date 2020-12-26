@@ -19,7 +19,7 @@ class ColumnChart(Visualization):
             "type": x_encoding["type"]
         }
         self.y_encoding = {
-            "aggregate": None,
+            "aggregate": y_encoding["aggregate"],
             "field": y_encoding["field"],
             "type": y_encoding["type"]
         }
@@ -57,3 +57,5 @@ class ColumnChart(Visualization):
     def get_data(self):
         self.dataframe_prepared = prepare_dataframe(self.dataframe,self.y_encoding["field"],self.x_encoding["field"],self.x_encoding["aggregate"], self.keywords)
         return self.dataframe_prepared
+    
+   
