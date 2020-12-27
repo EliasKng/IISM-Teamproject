@@ -58,4 +58,5 @@ class ColumnChart(Visualization):
         self.dataframe_prepared = prepare_dataframe(self.dataframe,self.y_encoding["field"],self.x_encoding["field"],self.x_encoding["aggregate"], self.keywords)
         return self.dataframe_prepared
     
-   
+    def serialize_object(self): 
+        return {"type" : self.type, "keywords" : self.keywords, "x_encoding" : self.x_encoding, "y_encoding" : self.y_encoding}

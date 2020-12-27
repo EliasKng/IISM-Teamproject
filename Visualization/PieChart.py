@@ -46,3 +46,6 @@ class PieChart(Visualization):
         
         self.dataframe_prepared["Sales"] = angle_series.values
         return self.dataframe_prepared
+    
+    def serialize_object(self): 
+        return {"type" : self.type, "keywords" : self.keywords, "color_encoding" : self.color_encoding, "theta_encoding" : self.theta_encoding}

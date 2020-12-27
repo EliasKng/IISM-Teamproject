@@ -58,3 +58,6 @@ class BarChart(Visualization):
     def get_data(self):
         self.dataframe_prepared = prepare_dataframe(self.dataframe,self.x_encoding["field"],self.y_encoding["field"],self.y_encoding["aggregate"], self.keywords)
         return self.dataframe_prepared
+    
+    def serialize_object(self): 
+        return {"type" : self.type, "keywords" : self.keywords, "x_encoding" : self.x_encoding, "y_encoding" : self.y_encoding}

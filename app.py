@@ -39,11 +39,20 @@ def nl4dvQueryAnalyzerFinancialsDataset(query) :
 working_dataframe = pd.read_excel(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "examples", "assets", "data", "FinancialSample.xlsx"), engine='openpyxl')
 
 
-#create and modify Objects
-#b1 = BarChart(working_dataframe, x_encoding, y_encoding, keywords)
-#final_vis =  VisHandler(b1)
-#final_vis.vis_object.set_aggregate(None, "mean")
-
+#help function to create object 
+def create_object(final_vis_data): 
+    if final_vis_data["type"] == "BarChart": 
+        bar_chart = BarChart(working_dataframe, final_vis_data["x_encoding"], final_vis_data["y_encoding"], final_vis_data["keywords"])
+        return VisHandler(bar_chart)
+    if final_vis_data["type"] == "ColumnChart": 
+        column_chart = ColumnChart(working_dataframe, final_vis_data["x_encoding"], final_vis_data["y_encoding"], final_vis_data["keywords"])
+        return VisHandler(column_chart)
+    if  final_vis_data["type"] == "PieChart":
+        pie_chart = PieChart(working_dataframe, final_vis_data["color_encoding"], final_vis_data["theta_encoding"], final_vis_data["keywords"])
+        return VisHandler(pie_chart)
+    if  final_vis_data["type"] == "ScatterPlot":
+        scatter_plot = ScatterPlot(working_dataframe, final_vis_data["x_encoding"], final_vis_data["y_encoding"], final_vis_data["keywords"])
+        return VisHandler(scatter_plot)
 
 
 #configuration
@@ -58,7 +67,18 @@ app.config.from_object(__name__)
 CORS(app, resources={r'/*': {'origins': '*'}})
 
 
-#"main"
+#change object
+@app.route('/change', methods=['GET', 'POST'])
+def change_object():
+    if request.method == "POST": 
+        post_data = request.get_json()
+        temp_vis = create_object(session["final_vis_data"])
+        temp_vis.change_vistype(post_data["target_vis"])
+        session["all_data"] = temp_vis.jsonify_vis()
+        session["final_vis_data"] = temp_vis.serialize_object()
+        return session["final_vis_data"]
+
+#nl4dv
 @app.route('/nl4dv', methods=['GET', 'POST'])
 def nl4dv_query():
     if request.method == "POST": 
@@ -69,21 +89,18 @@ def nl4dv_query():
             bar_chart = BarChart(working_dataframe, nl4dv_results["encoding"]["x"], nl4dv_results["encoding"]["y"])
             final_vis =  VisHandler(bar_chart)
             session["all_data"] = final_vis.jsonify_vis()
-            session["final_vis_data"] = final_vis.__dict__
-            print(session["final_vis_data"])
+            session["final_vis_data"] = final_vis.serialize_object()
         if nl4dv_results["vis_type"] == "arc":
             pie_chart = PieChart(working_dataframe, nl4dv_results["encoding"]["color"], nl4dv_results["encoding"]["theta"])
             final_vis =  VisHandler(pie_chart)
             session["all_data"] = final_vis.jsonify_vis()
-            session["final_vis_data"] = json.dumps(final_vis.__dict__, lambda o: o.__dict__, indent=4)
+            session["final_vis_data"] = final_vis.serialize_object()
         if nl4dv_results["vis_type"] == "point":
             scatter_plot = ScatterPlot(working_dataframe, nl4dv_results["encoding"]["x"], nl4dv_results["encoding"]["y"])
             final_vis = VisHandler(scatter_plot)
             session["all_data"] = final_vis.jsonify_vis()
-            session["final_vis_data"] = json.dumps(final_vis.__dict__, lambda o: o.__dict__, indent=4)
-
-    
-    return jsonify(nl4dv_results)
+            session["final_vis_data"] = final_vis.serialize_object()
+    return session["final_vis_data"]
 
 @app.route('/data', methods=['GET'])
 def all_data():
