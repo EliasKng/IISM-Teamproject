@@ -17,6 +17,7 @@ namespace Microsoft.BotBuilderSamples
             ChangeChartType,
             Filter,
             FilterForNumber,
+            FilterForWord,
             Nl4dv,
             ChangeVisualizationPart,
             None
@@ -35,6 +36,7 @@ namespace Microsoft.BotBuilderSamples
             public string[][] country;
             public string[][] financialSampleColumnName;
             public string[][] segment;
+            public string[][] product;
 
             //Filtering for numbers
             public string[] number;
@@ -49,6 +51,7 @@ namespace Microsoft.BotBuilderSamples
                 public InstanceData[] financialSampleColumnName;
                 public InstanceData[] country;
                 public InstanceData[] segment;
+                public InstanceData[] product;
                 public InstanceData[] number;
                 public InstanceData[] comparisonOperator;
             }
@@ -103,6 +106,53 @@ namespace Microsoft.BotBuilderSamples
             }
         }
 
+        //Gibt die relevanten Daten für den FilterForNumber-Intent zurück (Spalte, Operator und Zahl)
+        public (string[], string[], string[], string[], string[]) FilterForWordEntities
+        {
+            get
+            {
+                //hole die eingabe über ML
+                string[] filterAttribute = Entities?.filterAttribute;
+                //Hole Den Spaltenname
+                string[] columnName = Entities?.financialSampleColumnName?[0];
+                //Hole die Länder
+                string[] country = Entities?.country?[0];
+                //Hole die Segmente
+                string[] segment = Entities?.segment?[0];
+                //Hole die Produkte
+                string[] product = Entities?.product?[0];
+
+                //Gib die Werte zurück
+                return (filterAttribute, columnName, country, segment, product);
+            }
+        }
+
+        ////Gibt die relevanten Daten für den Filter-Intent zurück 
+        //public string[] FilterTypeEntity
+        //{
+        //    get
+        //    {
+
+        //        //Filter for country
+        //        if ((string.Equals(Entities?.filterAttribute?[0].ToLower(), "country")) || (string.Equals(Entities?.filterAttribute?[0].ToLower(), "countries")))
+        //        {
+        //            return Entities?.filterAttribute;
+        //        }
+
+        //        //ADD ALL ENTITIES THAT CAN BE FILTERED FOR, ONE OF THOSE ENTITIES HAS TO BE != NULL 
+        //        if ((Entities?.country?[0] == null) && (Entities?.segment?[0] == null))
+        //        {
+        //            return null;
+        //        }
+
+        //        for (int i = 0; i < Entities?.filterAttribute?.Length; i++)
+        //        {
+        //            ConsoleWriter.WriteLineInfo("Attribute " + i + ": " + Entities?.filterAttribute[i]);
+        //        }
+        //        return Entities?.filterAttribute;
+        //    }
+        //}
+
         //Gibt die relevanten Daten für den Change Charttype-Intent zurück 
         public string[] ToChartTypeEntity
         {
@@ -110,31 +160,6 @@ namespace Microsoft.BotBuilderSamples
             {
                 string[][] toChartValue = Entities?.chartType;
                 return toChartValue?[0];
-            }
-        }
-
-        //Gibt die relevanten Daten für den Filter-Intent zurück 
-        public string[] FilterTypeEntity
-        {
-            get
-            {
-             
-                //Filter for country
-                if ((string.Equals(Entities?.filterAttribute?[0].ToLower(), "country")) || (string.Equals(Entities?.filterAttribute?[0].ToLower(), "countries"))) {
-                    return Entities?.filterAttribute;
-                }
-                
-                //ADD ALL ENTITIES THAT CAN BE FILTERED FOR, ONE OF THOSE ENTITIES HAS TO BE != NULL 
-                if ((Entities?.country?[0] == null) && (Entities?.segment?[0] == null))
-                {
-                    return null; 
-                }
-                
-                for(int i = 0; i < Entities?.filterAttribute?.Length; i++)
-                {
-                    ConsoleWriter.WriteLineInfo("Attribute " + i + ": " + Entities?.filterAttribute[i]);
-                }
-                return Entities?.filterAttribute;
             }
         }
 

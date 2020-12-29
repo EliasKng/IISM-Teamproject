@@ -42,7 +42,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             }
             else if (filterForNumberDetails.columnName == null)//Spaltenname fehlt
             {
-                string message = "I could not regonize what Column you want to apply that filter to. Please say something like \"Filter for Sales >= 300\"";
+                string message = "I could not recognize what Column you want to apply that filter to. Please say something like \"Filter for Sales >= 300\"";
 
                 var cancelMessage = MessageFactory.Text(message, CancelMsgText, InputHints.IgnoringInput);
                 await stepContext.Context.SendActivityAsync(cancelMessage, cancellationToken);
@@ -50,7 +50,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             }
             else if (filterForNumberDetails.comparisonOperator == null)//Vergleichsoperator fehlt
             {
-                string message = "I could not regonize what Number Operator (like >, <, >=,...) you want to use in that filter. Please say something like \"Filter for Sales >= 300\"";
+                string message = "I could not recognize what Number Operator (like >, <, >=,...) you want to use in that filter. Please say something like \"Filter for Sales >= 300\"";
 
                 var cancelMessage = MessageFactory.Text(message, CancelMsgText, InputHints.IgnoringInput);
                 await stepContext.Context.SendActivityAsync(cancelMessage, cancellationToken);
@@ -58,7 +58,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             }
             else if (filterForNumberDetails.filterNumber == null) //Die Zahl fehlt
             {
-                string message = "I could not regonize what Number want to filter for (like 300). Please say something like \"Filter for Sales >= 300\"";
+                string message = "I could not recognize what Number want to filter for (like 300). Please say something like \"Filter for Sales >= 300\"";
 
                 var cancelMessage = MessageFactory.Text(message, CancelMsgText, InputHints.IgnoringInput);
                 await stepContext.Context.SendActivityAsync(cancelMessage, cancellationToken);

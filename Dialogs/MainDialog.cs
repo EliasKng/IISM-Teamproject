@@ -21,14 +21,14 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         protected readonly ILogger Logger;
 
         // Dependency injection uses this constructor to instantiate MainDialog
-        public MainDialog(LuisRecognizer luisRecognizer, FilterForNumberDialog filterForNumberDialog, ChangeVisualizationPartDialog changeVisualizationPartDialog,FilterDialog filterDialog, ChangeChartTypeDialog chartTypeDialog, AmbiguityDialog ambiguityDialog, ILogger<MainDialog> logger)
+        public MainDialog(LuisRecognizer luisRecognizer, FilterForNumberDialog filterForNumberDialog, ChangeVisualizationPartDialog changeVisualizationPartDialog, FilterForWordDialog filterForWordDialog, ChangeChartTypeDialog chartTypeDialog, AmbiguityDialog ambiguityDialog, ILogger<MainDialog> logger)
             : base(nameof(MainDialog))
         {
             _luisRecognizer = luisRecognizer;
             Logger = logger;
 
             AddDialog(new TextPrompt(nameof(TextPrompt)));
-            AddDialog(filterDialog);
+            AddDialog(filterForWordDialog);
             AddDialog(chartTypeDialog);
             AddDialog(changeVisualizationPartDialog);
             AddDialog(ambiguityDialog);
@@ -83,22 +83,36 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     return await stepContext.BeginDialogAsync(nameof(ChangeChartTypeDialog), changeChartTypeDetails, cancellationToken);
 
                 //Der Nuter will Filtern (nominal/ordinal)
+                //case VisualizationInteraction.Intent.Filter:
+
+                //    string[] filterResults = luisResult.FilterTypeEntity;
+                //    if (filterResults is null)
+                //    {
+                //        var falseFilterMessageText = $"Sorry, I didn't get that. Please enter a valid {luisResult.TopIntent().intent}-request.";
+                //        var falseFilterMessage = MessageFactory.Text(falseFilterMessageText, falseFilterMessageText, InputHints.IgnoringInput);
+                //        await stepContext.Context.SendActivityAsync(falseFilterMessage, cancellationToken);
+                //        break;
+                //    }
+
+                //    var filterDetails = new FilterDetails()
+                //    {
+                //        multipleFilters = filterResults,
+                //    };
+                //    return await stepContext.BeginDialogAsync(nameof(FilterDialog), filterDetails, cancellationToken);
+
                 case VisualizationInteraction.Intent.Filter:
 
-                    string[] filterResults = luisResult.FilterTypeEntity;
-                    if (filterResults is null)
+                    (string[] columnnameLuis, string[] filterAttributeLuis, string[] countryLuis, string[] segmentLuis, string[] productLuis) = luisResult.FilterForWordEntities;
+                    var filterForWordDetails = new FilterForWordDetails
                     {
-                        var falseFilterMessageText = $"Sorry, I didn't get that. Please enter a valid {luisResult.TopIntent().intent}-request.";
-                        var falseFilterMessage = MessageFactory.Text(falseFilterMessageText, falseFilterMessageText, InputHints.IgnoringInput);
-                        await stepContext.Context.SendActivityAsync(falseFilterMessage, cancellationToken);
-                        break;
-                    }
-
-                    var filterDetails = new FilterDetails()
-                    {
-                        multipleFilters = filterResults,
+                        columnName = columnnameLuis,
+                        filterAttribute = filterAttributeLuis,
+                        country = countryLuis,
+                        segment = segmentLuis,
+                        product = productLuis
                     };
-                    return await stepContext.BeginDialogAsync(nameof(FilterDialog), filterDetails, cancellationToken);
+                    return await stepContext.BeginDialogAsync(nameof(FilterForWordDialog), filterForWordDetails, cancellationToken);
+
 
                 //Der Nutzer will Filtern (Metrisch (kardinal))
                 case VisualizationInteraction.Intent.FilterForNumber:
