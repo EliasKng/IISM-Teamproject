@@ -31,13 +31,13 @@ def prepare_dataframe(dataframe, filter_index_row, values_row, aggregate=None, f
         if filterkeywords:
             if filter_index_row == values_row:
                 df = dataframe.query(" & ".join('{0} {1} {2}'.format("`" + k + "`", cond[0], (final_prep(cond[1]))) for k, cond in filterkeywords.items()))
-                return df[filter_index_row].value_counts().rename_axis(filter_index_row).reset_index(name='counts')
+                return df[filter_index_row].value_counts().rename_axis(filter_index_row).reset_index(name='Counts')
             else:     
                 return pd.pivot_table(dataframe.query(" & ".join('{0} {1} {2}'.format("`" + k + "`", cond[0], (final_prep(cond[1]))) for k, cond in filterkeywords.items())), index=[filter_index_row], values=[values_row], aggfunc={values_row: aggregate})
 
         else: 
             if filter_index_row == values_row:
-                return dataframe[filter_index_row].value_counts().rename_axis(filter_index_row).reset_index(name='counts')
+                return dataframe[filter_index_row].value_counts().rename_axis(filter_index_row).reset_index(name='Counts')
             else:     
                 return pd.pivot_table(dataframe, index=[filter_index_row], values=[values_row], aggfunc={values_row: aggregate})
     else:
