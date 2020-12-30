@@ -40,7 +40,7 @@ working_dataframe = pd.read_excel(os.path.join(".", os.path.dirname(os.path.absp
 
 
 #help function to create object 
-def create_object(final_vis_data): 
+def deserialize_object(final_vis_data): 
     if final_vis_data["type"] == "BarChart": 
         bar_chart = BarChart(working_dataframe, final_vis_data["x_encoding"], final_vis_data["y_encoding"], final_vis_data["keywords"])
         return VisHandler(bar_chart)
@@ -60,11 +60,12 @@ DEBUG = True
 
 # instantiate the app
 app = Flask(__name__)
-app.secret_key = "wbkVWnT0zV!8oQJeiWjDYG6StVzLUG2PwQTr5NHP6$&R^i0huxdt4#eNUXbbsoFOsV*AeLLAsN8jG$lZGsQcJHXuR@hh8RWZoPHWK6d116CZCy^NaMIaz5ukTM3gVopOE5Le8vIC8piX4Eynu10zC0"
+app.secret_key = "wbkVWnT0zV!6StVzLUG2PwQTr5NHP6$&R^i0huxdt4#eNUXbbso8oQJeiWjDYG6StVzLUG2PwQTr5NHP6$&R^i0huxdt4#eNUXbbsoFO"
 app.config.from_object(__name__)
 
 # enable CORS
 CORS(app, resources={r'/*': {'origins': '*'}})
+
 
 
 #change object
@@ -72,11 +73,42 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 def change_object():
     if request.method == "POST": 
         post_data = request.get_json()
-        temp_vis = create_object(session["final_vis_data"])
+        temp_vis = deserialize_object(session["final_vis_data"])
         temp_vis.change_vistype(post_data["target_vis"])
-        session["all_data"] = temp_vis.jsonify_vis()
         session["final_vis_data"] = temp_vis.serialize_object()
         return session["final_vis_data"]
+
+#set keywords 
+@app.route('/keywords/set', methods=['GET', 'POST'])
+def set_keywords():
+    if request.method == "POST":
+        post_data = request.get_json()
+        temp_vis = deserialize_object(session["final_vis_data"])
+        temp_vis.vis_object.set_keywords(post_data["keywords"])
+        session["final_vis_data"] = temp_vis.serialize_object()
+        return session["final_vis_data"]
+
+
+#add/update keyword
+@app.route('/keywords/add', methods=['GET', 'POST'])
+def add_keywords():
+    if request.method == "POST":
+        post_data = request.get_json()
+        temp_vis = deserialize_object(session["final_vis_data"])
+        temp_vis.vis_object.add_keyword(post_data["keywords"])
+        session["final_vis_data"] = temp_vis.serialize_object()
+        return session["final_vis_data"]
+
+#delete keyword
+@app.route('/keywords/delete', methods=['GET', 'POST'])
+def delete_keyword():
+    if request.method == "POST":
+        post_data = request.get_json()
+        temp_vis = deserialize_object(session["final_vis_data"])
+        temp_vis.vis_object.delete_keyword(post_data["keywords"])
+        session["final_vis_data"] = temp_vis.serialize_object()
+        return session["final_vis_data"]
+
 
 #nl4dv
 @app.route('/nl4dv', methods=['GET', 'POST'])
@@ -88,27 +120,20 @@ def nl4dv_query():
         if nl4dv_results["vis_type"] == "bar": 
             bar_chart = BarChart(working_dataframe, nl4dv_results["encoding"]["x"], nl4dv_results["encoding"]["y"])
             final_vis =  VisHandler(bar_chart)
-            session["all_data"] = final_vis.jsonify_vis()
             session["final_vis_data"] = final_vis.serialize_object()
         if nl4dv_results["vis_type"] == "arc":
             pie_chart = PieChart(working_dataframe, nl4dv_results["encoding"]["color"], nl4dv_results["encoding"]["theta"])
             final_vis =  VisHandler(pie_chart)
-            session["all_data"] = final_vis.jsonify_vis()
             session["final_vis_data"] = final_vis.serialize_object()
         if nl4dv_results["vis_type"] == "point":
             scatter_plot = ScatterPlot(working_dataframe, nl4dv_results["encoding"]["x"], nl4dv_results["encoding"]["y"])
             final_vis = VisHandler(scatter_plot)
-            session["all_data"] = final_vis.jsonify_vis()
             session["final_vis_data"] = final_vis.serialize_object()
     return session["final_vis_data"]
 
 @app.route('/data', methods=['GET'])
-def all_data():
-    if "all_data" in session: 
-        return (session["all_data"])
-    else: 
-        return jsonify({"Status" : "Fail"})
-
+def all_data(): 
+    return deserialize_object(session["final_vis_data"]).jsonify_vis()
 
 if __name__ == '__main__':
     app.run()

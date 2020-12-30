@@ -27,15 +27,22 @@ def final_prep(input_list):
 
 #Takes a dataframe and filters for filterkeywords & aggregates by aggretae parameter (e.g. SUM)
 def prepare_dataframe(dataframe, filter_index_row, values_row, aggregate=None, filterkeywords=None): 
-    if aggregate!="Null":
+    if aggregate!=("Null" or "null"):
         if filterkeywords:
-            return pd.pivot_table(dataframe.query(" & ".join('{0} {1} {2}'.format(k, cond[0], (final_prep(cond[1]))) for k, cond in filterkeywords.items())), index=[filter_index_row], values=[values_row], aggfunc={values_row: aggregate})
+            if filter_index_row == values_row:
+                df = dataframe.query(" & ".join('{0} {1} {2}'.format("`" + k + "`", cond[0], (final_prep(cond[1]))) for k, cond in filterkeywords.items()))
+                return df[filter_index_row].value_counts().rename_axis(filter_index_row).reset_index(name='counts')
+            else:     
+                return pd.pivot_table(dataframe.query(" & ".join('{0} {1} {2}'.format("`" + k + "`", cond[0], (final_prep(cond[1]))) for k, cond in filterkeywords.items())), index=[filter_index_row], values=[values_row], aggfunc={values_row: aggregate})
 
         else: 
-            return pd.pivot_table(dataframe, index=[filter_index_row], values=[values_row], aggfunc={values_row: aggregate})
+            if filter_index_row == values_row:
+                return dataframe[filter_index_row].value_counts().rename_axis(filter_index_row).reset_index(name='counts')
+            else:     
+                return pd.pivot_table(dataframe, index=[filter_index_row], values=[values_row], aggfunc={values_row: aggregate})
     else:
         if filterkeywords: 
-            return dataframe.query(" & ".join('{0} {1} {2}'.format(k, cond[0], (final_prep(cond[1]))) for k, cond in filterkeywords.items())).filter([filter_index_row, values_row])
+            return dataframe.query(" & ".join('{0} {1} {2}'.format("`" + k + "`", cond[0], (final_prep(cond[1]))) for k, cond in filterkeywords.items())).filter([filter_index_row, values_row])
         else: 
             return dataframe.filter([filter_index_row, values_row])
 

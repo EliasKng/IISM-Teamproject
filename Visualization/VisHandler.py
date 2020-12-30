@@ -15,61 +15,60 @@ class VisHandler():
 
 
     def change_vistype(self, target_vis): 
-        current_vis = self.vis_object
-        keywords = current_vis.keywords
+        keywords = self.vis_object.keywords
         #currentvis==BarChart 
-        if isinstance(current_vis, BarChart) and target_vis=="ColumnChart":
-            self.vis_object = ColumnChart(current_vis.dataframe, current_vis.get_y_encoding(), current_vis.get_x_encoding(), keywords)
-        elif isinstance(current_vis, BarChart) and target_vis=="PieChart":
-            self.vis_object = PieChart(current_vis.dataframe, current_vis.get_x_encoding(), current_vis.get_y_encoding(), keywords)
-        elif isinstance(current_vis, BarChart) and target_vis=="ScatterPlot":
-            self.vis_object = ScatterPlot(current_vis.dataframe, current_vis.get_x_encoding(), current_vis.get_y_encoding(), keywords)
+        if isinstance(self.vis_object, BarChart) and target_vis=="ColumnChart":
+            self.vis_object = ColumnChart(self.vis_object.dataframe, self.vis_object.get_y_encoding(), self.vis_object.get_x_encoding(), keywords)
+        elif isinstance(self.vis_object, BarChart) and target_vis=="PieChart":
+            self.vis_object = PieChart(self.vis_object.dataframe, self.vis_object.get_x_encoding(), self.vis_object.get_y_encoding(), keywords)
+        elif isinstance(self.vis_object, BarChart) and target_vis=="ScatterPlot":
+            self.vis_object = ScatterPlot(self.vis_object.dataframe, self.vis_object.get_x_encoding(), self.vis_object.get_y_encoding(), keywords)
         #currentvis==ColumnChart 
-        if isinstance(current_vis, ColumnChart) and target_vis=="BarChart":
-            BarChart(current_vis.dataframe, current_vis.get_y_encoding(), current_vis.get_x_encoding(), keywords)
-        elif isinstance(current_vis, ColumnChart) and target_vis=="PieChart":
-            self.vis_object = BarChart(current_vis.dataframe, current_vis.get_y_encoding(), current_vis.get_x_encoding(), keywords)
-        elif isinstance(current_vis, ColumnChart) and target_vis=="ScatterPlot":
-            self.vis_object = ScatterPlot(current_vis.dataframe, current_vis.get_x_encoding(), current_vis.get_y_encoding(), keywords)
+        if isinstance(self.vis_object, ColumnChart) and target_vis=="BarChart":
+            BarChart(self.vis_object.dataframe, self.vis_object.get_y_encoding(), self.vis_object.get_x_encoding(), keywords)
+        elif isinstance(self.vis_object, ColumnChart) and target_vis=="PieChart":
+            self.vis_object = BarChart(self.vis_object.dataframe, self.vis_object.get_y_encoding(), self.vis_object.get_x_encoding(), keywords)
+        elif isinstance(self.vis_object, ColumnChart) and target_vis=="ScatterPlot":
+            self.vis_object = ScatterPlot(self.vis_object.dataframe, self.vis_object.get_x_encoding(), self.vis_object.get_y_encoding(), keywords)
         #currentvis==PieChart
-        if isinstance(current_vis, PieChart) and target_vis=="BarChart":
-            self.vis_object = BarChart(current_vis.dataframe, current_vis.get_color_encoding(), current_vis.get_theta_encoding(), keywords)
-        elif isinstance(current_vis, PieChart) and target_vis=="ColumnChart":
-            self.vis_object = BarChart(current_vis.dataframe, current_vis.get_theta_encoding(), current_vis.get_color_encoding(), keywords)
-        elif isinstance(current_vis, PieChart) and target_vis=="ScatterPlot":
-            self.vis_object = ScatterPlot(current_vis.dataframe, current_vis.get_theta_encoding(), current_vis.get_color_encoding(), keywords) 
+        if isinstance(self.vis_object, PieChart) and target_vis=="BarChart":
+            self.vis_object = BarChart(self.vis_object.dataframe, self.vis_object.get_color_encoding(), self.vis_object.get_theta_encoding(), keywords)
+        elif isinstance(self.vis_object, PieChart) and target_vis=="ColumnChart":
+            self.vis_object = BarChart(self.vis_object.dataframe, self.vis_object.get_theta_encoding(), self.vis_object.get_color_encoding(), keywords)
+        elif isinstance(self.vis_object, PieChart) and target_vis=="ScatterPlot":
+            self.vis_object = ScatterPlot(self.vis_object.dataframe, self.vis_object.get_theta_encoding(), self.vis_object.get_color_encoding(), keywords) 
         #currentvis=Scatterplot 
-        if isinstance(current_vis, ScatterPlot) and target_vis=="ColumnChart":
-            if current_vis.get_y_encoding()["type"] == "nominal" and current_vis.get_x_encoding()["type"] == "quantitative":
-                     x_encoding = current_vis.get_x_encoding()
+        if isinstance(self.vis_object, ScatterPlot) and target_vis=="ColumnChart":
+            if self.vis_object.get_y_encoding()["type"] == "nominal" and self.vis_object.get_x_encoding()["type"] == "quantitative":
+                     x_encoding = self.vis_object.get_x_encoding()
                      x_encoding["aggregate"] = "sum"
-                     self.vis_object = BarChart(current_vis.dataframe, current_vis.get_y_encoding(), x_encoding, keywords)
-            elif current_vis.get_x_encoding()["type"] == "nominal" and current_vis.get_y_encoding()["type"] == "quantitative":
-                    y_encoding = current_vis.get_y_encoding()
+                     self.vis_object = BarChart(self.vis_object.dataframe, self.vis_object.get_y_encoding(), x_encoding, keywords)
+            elif self.vis_object.get_x_encoding()["type"] == "nominal" and self.vis_object.get_y_encoding()["type"] == "quantitative":
+                    y_encoding = self.vis_object.get_y_encoding()
                     y_encoding["aggregate"] = "sum"
-                    self.vis_object = BarChart(current_vis.dataframe, y_encoding, current_vis.get_x_encoding(), keywords)
+                    self.vis_object = BarChart(self.vis_object.dataframe, y_encoding, self.vis_object.get_x_encoding(), keywords)
             else: 
-                self.vis_object = BarChart(current_vis.dataframe, current_vis.get_x_encoding(), current_vis.get_y_encoding(), keywords)
-        elif isinstance(current_vis, ScatterPlot) and target_vis=="PieChart":
-            if current_vis.get_x_encoding()["type"] == "nominal" and current_vis.get_y_encoding()["type"] == "quantitative":
-                     y_encoding = current_vis.get_y_encoding()
+                self.vis_object = BarChart(self.vis_object.dataframe, self.vis_object.get_x_encoding(), self.vis_object.get_y_encoding(), keywords)
+        elif isinstance(self.vis_object, ScatterPlot) and target_vis=="PieChart":
+            if self.vis_object.get_x_encoding()["type"] == "nominal" and self.vis_object.get_y_encoding()["type"] == "quantitative":
+                     y_encoding = self.vis_object.get_y_encoding()
                      y_encoding["aggregate"] = "sum"
-                     self.vis_object = PieChart(current_vis.dataframe, current_vis.get_x_encoding(), y_encoding, keywords)
-            elif current_vis.get_y_encoding()["type"] == "nominal" and current_vis.get_x_encoding()["type"] == "quantitative":
-                    x_encoding = current_vis.get_x_encoding()
+                     self.vis_object = PieChart(self.vis_object.dataframe, self.vis_object.get_x_encoding(), y_encoding, keywords)
+            elif self.vis_object.get_y_encoding()["type"] == "nominal" and self.vis_object.get_x_encoding()["type"] == "quantitative":
+                    x_encoding = self.vis_object.get_x_encoding()
                     x_encoding["aggregate"] = "sum"
-                    self.vis_object = PieChart(current_vis.dataframe, x_encoding, current_vis.get_y_encoding(), keywords)
-        elif isinstance(current_vis, ScatterPlot) and target_vis=="BarChart":
-            if current_vis.get_x_encoding()["type"] == "nominal" and current_vis.get_y_encoding()["type"] == "quantitative":
-                     y_encoding = current_vis.get_y_encoding()
+                    self.vis_object = PieChart(self.vis_object.dataframe, x_encoding, self.vis_object.get_y_encoding(), keywords)
+        elif isinstance(self.vis_object, ScatterPlot) and target_vis=="BarChart":
+            if self.vis_object.get_x_encoding()["type"] == "nominal" and self.vis_object.get_y_encoding()["type"] == "quantitative":
+                     y_encoding = self.vis_object.get_y_encoding()
                      y_encoding["aggregate"] = "sum"
-                     self.vis_object = BarChart(current_vis.dataframe, current_vis.get_x_encoding(), y_encoding, keywords)
-            elif current_vis.get_y_encoding()["type"] == "nominal" and current_vis.get_x_encoding()["type"] == "quantitative":
-                    x_encoding = current_vis.get_x_encoding()
+                     self.vis_object = BarChart(self.vis_object.dataframe, self.vis_object.get_x_encoding(), y_encoding, keywords)
+            elif self.vis_object.get_y_encoding()["type"] == "nominal" and self.vis_object.get_x_encoding()["type"] == "quantitative":
+                    x_encoding = self.vis_object.get_x_encoding()
                     x_encoding["aggregate"] = "sum"
-                    self.vis_object = BarChart(current_vis.dataframe, x_encoding, current_vis.get_y_encoding(), keywords)
+                    self.vis_object = BarChart(self.vis_object.dataframe, x_encoding, self.vis_object.get_y_encoding(), keywords)
             else: 
-                self.vis_object = BarChart(current_vis.dataframe, current_vis.get_x_encoding(), current_vis.get_y_encoding(), keywords)
+                self.vis_object = BarChart(self.vis_object.dataframe, self.vis_object.get_x_encoding(), self.vis_object.get_y_encoding(), keywords)
         
         
 
@@ -78,8 +77,8 @@ class VisHandler():
         result = (self.vis_object.get_data()).reset_index().to_json(orient="split")
         parsed = json.loads(result)
         parsed.update({"-type": self.vis_object.type})
-        if self.vis_object.type=="ScatterPlot": 
-            parsed.pop("index")
+        #entferne überflüssige infos 
+        parsed.pop("index")
         return json.dumps(parsed, indent=4)
     
 

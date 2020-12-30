@@ -1,6 +1,10 @@
 import ast
 import json
 
+
+
+
+
 def nl4dv_output_parser(nl4dv_output):
     
     output = nl4dv_output
@@ -26,6 +30,9 @@ def nl4dv_output_parser(nl4dv_output):
     #It depends on the VisType, which information is shown
     axisEncoding = vega_spec["vlSpec"]["encoding"]
     
+
+
+
     #Wrap extracted Information into a new Dictionary
     specification = {
         "attributes" : attributes,

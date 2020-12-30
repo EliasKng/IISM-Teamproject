@@ -30,8 +30,8 @@ class BarChart(Visualization):
     def get_y_encoding(self): 
         return self.y_encoding
 
-    #set fields for x and or y axis s
-    def set_axis(self, xaxis=None, yaxis=None):
+    #Equivalent to set_fields/set_axis function
+    def set_fields(self, xaxis=None, yaxis=None):
         if not xaxis==None:
             self.x_encoding["field"] = xaxis
         if not yaxis==None:    

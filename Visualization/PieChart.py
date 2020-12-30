@@ -23,7 +23,7 @@ class PieChart(Visualization):
             "field": theta_encoding["field"],
             "type": theta_encoding["type"]
         }
-    #Equivalent to set_axis function
+    #Equivalent to set_fields/set_axis function
     def set_fields(self, color_field=None, theta_field=None):
         if not color_field==None:
             self.color_encoding["field"] = color_field
@@ -44,7 +44,7 @@ class PieChart(Visualization):
         angleRowName = self.dataframe_prepared.columns.values[0]
         angle_series = calculate_theta(self.dataframe_prepared[angleRowName])
         
-        self.dataframe_prepared["Sales"] = angle_series.values
+        self.dataframe_prepared[self.theta_encoding["field"]] = angle_series.values
         return self.dataframe_prepared
     
     def serialize_object(self): 

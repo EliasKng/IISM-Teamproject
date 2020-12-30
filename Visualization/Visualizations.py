@@ -19,10 +19,14 @@ class Visualization(object):
     def set_keywords(self, keywords):
         self.keywords = keywords
 
-    #ndd Keyword(s) to existing keyword query
-    def add_filter(self, additional_filter):
+    #add Keyword(s) to existing keyword query
+    def add_keyword(self, additional_filter):
         self.keywords.update(additional_filter) 
     
+    #delete Keyword(s) from existing keyword query
+    def delete_keyword(self, delete_filter):
+        self.keywords.pop(delete_filter, "There is no " + delete_filter + " in your query") 
+
     #returns columnnames of unfiltered dataframe 
     def get_columnnames(self):
         return self.columns

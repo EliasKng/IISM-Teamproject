@@ -54,7 +54,7 @@ print(pd.pivot_table(working_dataframe, index='Country', aggfunc='sum'))
 '''
 # BarChart
 b1 = BarChart(working_dataframe, x_encoding, y_encoding, keywords)
-b1.set_axis()
+b1.set_fields()
 print(type(b1))
 print(b1.get_data())
 #print(b1.normalize_values("sum"))
