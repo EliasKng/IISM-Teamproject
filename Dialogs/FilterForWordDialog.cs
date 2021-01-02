@@ -14,13 +14,14 @@ namespace Microsoft.BotBuilderSamples.Dialogs
     {
         private const string DestinationStepMsgText = "Please choose an attribute from the list!";
 
-        // Define a "done" response for the company selection prompt.
+        // Define a "done" response for the country selection prompt.
         private const string DoneOption = "done";
 
         // Define value names for values tracked inside the dialogs.
         private const string CountriesSelected = "value-countriesSelected";
 
 
+        // options of countries to choose from
         private readonly string[] _countryOptions = new string[]
         {
             "Canada", "France", "Germany", "Mexico", "United States of America"
@@ -28,12 +29,10 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
         public FilterForWordDialog() : base(nameof(FilterForWordDialog))
         {
-            HelpMsgText = "In this step type in e.g.: \"Filter for Sales >= 300\"";
-            CancelMsgText = "Cancelling the Filter for Number Dialog";
-            //AddDialog(new TextPrompt(nameof(TextPrompt)));
+            HelpMsgText = "In this step type in e.g.: \"Filter for enterprise.\"";
+            CancelMsgText = "Cancelling the Filter for Word Dialog";
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
-            AddDialog(new DateResolverDialog());
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 SelectionStepAsync,
@@ -51,31 +50,25 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 return string.Empty;
             }
             // Return char and concat substring.
-            //s = s.ToLower(); //does'nt work for United States of America
             return char.ToUpper(s[0]) + s.Substring(1);
         }
 
-        //Hier findet checkt er, ob Daten fehlen oder wir ambiguitäten vorliegen haben
+        //Check if input is empty or additionally it is asked to filter for countries, then add country option list
         private async Task<DialogTurnResult> SelectionStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-
-            //ConsoleWriter.WriteLineInfo("Type: " + stepContext.Options.GetType().ToString());
-
             // Continue using the same selection list, if any, from the previous iteration of this dialog.
             var list = stepContext.Options as List<string> ?? new List<string>();
 
-            //bool country = false;
             bool filterForCountry = false;
 
             if (stepContext.Options.GetType().ToString().Equals("Microsoft.BotBuilderSamples.FilterForWordDetails"))
             {
                 FilterForWordDetails filterForWordDetails = (FilterForWordDetails)stepContext.Options;
-
-
+                
+                // Check if filter for Word Dialog input is empty
                 if (filterForWordDetails.columnName == null)
-                {
+                {   
                     string messageNull = "I could not recognize what column you want to apply that filter to. Please say something like \"Filter for Germany and Canada\"";
-
                     var cancelMessage = MessageFactory.Text(messageNull, CancelMsgText, InputHints.IgnoringInput);
                     await stepContext.Context.SendActivityAsync(cancelMessage, cancellationToken);
                     return await stepContext.CancelAllDialogsAsync(cancellationToken);
@@ -111,6 +104,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     return await stepContext.EndDialogAsync(filterForWordDetails.filterAttribute);
                 }
             }
+
 
             //if user entered "FILTER FOR COUNTRY" OR "COUNTRIES":
 
