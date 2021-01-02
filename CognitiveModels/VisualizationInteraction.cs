@@ -100,8 +100,6 @@ namespace Microsoft.BotBuilderSamples
                 //get number
                 string filterNumber = Entities.number?[0];
 
-
-                //Gib beide Werte zurück
                 return (columnName, comparisonOperator, filterNumber);
             }
         }
