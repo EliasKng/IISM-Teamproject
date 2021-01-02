@@ -82,24 +82,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     //Check if changechartTypeDetails is null (in the Dialog) and ask for information if it is null
                     return await stepContext.BeginDialogAsync(nameof(ChangeChartTypeDialog), changeChartTypeDetails, cancellationToken);
 
-                //Der Nuter will Filtern (nominal/ordinal)
-                //case VisualizationInteraction.Intent.Filter:
-
-                //    string[] filterResults = luisResult.FilterTypeEntity;
-                //    if (filterResults is null)
-                //    {
-                //        var falseFilterMessageText = $"Sorry, I didn't get that. Please enter a valid {luisResult.TopIntent().intent}-request.";
-                //        var falseFilterMessage = MessageFactory.Text(falseFilterMessageText, falseFilterMessageText, InputHints.IgnoringInput);
-                //        await stepContext.Context.SendActivityAsync(falseFilterMessage, cancellationToken);
-                //        break;
-                //    }
-
-                //    var filterDetails = new FilterDetails()
-                //    {
-                //        multipleFilters = filterResults,
-                //    };
-                //    return await stepContext.BeginDialogAsync(nameof(FilterDialog), filterDetails, cancellationToken);
-
+                // user wants to filter for country, product or segment
                 case VisualizationInteraction.Intent.Filter:
 
                     (string[] columnnameLuis, string[] filterAttributeLuis, string[] countryLuis, string[] segmentLuis, string[] productLuis) = luisResult.FilterForWordEntities;
@@ -114,7 +97,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     return await stepContext.BeginDialogAsync(nameof(FilterForWordDialog), filterForWordDetails, cancellationToken);
 
 
-                //Der Nutzer will Filtern (Metrisch (kardinal))
+                //user wants to filter for number, cardinal
                 case VisualizationInteraction.Intent.FilterForNumber:
 
                     (string[] columnNameLuis, string comparisonOperatorLuis, string filterNumberLuis) = luisResult.FilterForNumberEntities;
@@ -128,8 +111,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     
                     return await stepContext.BeginDialogAsync(nameof(FilterForNumberDialog), filterForNumberDetails, cancellationToken);
 
-                //Der Nutzer hat eine Komplette Query zur erstellung einer Visualisierung eingegeben ==> sende diese an Nl4DV
-                case VisualizationInteraction.Intent.Nl4dv:
+                //user input is a complete query to be visualized -> send query to nl4dv
 
                     //Gets the whole message from the User to the bot out of the luis result
                     string nl4dvQuery = luisResult.Text;
@@ -139,7 +121,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     //Here we would have to call the NL4DV function in the event handler (in the Python project)
                     break;
 
-                //Der nutzer will z.B. die Legende oder y-Achse ändern (eine andere Spalte darauf setzen)
+                // user wants to change e.g. legend or y-axis
                 case VisualizationInteraction.Intent.ChangeVisualizationPart:
 
                     (string visualizationPartLuis, string[] toValueLuis) = luisResult.ChangeVisualizationPartEntities;
@@ -153,7 +135,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
                     return await stepContext.BeginDialogAsync(nameof(ChangeVisualizationPartDialog), changeVisualizationPartDetails, cancellationToken);
 
-                //Der intent wurde nicht erkannt
+                //intent not recognized
                 default:
                     // Catch all for unhandled intents
                     var didntUnderstandMessageText = $"Sorry, I didn't get that. Please try asking in a different way (intent was {luisResult.TopIntent().intent})";
@@ -165,7 +147,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             return await stepContext.NextAsync(null, cancellationToken);
         }
 
-        //Wir haveb den Dialog durchlaufen ==> von vorne starten
+        //Dialog done -> start new from beginning
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var promptMessage = "What else can I do for you?";

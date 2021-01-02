@@ -1,21 +1,21 @@
 namespace Microsoft.BotBuilderSamples
 {
-    //Hier werden alle Relevanten daten gespeichert, die gebraucht werden, wenn ein Metrischer Filter erstellt werden soll
+    //all relevant information needed for filtering for words
     public class FilterForWordDetails
     {
-        //Speichert Spalten, die genannt werden
+        //all entities
         public string[] columnName { get; set; }
 
-        //speicher Machine learned
+        //Machine learned entities
         public string[] filterAttribute { get; set; }
 
-        //Speichert das Land (z.B. Canada, Germany)
+        //Saves the countries entered
         public string[] country { get; set; }
 
-        //Speichert segments, die genannt werden (bsp.: Small business, enterprise)
+        //saves segments entered
         public string[] segment { get; set; }
 
-        //Speichert Produkte, die genannt werden
+        //saves entered products
         public string[] product { get; set; }
     }
 }

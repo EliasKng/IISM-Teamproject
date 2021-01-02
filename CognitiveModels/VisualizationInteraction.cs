@@ -6,8 +6,8 @@ using Microsoft.Bot.Builder.AI.Luis;
 
 namespace Microsoft.BotBuilderSamples
 {
-    //Diese Klasse speichert die JSON antwort von Luis
-    //Die klasse muss genau zu den JSON Feedback passen, damit der RecognizeAsync aus der Flightbookingrecognizer.cs das LUIS Feedback richtig parsen kann.
+    // class saves JSON answer from LUIS
+    // class has to exactlz fit JSON feedback, so that RecognizeAsync can parse LUIS Feedback perfectly
     public partial class VisualizationInteraction : IRecognizerConvert
     {
         public string Text;
@@ -26,7 +26,7 @@ namespace Microsoft.BotBuilderSamples
 
         public class _Entities
         {
-            // Lists: Hier drin wird das erkannte entity gespeichert (z.B. barchart)
+            // Lists: save recognized entity (e.g. barchart)
             public string[][] chartType;
             public string[] filterAttribute;
             public string[][] visualizationPart;
@@ -42,7 +42,7 @@ namespace Microsoft.BotBuilderSamples
             public string[] number;
             public string[][] comparisonOperator;
 
-            // Instance: Hier wird gespeichert, welchen Text der Benutzer in der Query tatsächlich eingegeben hat (z.B. bar-chart aus Entities._instance.chartType[0].Text)
+            // Instance: saves what text user has aqtually put into the query (e.g. bar-chart from Entities._instance.chartType[0].Text)
             public class _Instance
             {
                 public InstanceData[] chartType;
@@ -88,16 +88,16 @@ namespace Microsoft.BotBuilderSamples
             return (maxIntent, max);
         }
 
-        //Gibt die relevanten Daten für den FilterForNumber-Intent zurück (Spalte, Operator und Zahl)
+        // returns relevant data for filterForNumber-Intent (column, Operator and number)
         public (string[], string, string) FilterForNumberEntities
         {
             get
             {
-                //Hole Den Spaltenname
+                //Hget column name
                 string[] columnName = Entities?.financialSampleColumnName?[0];
-                //Hole den Operator
+                //get operator
                 string comparisonOperator = Entities?.comparisonOperator?[0]?[0];
-                //Hole die Zahl
+                //get number
                 string filterNumber = Entities.number?[0];
 
 
@@ -106,54 +106,23 @@ namespace Microsoft.BotBuilderSamples
             }
         }
 
-        //Gibt die relevanten Daten für den FilterForNumber-Intent zurück (Spalte, Operator und Zahl)
+        //returns relevant data for filterForWord/Filter-Intent 
         public (string[], string[], string[], string[], string[]) FilterForWordEntities
         {
             get
             {
-                //hole die eingabe über ML
                 string[] filterAttribute = Entities?.filterAttribute;
-                //Hole Den Spaltenname
                 string[] columnName = Entities?.financialSampleColumnName?[0];
-                //Hole die Länder
                 string[] country = Entities?.country?[0];
-                //Hole die Segmente
                 string[] segment = Entities?.segment?[0];
-                //Hole die Produkte
                 string[] product = Entities?.product?[0];
 
-                //Gib die Werte zurück
                 return (filterAttribute, columnName, country, segment, product);
             }
         }
 
-        ////Gibt die relevanten Daten für den Filter-Intent zurück 
-        //public string[] FilterTypeEntity
-        //{
-        //    get
-        //    {
 
-        //        //Filter for country
-        //        if ((string.Equals(Entities?.filterAttribute?[0].ToLower(), "country")) || (string.Equals(Entities?.filterAttribute?[0].ToLower(), "countries")))
-        //        {
-        //            return Entities?.filterAttribute;
-        //        }
-
-        //        //ADD ALL ENTITIES THAT CAN BE FILTERED FOR, ONE OF THOSE ENTITIES HAS TO BE != NULL 
-        //        if ((Entities?.country?[0] == null) && (Entities?.segment?[0] == null))
-        //        {
-        //            return null;
-        //        }
-
-        //        for (int i = 0; i < Entities?.filterAttribute?.Length; i++)
-        //        {
-        //            ConsoleWriter.WriteLineInfo("Attribute " + i + ": " + Entities?.filterAttribute[i]);
-        //        }
-        //        return Entities?.filterAttribute;
-        //    }
-        //}
-
-        //Gibt die relevanten Daten für den Change Charttype-Intent zurück 
+        //returns relevant data for ChangeChartType-Intent
         public string[] ToChartTypeEntity
         {
             get
@@ -163,14 +132,14 @@ namespace Microsoft.BotBuilderSamples
             }
         }
 
-        //Gibt die relevanten Daten für den ChangeVisualizationPart-Intent zurück 
+        //returns relevant data for ChangeVisualizationPart-Intent
         public (string, string[]) ChangeVisualizationPartEntities
         {
             get
             {
-                //Nimm das erste erkannte Entity heraus und gebe es zurück (visualizationPart)
+                //take first entity recognized and return it (visualizationPart)
                 string visualizationPart = Entities?.visualizationPart?[0]?[0];
-                //Nimm das erste erkannte Entity heraus und gebe es zurück (toValue (also zu was es geändert werden soll))
+                //take first entity recognized and return it (toValue (what should visualizationPart be changed to))
                 string[] toValue = Entities?.financialSampleColumnName?[0];
                 ConsoleWriter.WriteLineInfo("Get ChangeVisualizationPartEntities: Change " + visualizationPart + "To " + toValue);
 

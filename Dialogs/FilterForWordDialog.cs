@@ -100,8 +100,9 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 //Breaks if we did not recognize any countries
                 if (!filterForCountry)
                 {
+                    filterForWordDetails.columnName = list.ToArray();
                     ConsoleWriter.WriteLineInfo("Filter for: " + string.Join(", ", list));
-                    return await stepContext.EndDialogAsync(filterForWordDetails.filterAttribute);
+                    return await stepContext.EndDialogAsync(filterForWordDetails.columnName);
                 }
             }
 
@@ -166,6 +167,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             {
                 // If they're done, exit and return their list.
                 ConsoleWriter.WriteLineInfo("Filter for: " + string.Join(", ", list));
+                FilterForWordDetails filterForWordDetails = new FilterForWordDetails();
+                filterForWordDetails.columnName = list.ToArray();
 
                 return await stepContext.EndDialogAsync(list, cancellationToken);
             }

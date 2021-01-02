@@ -1,14 +1,15 @@
 namespace Microsoft.BotBuilderSamples
 {
-    //Hier werden alle Relevanten daten gespeichert, die gebraucht werden, wenn ein Metrischer Filter erstellt werden soll
+    //saves all relevant information needed for a metric filter
     public class FilterForNumberDetails
     {
-        //Speichert alle spalten die infrage kommen (ambiguity)
+        //Saves all input that are worth considering including ambiguities
         public string[] columnName { get; set; }
 
-        //Speichert den Operator (z.B. > oder >= oder = oder <)
+        //Saves the operator e.g. >, <, >= or <= 
         public string comparisonOperator { get; set; }
-        //Speichert die Zahl, die mit dem Operator verbunden ist.
+
+        //Saves the number that comes with the operator
         public string filterNumber { get; set; }
     }
 }
