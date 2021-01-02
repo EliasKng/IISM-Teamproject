@@ -78,6 +78,8 @@ def change_object():
         session["final_vis_data"] = temp_vis.serialize_object()
         return session["final_vis_data"]
 
+
+#**************************KEYWORDS********************************************
 #set keywords 
 @app.route('/keywords/set', methods=['GET', 'POST'])
 def set_keywords():
@@ -109,6 +111,21 @@ def delete_keyword():
         session["final_vis_data"] = temp_vis.serialize_object()
         return session["final_vis_data"]
 
+#************************************************************************************
+#set/change aggregate 
+@app.route('/change-aggregate', methods=['GET', 'POST'])
+def change_aggregate():
+    if request.method == "POST":
+        post_data = request.get_json()
+        temp_vis = deserialize_object(session["final_vis_data"])
+        if post_data["aggregate"].get("x-color") and post_data["aggregate"].get("y-theta"):
+            temp_vis.vis_object.set_aggregate(post_data["aggregate"]["x-color"], post_data["aggregate"]["x-color"])
+        elif post_data["aggregate"].get("x-color"):
+            temp_vis.vis_object.set_aggregate(post_data["aggregate"]["x-color"])
+        else:
+            temp_vis.vis_object.set_aggregate(None, post_data["aggregate"]["y-theta"])
+        session["final_vis_data"] = temp_vis.serialize_object()
+        return session["final_vis_data"]
 
 #nl4dv
 @app.route('/nl4dv', methods=['GET', 'POST'])
@@ -131,6 +148,10 @@ def nl4dv_query():
             session["final_vis_data"] = final_vis.serialize_object()
     return session["final_vis_data"]
 
+
+
+
+#Data for frontend
 @app.route('/data', methods=['GET'])
 def all_data(): 
     return deserialize_object(session["final_vis_data"]).jsonify_vis()

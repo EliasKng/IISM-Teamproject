@@ -25,7 +25,7 @@ class VisHandler():
             self.vis_object = ScatterPlot(self.vis_object.dataframe, self.vis_object.get_x_encoding(), self.vis_object.get_y_encoding(), keywords)
         #currentvis==ColumnChart 
         if isinstance(self.vis_object, ColumnChart) and target_vis=="BarChart":
-            BarChart(self.vis_object.dataframe, self.vis_object.get_y_encoding(), self.vis_object.get_x_encoding(), keywords)
+            self.vis_object = BarChart(self.vis_object.dataframe, self.vis_object.get_y_encoding(), self.vis_object.get_x_encoding(), keywords)
         elif isinstance(self.vis_object, ColumnChart) and target_vis=="PieChart":
             self.vis_object = BarChart(self.vis_object.dataframe, self.vis_object.get_y_encoding(), self.vis_object.get_x_encoding(), keywords)
         elif isinstance(self.vis_object, ColumnChart) and target_vis=="ScatterPlot":
