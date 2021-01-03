@@ -112,6 +112,22 @@ def delete_keyword():
         return session["final_vis_data"]
 
 #************************************************************************************
+#set/change fields 
+@app.route('/change-fields', methods=['GET', 'POST'])
+def change_fields():
+    if request.method == "POST":
+        post_data = request.get_json()
+        temp_vis = deserialize_object(session["final_vis_data"])
+        if post_data["fields"].get("x-color") and post_data["fields"].get("y-theta"):
+            temp_vis.vis_object.set_fields(post_data["fields"]["x-color"], post_data["aggregate"]["x-color"])
+        elif post_data["fields"].get("x-color"):
+            temp_vis.vis_object.set_fields(post_data["fields"]["x-color"])
+        else:
+            temp_vis.vis_object.set_fields(None, post_data["fields"]["y-theta"])
+        session["final_vis_data"] = temp_vis.serialize_object()
+        return session["final_vis_data"]
+
+
 #set/change aggregate 
 @app.route('/change-aggregate', methods=['GET', 'POST'])
 def change_aggregate():
