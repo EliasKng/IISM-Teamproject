@@ -1,7 +1,3 @@
-//Nur hier vorhanden ==> Abändern?s
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -16,8 +12,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         protected string CancelMsgText = "Cancelling...";
         protected string FilterMsgText = "Please type in: Filter for e.g. Canada.";
 
-        public CancelAndHelpDialog(string id)
-            : base(id)
+        public CancelAndHelpDialog(string id) : base(id)
         {
         }
 

@@ -1,7 +1,3 @@
-//Können wir fast so lassen, ist nicht auf das Flugzeugbeispiel angewandt
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -19,6 +15,7 @@ namespace Microsoft.BotBuilderSamples
             var luisIsConfigured = !string.IsNullOrEmpty(configuration["LuisAppId"]) && !string.IsNullOrEmpty(configuration["LuisAPIKey"]) && !string.IsNullOrEmpty(configuration["LuisAPIHostName"]);
             if (luisIsConfigured)
             {
+                //Here the LuisAPIKey and AppID is set from the appsettings.json
                 var luisApplication = new LuisApplication(
                     configuration["LuisAppId"],
                     configuration["LuisAPIKey"],

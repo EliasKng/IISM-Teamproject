@@ -1,10 +1,3 @@
-//Neu schreiben / abändern
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -44,6 +37,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             InitialDialogId = nameof(WaterfallDialog);
         }
 
+        //Say hello to the user and ask what can I help you with today
         private async Task<DialogTurnResult> IntroStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             if (!_luisRecognizer.IsConfigured)
@@ -60,7 +54,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
         }
 
-        //Hiere wird das Luis Result ausgewertet. Daraus wird der jeweilige Intend abgeleitet (switch case) und dann je nach case anders vorgegangen
+        //This function is called every time the user enters an input. The intent is determined in the switch case block. From there we call the needed Dialogs
         private async Task<DialogTurnResult> ActStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var luisResult = await _luisRecognizer.RecognizeAsync<VisualizationInteraction>(stepContext.Context, cancellationToken);
@@ -68,7 +62,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
             switch (luisResult.TopIntent().intent)
             {
-                //Der Nutzer will den Visualisierungstypen ändern
+                //The user wants to change the charttype
                 case VisualizationInteraction.Intent.ChangeChartType:
 
                     string[] chartTypeResults = luisResult.ToChartTypeEntity;
@@ -82,7 +76,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     //Check if changechartTypeDetails is null (in the Dialog) and ask for information if it is null
                     return await stepContext.BeginDialogAsync(nameof(ChangeChartTypeDialog), changeChartTypeDetails, cancellationToken);
 
-                // user wants to filter for country, product or segment
+                // user wants to filter for country, product or segment (nominal Rows)
                 case VisualizationInteraction.Intent.Filter:
 
                     (string[] columnnameLuis, string[] filterAttributeLuis, string[] countryLuis, string[] segmentLuis, string[] productLuis) = luisResult.FilterForWordEntities;
@@ -97,7 +91,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     return await stepContext.BeginDialogAsync(nameof(FilterForWordDialog), filterForWordDetails, cancellationToken);
 
 
-                //user wants to filter for number, cardinal
+                //user wants to filter for number (cardinal rows)
                 case VisualizationInteraction.Intent.FilterForNumber:
 
                     (string[] columnNameLuis, string comparisonOperatorLuis, string filterNumberLuis) = luisResult.FilterForNumberEntities;
@@ -112,7 +106,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     return await stepContext.BeginDialogAsync(nameof(FilterForNumberDialog), filterForNumberDetails, cancellationToken);
 
                 //user input is a complete query to be visualized -> send query to nl4dv
-
+                case VisualizationInteraction.Intent.Nl4dv:
                     //Gets the whole message from the User to the bot out of the luis result
                     string nl4dvQuery = luisResult.Text;
 

@@ -17,12 +17,11 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         {
             HelpMsgText = "In this step type in e.g.: \"Filter for Sales >= 300\"";
             CancelMsgText = "Cancelling the Filter for Number Dialog";
-            //AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
-                DestinationStepAsync,
+                FirstStepAsync,
                 FinalStepAsync,
             }));
 
@@ -31,15 +30,15 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         }
 
         //Hier findet checkt er, ob Daten fehlen oder wir ambiguitäten vorliegen haben
-        private async Task<DialogTurnResult> DestinationStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> FirstStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var filterForNumberDetails = (FilterForNumberDetails)stepContext.Options;
-            if (filterForNumberDetails.columnName?.Length > 1) //AMbiguitäten?
+            if (filterForNumberDetails.columnName?.Length > 1) //Do we have Ambiguities?
             {
                 //We have ambiguities (more than one Entity) ==> ask the user with the AmbiguityDialog
                 return await stepContext.BeginDialogAsync(nameof(AmbiguityDialog), filterForNumberDetails.columnName, cancellationToken);
             }
-            else if (filterForNumberDetails.columnName == null)//Spaltenname fehlt
+            else if (filterForNumberDetails.columnName == null)//Rowname is missing
             {
                 string message = "I could not recognize what Column you want to apply that filter to. Please say something like \"Filter for Sales >= 300\"";
 
@@ -47,7 +46,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 await stepContext.Context.SendActivityAsync(cancelMessage, cancellationToken);
                 return await stepContext.CancelAllDialogsAsync(cancellationToken);
             }
-            else if (filterForNumberDetails.comparisonOperator == null)//Vergleichsoperator fehlt
+            else if (filterForNumberDetails.comparisonOperator == null)//Comparison operator is missing
             {
                 string message = "I could not recognize what Number Operator (like >, <, >=,...) you want to use in that filter. Please say something like \"Filter for Sales >= 300\"";
 
@@ -55,7 +54,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 await stepContext.Context.SendActivityAsync(cancelMessage, cancellationToken);
                 return await stepContext.CancelAllDialogsAsync(cancellationToken);
             }
-            else if (filterForNumberDetails.filterNumber == null) //Die Zahl fehlt
+            else if (filterForNumberDetails.filterNumber == null) //The number is missing
             {
                 string message = "I could not recognize what Number want to filter for (like 300). Please say something like \"Filter for Sales >= 300\"";
 
@@ -64,17 +63,16 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 return await stepContext.CancelAllDialogsAsync(cancellationToken);
             }
 
-            //Alle gegebenen Daten sind eindeutig ==> gehe zum FInalstep
+            //No ambiguities and no missing values
             return await stepContext.NextAsync(filterForNumberDetails.columnName[0], cancellationToken);
         }
 
-        //Hier wird ggf. der Ambiguity Dialog ausgewertet (erste if) und dann das finale Ergebnis des Dialogs auf der KOnsole ausgegeben
-        //stepContext wird von vorherigem Step übernommen
+        //Summarize results (e.g. by extracting information from the ambiguity dialog)
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var filterForNumberDetails = (FilterForNumberDetails)stepContext.Options;
 
-            //We are comming from a ChoicePromt ==> Convert result to FoundCHoice
+            //We are comming from a ChoicePromt ==> Convert result to FoundCHoice (in this case we come from an ambiguity dialog. Otherwise there would have been no ChoicePromt)
             if (stepContext.Result.GetType().ToString().Equals("Microsoft.Bot.Builder.Dialogs.Choices.FoundChoice"))
             {
                 //Extract the picked result from the step-context

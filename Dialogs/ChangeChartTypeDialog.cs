@@ -8,9 +8,10 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 
 namespace Microsoft.BotBuilderSamples.Dialogs
 {
+    //This dialog is used, when a user wants to change a charttype to a new charttype.
+    //It is determined, wheather the user made an underspecified task, or if there are even ambiguities
     public class ChangeChartTypeDialog : CancelAndHelpDialog
     {
-        //Zu dem CHarttyp wollen wir wechseln
         private const string DestinationStepMsgText = "Please choose a charttype from the list!";
 
         private readonly string[] _chartTypeOptions = new string[]
@@ -22,12 +23,11 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         {
             HelpMsgText = "In this step type in: \"Change charttype to e.g. \"barchart\" or \"scatterplot\"\"";
             CancelMsgText = "Cancelling the change charttype Dialog";
-            //AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
-                DestinationStepAsync,
+                ToCharttypeStepAsync,
                 FinalStepAsync,
             }));
 
@@ -35,12 +35,10 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             InitialDialogId = nameof(WaterfallDialog);
         }
 
-        //Hier findet er raus, zu welchem Charttyp wir wechseln wollen
-        private async Task<DialogTurnResult> DestinationStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> ToCharttypeStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
+            //Get the given Object from the step context
             var changeChartTypeDetails = (ChangeChartTypeDetails)stepContext.Options;
-
-            
 
             if(changeChartTypeDetails.AmbiguousChartTypes?.Length > 1)
             {
@@ -48,6 +46,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 return await stepContext.BeginDialogAsync(nameof(AmbiguityDialog), changeChartTypeDetails.AmbiguousChartTypes, cancellationToken);
             } else if (changeChartTypeDetails.ToChartType == null)
             {
+                //We have an underspecified task ==> get the missing information by letting the user choose from a list.
                 var options = _chartTypeOptions.ToList();
                 var promptOptions = new PromptOptions
                 {
@@ -57,15 +56,11 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 };
 
                 return await stepContext.PromptAsync(nameof(ChoicePrompt), promptOptions, cancellationToken);
-
-                //var promptMessage = MessageFactory.Text(DestinationStepMsgText, DestinationStepMsgText, InputHints.ExpectingInput);
-                // return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
             }
             return await stepContext.NextAsync(changeChartTypeDetails.ToChartType, cancellationToken);
         }
 
-        //Hier wird bestätigt, dass wohin gewechselt wurde
-        //WaterfallStepContext wird von vorherigem Step übernommen
+        //Confirm Change Charttype
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             ConsoleWriter.WriteLineInfo("ResultTypeString: " + stepContext.Result.GetType().ToString());

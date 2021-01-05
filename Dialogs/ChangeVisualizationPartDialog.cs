@@ -17,12 +17,11 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         {
             HelpMsgText = "In this step type in e.g.: \"Change x-Axis to e.g. \"sales\" or \"profit\"\"";
             CancelMsgText = "Cancelling the change visualization part Dialog";
-            //AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
-                DestinationStepAsync,
+                FirstStepAsync,
                 FinalStepAsync,
             }));
 
@@ -30,8 +29,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             InitialDialogId = nameof(WaterfallDialog);
         }
 
-        //Hier findet er raus, zu welchem Charttyp wir wechseln wollen
-        private async Task<DialogTurnResult> DestinationStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        private async Task<DialogTurnResult> FirstStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var changeVisualizationPartDetails = (ChangeVisualizationPartDetails)stepContext.Options;
             if (changeVisualizationPartDetails.toValue?.Length > 1)
@@ -41,6 +39,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             }
             else if (changeVisualizationPartDetails.toValue == null)
             {
+                //There is information missing to execute the task ==> tell the user how to do it in the right way
                 string message = "I could not regonize what Column you want to change that part to. Please say something like \"change xAxis to Sales\"";
 
                 var cancelMessage = MessageFactory.Text(message, CancelMsgText, InputHints.IgnoringInput);
@@ -52,8 +51,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             return await stepContext.NextAsync(changeVisualizationPartDetails.toValue[0], cancellationToken);
         }
 
-        //Hier wird bestätigt, dass wohin gewechselt wurde
-        //WaterfallStepContext wird von vorherigem Step übernommen
+        //Confirm task
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var changeVisualizationPartDetails = (ChangeVisualizationPartDetails)stepContext.Options;
