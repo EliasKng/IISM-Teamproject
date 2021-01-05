@@ -1,29 +1,31 @@
 <template>
   <div id="app">
     <router-view/>
+    <div class="grid">
+      <div class="grid__item">
+        <h1>Bar Chart</h1>
+        <bar-chart :data="dataChart" width="500" height="500"/>
+      </div>
+      </div>
   </div>
 </template>
 
 <script>
-import * as d3 from "d3";
-
-import {
-  Data,
-  BarChart,
-} from '../src/';
+import BarChart from './components/BarChart.vue';
+import { obj } from './output/output';
 
 export default {
   name: 'app',
   data() {
     return {
-      dataChart: data,
+      dataChart: obj,
       axisX: {
         scale: 'scaleLinear',
         range: [0, 400],
         domain: [0, 10],
         orient: 'Bottom',
         width: 400,
-        height: 400
+        height: 400,
       },
       axisY: {
         scale: 'scaleLinear',
@@ -31,36 +33,30 @@ export default {
         domain: [500, 0],
         orient: 'Left',
         width: 400,
-        height: 400
-      }
+        height: 400,
+      },
     };
   },
   components: {
     BarChart,
-    Data
   },
-}
-</script>
+};
+</script>;
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+body {
+  margin: 0;
 }
 
-#nav {
-  padding: 30px;
+.app {
+  margin-top: 20px;
+  max-width: 1020px;
+  margin: 0 auto;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 500px);
+  grid-gap: 20px;
 }
 </style>

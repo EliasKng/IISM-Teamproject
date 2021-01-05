@@ -1,19 +1,37 @@
 <template>
-  <svg :width="width" :height="height">
-    <g ref="chart">
-      <rect
-        v-for="(d, i) in data"
-        :key="i"
-        :width="w"
-        :height="calcHeight(d)"
-        :x="xScale(d)"
-        :y="yScale(d)"
-        stroke="#ff6347"
-        strokeWidth="3"
-        fill="#f5f5f5"/>
-    </g>
-    <g ref="axis"></g>
-  </svg>
+    <div class="container">
+    <div class="row">
+      <div class="col-sm-10">
+        <h1>Books</h1>
+        <hr><br><br>
+        <button type="button" class="btn btn-success btn-sm">Add Book</button>
+        <br><br>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">Author</th>
+              <th scope="col">Read?</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>foo</td>
+              <td>bar</td>
+              <td>foobar</td>
+              <td>
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-warning btn-sm">Update</button>
+                  <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -25,21 +43,23 @@ export default {
   props: ['data', 'width', 'height'],
   data() {
     return {
-      w: 0
-    }
+      w: 0,
+    };
   },
   mounted() {
     const xScale = d3
       .scaleBand()
       .range([0, 400])
-      .domain(this.data.map(d => xSelector(d)))
+      .domain(this.data.map((d) => xSelector(d)))
       .padding(0.3);
     const yScale = d3
       .scaleLinear()
       .range([420, 0])
       .domain([0, 500]);
 
-    const margin = { top: 40, left: 40, bottom: 40, right: 0 };
+    const margin = {
+      top: 40, left: 40, bottom: 40, right: 0,
+    };
     const yAxis = d3.axisLeft(yScale).tickSizeInner(-420);
     const xAxis = d3.axisBottom(xScale);
 
@@ -66,7 +86,7 @@ export default {
       .append('g')
       .attr(
         'transform',
-        `translate(${margin.left}, ${chartHeight + margin.top})`
+        `translate(${margin.left}, ${chartHeight + margin.top})`,
       )
       .attr('class', 'axis x')
       .call(xAxis);
@@ -83,7 +103,7 @@ export default {
       const xScale = d3
         .scaleBand()
         .range([0, 400])
-        .domain(this.data.map(d => xSelector(d)))
+        .domain(this.data.d)
         .padding(0.3);
       return xScale(xSelector(d));
     },
@@ -92,16 +112,18 @@ export default {
         .scaleLinear()
         .range([420, 0])
         .domain([0, 500]);
-      const margin = { top: 40, left: 100, bottom: 40, right: 0 };
+      const margin = {
+        top: 40, left: 100, bottom: 40, right: 0,
+      };
 
       const chartHeight = this.height - (margin.top + margin.bottom);
 
       const yValue = yScale(ySelector(d));
       const barHeight = chartHeight - yValue;
       return barHeight;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style>

@@ -18,6 +18,9 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 def ping_pong():
     return jsonify('Data!')
 
+@app.route('/barchart', methods=['GET'])
+def get_barchart():
+    return jsonify('Barchart!')
 
 if __name__ == '__main__':
     app.run()
