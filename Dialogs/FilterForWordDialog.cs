@@ -102,6 +102,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 {
                     filterForWordDetails.columnName = list.ToArray();
                     ConsoleWriter.WriteLineInfo("Filter for: " + string.Join(", ", list));
+                    BOT_Api.SendFilterForWord(list.ToArray());
                     return await stepContext.EndDialogAsync(filterForWordDetails.columnName);
                 }
             }
@@ -169,6 +170,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 ConsoleWriter.WriteLineInfo("Filter for: " + string.Join(", ", list));
                 FilterForWordDetails filterForWordDetails = new FilterForWordDetails();
                 filterForWordDetails.columnName = list.ToArray();
+
+                BOT_Api.SendFilterForWord(list.ToArray());
 
                 return await stepContext.EndDialogAsync(list, cancellationToken);
             }

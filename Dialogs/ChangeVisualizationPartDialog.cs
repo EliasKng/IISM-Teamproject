@@ -67,6 +67,9 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             }
             //Now the Object is set right and we can print, what we want to change our charttype to
             ConsoleWriter.WriteLineInfo("Change " + changeVisualizationPartDetails.visualizationPart + " to (first Value): " + changeVisualizationPartDetails.toValue[0]);
+
+            BOT_Api.SendChangeVisualizationPart(changeVisualizationPartDetails.visualizationPart, changeVisualizationPartDetails.toValue[0]);
+
             return await stepContext.EndDialogAsync(changeVisualizationPartDetails, cancellationToken);
         }
     }

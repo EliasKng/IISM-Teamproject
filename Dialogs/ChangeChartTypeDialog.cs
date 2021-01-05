@@ -79,6 +79,10 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             }
             //Now the Object is set right and we can print, what we want to change our charttype to
             ConsoleWriter.WriteLineInfo("Change Charttype to: " + changeChartTypeDetails.AmbiguousChartTypes[0]);
+            
+            //Send Request to API
+            BOT_Api.SendChangeChartType(changeChartTypeDetails.AmbiguousChartTypes[0]);
+            
             return await stepContext.EndDialogAsync(changeChartTypeDetails,cancellationToken);
         }
     }
