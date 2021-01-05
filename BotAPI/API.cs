@@ -36,6 +36,6 @@ public class BOT_Api
 
     public static void SendFilterForWord(string[] keywords)
     {
-        SendRequest(VisualizationInteraction.Intent.ChangeVisualizationPart, keywords);
+        SendRequest(VisualizationInteraction.Intent.ChangeVisualizationPart, keywords); 
     }
 }
