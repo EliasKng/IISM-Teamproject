@@ -24,3 +24,6 @@ runtimes/**
 publish.cmd
 packages/
 .vs/
+
+Properties/PublishProfiles
+Properties/ServiceDependencies
