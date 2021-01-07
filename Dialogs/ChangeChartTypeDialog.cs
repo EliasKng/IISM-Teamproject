@@ -81,7 +81,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             ConsoleWriter.WriteLineInfo("Change Charttype to: " + changeChartTypeDetails.AmbiguousChartTypes[0]);
             
             //Send Request to API
-            BOT_Api.SendChangeChartType(changeChartTypeDetails.AmbiguousChartTypes[0]);
+            BOT_Api.SendChangeChartTypeAsync(changeChartTypeDetails.AmbiguousChartTypes[0]);
             
             return await stepContext.EndDialogAsync(changeChartTypeDetails,cancellationToken);
         }
