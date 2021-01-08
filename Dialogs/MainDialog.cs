@@ -80,13 +80,33 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 case VisualizationInteraction.Intent.Filter:
 
                     (string[] columnnameLuis, string[] filterAttributeLuis, string[] countryLuis, string[] segmentLuis, string[] productLuis) = luisResult.FilterForWordEntities;
+
+                    string usedColumn;
+
+                    if(countryLuis!=null)
+                    {
+                        usedColumn = "Country";
+                    } else if (segmentLuis!= null)
+                    {
+                        usedColumn = "Segment";
+                    } else if (productLuis != null)
+                    {
+                        usedColumn = "Product";
+                    } else
+                    {
+                        usedColumn = "Country";
+                    }
+
+                    ConsoleWriter.WriteLineInfo("Column: " + usedColumn);
+
                     var filterForWordDetails = new FilterForWordDetails
                     {
                         columnName = columnnameLuis,
                         filterAttribute = filterAttributeLuis,
                         country = countryLuis,
                         segment = segmentLuis,
-                        product = productLuis
+                        product = productLuis,
+                        usedColumn = usedColumn
                     };
                     return await stepContext.BeginDialogAsync(nameof(FilterForWordDialog), filterForWordDetails, cancellationToken);
 
@@ -112,7 +132,9 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
                     ConsoleWriter.WriteLineInfo("nl4dvQuery: " + nl4dvQuery);
 
+
                     //Here we would have to call the NL4DV function in the event handler (in the Python project)
+                    BOT_Api.SendNL4DV(nl4dvQuery);
                     break;
 
                 // user wants to change e.g. legend or y-axis

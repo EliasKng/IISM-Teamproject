@@ -11,13 +11,6 @@ using System.Threading.Tasks;
 
 public class BOT_Api
 {
-    public static void SendRequest(VisualizationInteraction.Intent intent, string[] parameters)
-    {
-        string param = string.Join(", ", parameters);
-
-        ConsoleWriter.WriteLineInfo("Intent: " + intent + " Parameters: " + param);
-    }
-
     public static async Task SendChangeChartTypeAsync(string toCharttype)
     {
         switch (toCharttype)
@@ -35,26 +28,64 @@ public class BOT_Api
                 toCharttype = "PieChart";
                 break;
         }
-        ChangeCharttypeJson testChangeCharttypeJson = new ChangeCharttypeJson
+        ChangeCharttypeJson json = new ChangeCharttypeJson
         {
             target_vis = toCharttype
         };
-        HttpPostRequestAsync("http://localhost:5000/change", testChangeCharttypeJson);
+        HttpPostRequestAsync("http://localhost:5000/change", json);
     }
 
     public static void SendChangeVisualizationPart(string visPart, string toColumn)
     {
-        SendRequest(VisualizationInteraction.Intent.ChangeVisualizationPart, new string[] { visPart, toColumn });
+        ChangeVisPartJson json = new ChangeVisPartJson();
+        switch (visPart)
+        {
+            case "xAxis":
+                json.xcolor = toColumn;
+                break;
+            case "yAxis":
+                json.ytetha = toColumn;
+                break;
+            case "tetha":
+                json.ytetha = toColumn;
+                break;
+            case "color":
+                json.xcolor = toColumn;
+                break;
+            default:
+                ConsoleWriter.WriteLineInfo("Error while determining the right vispart for json serialization");
+                break;
+        }
+        HttpPostRequestAsync("http://localhost:5000/change-fields", json);
+    }
+
+    public static void SendNL4DV(string query)
+    {
+        NL4DVJson json = new NL4DVJson();
+        json.query = query;
+        HttpPostRequestAsync("http://localhost:5000/nl4dv", json);
     }
 
     public static void SendFilterForNumber(string columnName, string comparisonOperator, string number)
     {
-        SendRequest(VisualizationInteraction.Intent.ChangeVisualizationPart, new string[] { columnName, comparisonOperator, number});
+        FilterForNumberJson json = new FilterForNumberJson
+        {
+            column = columnName,
+            comparisonOperator = comparisonOperator,
+            number = number
+        };
+        HttpPostRequestAsync("http://localhost:5000/keywords/add-number", json);
     }
 
-    public static void SendFilterForWord(string[] keywords)
+    public static void SendFilterForWord(string p_column, string[] p_values)
     {
-        SendRequest(VisualizationInteraction.Intent.ChangeVisualizationPart, keywords); 
+        FilterForWordJson json = new FilterForWordJson
+        {
+            column = p_column,
+            values = p_values
+        };
+
+        HttpPostRequestAsync("http://localhost:5000/keywords/add-word", json);
     }
 
 
@@ -62,6 +93,7 @@ public class BOT_Api
     {
         var jsonString = await Task.Run(() => JsonConvert.SerializeObject(jsonObject));
 
+        ConsoleWriter.WriteLineInfo("Sending JSON: " + jsonString);
 
         var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
@@ -87,6 +119,38 @@ public class ChangeCharttypeJson : Json
 {
     [JsonProperty("target_vis")]
     public string target_vis { get; set; }
+}
+
+public class ChangeVisPartJson : Json
+{
+    [JsonProperty("x-color")]
+    public string xcolor { get; set; }
+    [JsonProperty("y-tetha")]
+    public string ytetha { get; set; }
+}
+public class NL4DVJson : Json
+{
+    [JsonProperty("query")]
+    public string query { get; set; }
+}
+
+public class FilterForWordJson : Json
+{
+    [JsonProperty("column")]
+    public string column { get; set; }
+    [JsonProperty("values")]
+    public string[] values { get; set; }
+
+}
+public class FilterForNumberJson : Json
+{
+    [JsonProperty("column")]
+    public string column { get; set; }
+    [JsonProperty("comparisonOperator")]
+    public string comparisonOperator { get; set; }
+    [JsonProperty("number")]
+    public string number { get; set; }
+
 }
 
 public abstract class Json

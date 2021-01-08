@@ -17,5 +17,7 @@ namespace Microsoft.BotBuilderSamples
 
         //saves entered products
         public string[] product { get; set; }
+        //saves determined colum (which was used)
+        public string usedColumn { get; set; }
     }
 }

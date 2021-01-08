@@ -10,8 +10,10 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 
 namespace Microsoft.BotBuilderSamples.Dialogs
 {
+    
     public class FilterForWordDialog : CancelAndHelpDialog
     {
+        private string usedColumn = "";
         private const string DestinationStepMsgText = "Please choose an attribute from the list!";
 
         // Define a "done" response for the country selection prompt.
@@ -64,7 +66,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             if (stepContext.Options.GetType().ToString().Equals("Microsoft.BotBuilderSamples.FilterForWordDetails"))
             {
                 FilterForWordDetails filterForWordDetails = (FilterForWordDetails)stepContext.Options;
-                
+                usedColumn = filterForWordDetails.usedColumn;
                 // Check if filter for Word Dialog input is empty
                 if (filterForWordDetails.columnName == null)
                 {   
@@ -102,7 +104,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 {
                     filterForWordDetails.columnName = list.ToArray();
                     ConsoleWriter.WriteLineInfo("Filter for: " + string.Join(", ", list));
-                    BOT_Api.SendFilterForWord(list.ToArray());
+                    ConsoleWriter.WriteLineInfo("ColumnName: " + filterForWordDetails.columnName[0]);
+                    BOT_Api.SendFilterForWord(usedColumn, list.ToArray());
                     return await stepContext.EndDialogAsync(filterForWordDetails.columnName);
                 }
             }
@@ -171,7 +174,9 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 FilterForWordDetails filterForWordDetails = new FilterForWordDetails();
                 filterForWordDetails.columnName = list.ToArray();
 
-                BOT_Api.SendFilterForWord(list.ToArray());
+
+                ConsoleWriter.WriteLineInfo("ColumnName: " + filterForWordDetails.columnName[0]);
+                BOT_Api.SendFilterForWord(usedColumn, list.ToArray());
 
                 return await stepContext.EndDialogAsync(list, cancellationToken);
             }
