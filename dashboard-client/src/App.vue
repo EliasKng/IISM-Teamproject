@@ -1,9 +1,11 @@
 <template>
   <div id="app">
     <Home/>
+    <h1>Horizontal bar chart</h1>
+    <d-3-barchart-horizontal/>
     <div class="grid__item">
-        <h1>Scatter Chart</h1>
-        <scatter-chart :data="dataChart" x="270" y="270"/>
+      <h1>Scatter Chart</h1>
+      <scatter-chart :data="dataChart" x="270" y="270"/>
     </div>
     <div class="grid__item">
       <h1>Pie Chart</h1>
@@ -20,6 +22,7 @@ import Home from './components/Home.vue'
 import ScatterChart from './components/ScatterChart.vue'
 import PieChart from './components/PieChart.vue'
 import { data } from './store';
+import D3BarchartHorizontal from './components/Columnchart/d3-barchart-horizontal.vue';
 
 export default {
   name: 'App',
@@ -47,7 +50,8 @@ export default {
   components: {
     Home,
     ScatterChart,
-    PieChart
+    PieChart,
+    D3BarchartHorizontal
   }
 }
 </script>

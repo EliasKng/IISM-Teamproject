@@ -1,10 +1,9 @@
 <template>
   <div class="page page--home">
-
     <section class="chart">
+      <h1>Column Chart</h1>
       <D3BarChart :config="barconfig" :datum="bardata"></D3BarChart>
     </section>
-
   </div>
 </template>
 
