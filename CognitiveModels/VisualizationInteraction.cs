@@ -88,6 +88,22 @@ namespace Microsoft.BotBuilderSamples
             return (maxIntent, max);
         }
 
+        public (string, string[], string[], string[]) Nl4dvEntities
+        {
+            get
+            {
+                string text = Text;
+                string[] chartType = Entities?.chartType?[0];
+                string[] axis1 = Entities?.financialSampleColumnName?[0];
+                string[] axis2 = null;
+                if(Entities?.financialSampleColumnName?.Length > 1)
+                {
+                    axis2 = Entities?.financialSampleColumnName?[1];
+                } 
+                return (text, chartType, axis1, axis2);
+            }
+        }
+
         // returns relevant data for filterForNumber-Intent (column, Operator and number)
         public (string[], string, string) FilterForNumberEntities
         {

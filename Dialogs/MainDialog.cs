@@ -14,7 +14,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         protected readonly ILogger Logger;
 
         // Dependency injection uses this constructor to instantiate MainDialog
-        public MainDialog(LuisRecognizer luisRecognizer, FilterForNumberDialog filterForNumberDialog, ChangeVisualizationPartDialog changeVisualizationPartDialog, FilterForWordDialog filterForWordDialog, ChangeChartTypeDialog chartTypeDialog, AmbiguityDialog ambiguityDialog, ILogger<MainDialog> logger)
+        public MainDialog(LuisRecognizer luisRecognizer,Nl4dvDialog nl4DvDialog, FilterForNumberDialog filterForNumberDialog, ChangeVisualizationPartDialog changeVisualizationPartDialog, FilterForWordDialog filterForWordDialog, ChangeChartTypeDialog chartTypeDialog, AmbiguityDialog ambiguityDialog, ILogger<MainDialog> logger)
             : base(nameof(MainDialog))
         {
             _luisRecognizer = luisRecognizer;
@@ -26,11 +26,12 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             AddDialog(changeVisualizationPartDialog);
             AddDialog(ambiguityDialog);
             AddDialog(filterForNumberDialog);
+            AddDialog(nl4DvDialog);
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 IntroStepAsync,
                 ActStepAsync,
-                FinalStepAsync,
+                FinalStepAsync
             }));
 
             // The initial child Dialog to run.
@@ -130,11 +131,23 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     //Gets the whole message from the User to the bot out of the luis result
                     string nl4dvQuery = luisResult.Text;
 
+                    (string queryText, string[] chartType, string[] axis1, string[] axis2) = luisResult.Nl4dvEntities;
+
+                    var nl4dvQueryDetails = new Nl4dvQueryDetails
+                    {
+                        queryText = queryText,
+                        chartType = chartType,
+                        axis1 = axis1,
+                        axis2 = axis2
+                    };
+
                     ConsoleWriter.WriteLineInfo("nl4dvQuery: " + nl4dvQuery);
+
+                    return await stepContext.BeginDialogAsync(nameof(Nl4dvDialog), nl4dvQueryDetails, cancellationToken);
 
 
                     //Here we would have to call the NL4DV function in the event handler (in the Python project)
-                    BOT_Api.SendNL4DV(nl4dvQuery);
+                    //BOT_Api.SendNL4DV(nl4dvQuery);
                     break;
 
                 // user wants to change e.g. legend or y-axis

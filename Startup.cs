@@ -47,6 +47,9 @@ namespace Microsoft.BotBuilderSamples
             //Register the ChangeVisualizationPartDialog
             services.AddSingleton<ChangeVisualizationPartDialog>();
 
+            //Register the Nl4dvDialog
+            services.AddSingleton<Nl4dvDialog>();
+
             // The MainDialog that will be run by the bot.
             services.AddSingleton<MainDialog>();
 
