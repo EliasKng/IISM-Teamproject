@@ -8,16 +8,32 @@
 
 <script>
 import * as d3 from 'd3';
-import { xSelector, ySelector } from '../utils';
+import { xSelector, ySelector } from './utils';
 
 export default {
-  name: 'Scatterplot',
-  props: ['data'],
+  name: 'ScatterChart',
+  props: ['data', 'x', 'y'],
   data() {
     return {
       width: 500,
       height: 500,
       path: ''
+    }
+  },
+  methods: {
+    xPoint(d) {
+      const xScale = d3
+        .scaleLinear()
+        .range([0, 400])
+        .domain([0, 10]);
+      return xScale(xSelector(d));
+    },
+    yPoint(d) {
+      const yScale = d3
+        .scaleLinear()
+        .range([420, 0])
+        .domain([0, 420]);
+      return yScale(ySelector(d));
     }
   },
   mounted() {
@@ -65,7 +81,7 @@ export default {
       .attr('class', 'axis x')
       .call(xAxis);
 
-    this.data.forEach((d, i) => {
+    this.data.forEach((d) => {
       d3
         .select(this.$refs.circle)
         .attr('transform', `translate(130, ${margin.top})`)
@@ -77,30 +93,6 @@ export default {
         .attr('strokeWidth', 2)
         .attr('fill', '#ff6347');
     });
-  },
-  methods: {
-    xPoint(d) {
-      const xScale = d3
-        .scaleLinear()
-        .range([0, 400])
-        .domain([0, 10]);
-      const yScale = d3
-        .scaleLinear()
-        .range([420, 0])
-        .domain([0, 420]);
-      return yScale(ySelector(d));
-    },
-    yPoint(d) {
-      const xScale = d3
-        .scaleLinear()
-        .range([0, 400])
-        .domain([0, 10]);
-      const yScale = d3
-        .scaleLinear()
-        .range([420, 0])
-        .domain([0, 420]);
-      return xScale(xSelector(d));
-    }
   }
 }
 </script>
