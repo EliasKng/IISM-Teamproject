@@ -2,6 +2,9 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 
 
+#import json
+#data = json.load(open('backendOutput.json', 'r'))
+
 # configuration
 DEBUG = True
 
@@ -30,6 +33,21 @@ BOOKS = [
         'read': True
     }
 ]
+
+#data
+columns_output = ["Country", "Sales"]
+data_output = [["Canada", 2894762.65],["France",6539875.15]]
+type_output = "BarChart"
+
+@app.route('/data', methods=['GET'])
+def all_data(): 
+    return jsonify({
+        'type_output': type_output,
+        'columns_output': columns_output,
+        'data_output': data_output 
+    })
+   # return deserialize_object(session["final_vis_data"]).jsonify_vis()
+
 
 @app.route('/books', methods=['GET'])
 def all_books():

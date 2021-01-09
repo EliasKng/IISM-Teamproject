@@ -41,6 +41,7 @@
 import axios from 'axios';
 
 export default {
+  name: 'Books',
   data() {
     return {
       books: [],
