@@ -10,9 +10,12 @@ class Visualization(object):
         self.type = type
         self.dataframe = dataframe
         self.dataframe_prepared = dataframe
-        self.keywords = keywords
         self.columns = list(dataframe.columns)
         self.column_dtypes = dataframe.dtypes
+        if keywords==None:
+            self.keywords = dict()    
+        else: 
+            self.keywords = keywords
         #Propertiesstatus
 
     #new keyword query

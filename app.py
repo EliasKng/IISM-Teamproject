@@ -91,19 +91,41 @@ def set_keywords():
         return session["final_vis_data"]
 
 
-#add/update keyword
-@app.route('/keywords/add', methods=['GET', 'POST'])
-def add_keywords():
+#add/update nominal filter
+@app.route('/keywords/add-number', methods=['GET', 'POST'])
+def add_number():
     if request.method == "POST":
         post_data = request.get_json()
+        add_number_filter = {post_data["column"] : [post_data["comparisonOperator"], [post_data["number"]]]}
         temp_vis = deserialize_object(session["final_vis_data"])
-        temp_vis.vis_object.add_keyword(post_data["keywords"])
+        temp_vis.vis_object.add_keyword(add_number_filter)
         session["final_vis_data"] = temp_vis.serialize_object()
         return session["final_vis_data"]
 
-#delete keyword
+#add/update number filter
+@app.route('/keywords/add-word', methods=['GET', 'POST'])
+def add_word():
+    if request.method == "POST":
+        post_data = request.get_json()
+        add_word_filter = {post_data["column"] : ["in", post_data["values"]]}
+        temp_vis = deserialize_object(session["final_vis_data"])
+        temp_vis.vis_object.add_keyword(add_word_filter)
+        session["final_vis_data"] = temp_vis.serialize_object()
+        return session["final_vis_data"]
+
+
+#delete all keywords/ all applied fiter 
+@app.route('/keywords/delete/all', methods=['GET', 'POST'])
+def delete_all_keywords():
+    if request.method == "POST":
+        temp_vis = deserialize_object(session["final_vis_data"])
+        temp_vis.vis_object.set_keywords({})
+        session["final_vis_data"] = temp_vis.serialize_object()
+        return session["final_vis_data"]
+
+#delete single keyword / applied filter
 @app.route('/keywords/delete', methods=['GET', 'POST'])
-def delete_keyword():
+def delete_single_keyword():
     if request.method == "POST":
         post_data = request.get_json()
         temp_vis = deserialize_object(session["final_vis_data"])
@@ -118,9 +140,7 @@ def change_fields():
     if request.method == "POST":
         post_data = request.get_json()
         temp_vis = deserialize_object(session["final_vis_data"])
-        if post_data["fields"].get("x-color") and post_data["fields"].get("y-theta"):
-            temp_vis.vis_object.set_fields(post_data["fields"]["x-color"], post_data["aggregate"]["x-color"])
-        elif post_data["fields"].get("x-color"):
+        if post_data["fields"].get("x-color") and post_data["fields"].get("y-theta")=="null":
             temp_vis.vis_object.set_fields(post_data["fields"]["x-color"])
         else:
             temp_vis.vis_object.set_fields(None, post_data["fields"]["y-theta"])
@@ -134,9 +154,7 @@ def change_aggregate():
     if request.method == "POST":
         post_data = request.get_json()
         temp_vis = deserialize_object(session["final_vis_data"])
-        if post_data["aggregate"].get("x-color") and post_data["aggregate"].get("y-theta"):
-            temp_vis.vis_object.set_aggregate(post_data["aggregate"]["x-color"], post_data["aggregate"]["x-color"])
-        elif post_data["aggregate"].get("x-color"):
+        if post_data["aggregate"].get("x-color") and post_data["aggregate"].get("y-theta")=="null":
             temp_vis.vis_object.set_aggregate(post_data["aggregate"]["x-color"])
         else:
             temp_vis.vis_object.set_aggregate(None, post_data["aggregate"]["y-theta"])
@@ -166,11 +184,13 @@ def nl4dv_query():
 
 
 
-
 #Data for frontend
 @app.route('/data', methods=['GET'])
-def all_data(): 
-    return deserialize_object(session["final_vis_data"]).jsonify_vis()
+def all_data():
+    if  session.get("final_vis_data") is not None:
+        return deserialize_object(session["final_vis_data"]).jsonify_vis()
+    else: 
+        return jsonify("null")
 
 if __name__ == '__main__':
     app.run()

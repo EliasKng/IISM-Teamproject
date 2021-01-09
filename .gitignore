@@ -27,3 +27,8 @@ runtimes/**
 publish.cmd
 packages/
 .vs/
+
+#c++
+cpp_sample.obj
+cpp_stream_data.exe 
+
