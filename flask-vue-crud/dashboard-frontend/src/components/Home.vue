@@ -12,34 +12,11 @@
 </template>
 
 <script>
-import axios from 'axios';
 import Visualization from './Visualization.vue';
 
 export default {
-  data() {
-    return {
-      books: [],
-    };
-  },
   components: {
     Visualization,
-  },
-  methods: {
-    getData() {
-      const path = 'http://localhost:5000/data';
-      axios.get(path)
-        .then((res) => {
-        // get return from app.py
-          this.books = res.data.books;
-        })
-        .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
-        });
-    },
-  },
-  created() {
-    this.getBooks();
   },
 };
 </script>

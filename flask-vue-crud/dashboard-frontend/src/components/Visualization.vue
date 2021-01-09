@@ -36,6 +36,7 @@ export default {
         color: { scheme: ['#41B882', '#222f3e'] },
         transition: { ease: 'easeBounceOut', duration: 1000 },
       },
+      // [["Canada", 2894762.65],["France",6539875.15]]
       bardata: [
         { Country: 'Canada', Sales: 50000 },
         { Country: 'France', Sales: 555 },
