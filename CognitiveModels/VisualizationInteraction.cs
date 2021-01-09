@@ -20,6 +20,8 @@ namespace Microsoft.BotBuilderSamples
             FilterForWord,
             Nl4dv,
             ChangeVisualizationPart,
+            RemoveVisualization,
+            ClearFilter,
             None
         };
         public Dictionary<Intent, IntentScore> Intents;
