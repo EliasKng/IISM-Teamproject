@@ -44,3 +44,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.chart {
+  width: 100%;
+  height: 100%;
+}
+</style>
