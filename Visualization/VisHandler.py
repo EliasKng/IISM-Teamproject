@@ -42,11 +42,11 @@ class VisHandler():
             if self.vis_object.get_y_encoding()["type"] == "nominal" and self.vis_object.get_x_encoding()["type"] == "quantitative":
                      x_encoding = self.vis_object.get_x_encoding()
                      x_encoding["aggregate"] = "sum"
-                     self.vis_object = BarChart(self.vis_object.dataframe, self.vis_object.get_y_encoding(), x_encoding, keywords)
+                     self.vis_object = ColumnChart(self.vis_object.dataframe, x_encoding,self.vis_object.get_y_encoding(), keywords)
             elif self.vis_object.get_x_encoding()["type"] == "nominal" and self.vis_object.get_y_encoding()["type"] == "quantitative":
                     y_encoding = self.vis_object.get_y_encoding()
                     y_encoding["aggregate"] = "sum"
-                    self.vis_object = BarChart(self.vis_object.dataframe, y_encoding, self.vis_object.get_x_encoding(), keywords)
+                    self.vis_object = ColumnChart(self.vis_object.dataframe, y_encoding, self.vis_object.get_x_encoding(), keywords)
             else: 
                 self.vis_object = BarChart(self.vis_object.dataframe, self.vis_object.get_x_encoding(), self.vis_object.get_y_encoding(), keywords)
         elif isinstance(self.vis_object, ScatterPlot) and target_vis=="PieChart":
@@ -76,7 +76,7 @@ class VisHandler():
     def jsonify_vis(self): 
         result = (self.vis_object.get_data()).reset_index().to_json(orient="split")
         parsed = json.loads(result)
-        parsed.update({"-type": self.vis_object.type})
+        parsed.update({"type": self.vis_object.type})
         #entferne überflüssige infos 
         parsed.pop("index")
         return json.dumps(parsed, indent=4)

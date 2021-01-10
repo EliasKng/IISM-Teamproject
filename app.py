@@ -15,6 +15,7 @@ from ScatterPlot import ScatterPlot
 from VisHandler import VisHandler
 from flask import Flask, jsonify, request, session
 from flask_cors import CORS
+from flask_socketio import SocketIO
 from nl4dv import NL4DV
 from nl4dv_parser import nl4dv_output_parser
 from jsonPrinter import jsonPrettyPrinter
@@ -27,12 +28,6 @@ def nl4dvQueryAnalyzerFinancialsDataset(query) :
     nl4dv_instance.set_dependency_parser(config=dependency_parser_config)
     queryInput = query
     return nl4dv_instance.analyze_query(queryInput)
-
-#test data
-#keywords = {"Country": ["in", ["France", "Canada"]], "Segment": ["in", ["Government", "Enterprise"]]}
-#x_encoding = {"field": "Country", "type": "quantitative"}
-#y_encoding = {"aggregate":"sum", "field": "Sales", "type": "quantitative"}
-
 
 #Import XLXS Data
 #working_dataframe = pd.read_csv(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "examples", "assets", "data", "FinancialSample.csv"))
@@ -55,6 +50,7 @@ def deserialize_object(final_vis_data):
         return VisHandler(scatter_plot)
 
 
+#*********************************************configure app ********************************************************************
 #configuration
 DEBUG = True
 
@@ -66,7 +62,10 @@ app.config.from_object(__name__)
 # enable CORS
 CORS(app, resources={r'/*': {'origins': '*'}})
 
+#socketio 
+socketio = SocketIO(app)
 
+#********************************************************************************************************************************
 
 #change object
 @app.route('/change', methods=['GET', 'POST'])
@@ -193,4 +192,6 @@ def all_data():
         return jsonify("null")
 
 if __name__ == '__main__':
+    app.debug = True
     app.run()
+    socketio.run(app)
