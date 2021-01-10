@@ -37,7 +37,7 @@ BOOKS = [
 #data
 columns_output = ["Country", "Sales"]
 data_output = [["Canada", 2894762.65],["France",6539875.15]]
-type_output = "BarChart"
+type_output = 'ColumnChart'
 
 @app.route('/data', methods=['GET'])
 def all_data(): 
