@@ -5,7 +5,7 @@ import matplotlib.path as mpltPath
 from shapely.geometry import Polygon, MultiPoint, Point
 import pandas as pd
 
-tuple1 = [(0,0), (1280,0), (0, 720), (1280, 720)]
+tuple1 = [[0,0], [1280,0], [0, 720], [1280, 720]]
       
 #test shapes 
 poly1 = MultiPoint(tuple1).convex_hull

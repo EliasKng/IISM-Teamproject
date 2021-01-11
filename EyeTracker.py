@@ -22,10 +22,11 @@ def is_in_polygon(shape, x_coordinate, y_coordinate):
         return 0
 
 
-class Eye_Tracker: 
+class EyeTracker: 
     def __init__(self, list_polygons_raw): 
+        list_polygons = []
         for i in range(len(list_polygons_raw)):
-            list_polygons[i] = MultiPoint(list_polygons_raw[i]).convex_hull
+            list_polygons.append(MultiPoint(list_polygons_raw[i]).convex_hull)
         self.list_polygons = list_polygons
 
 
@@ -59,9 +60,9 @@ class Eye_Tracker:
 
 
         results = {}
-        for i in range(len(shapes)):
+        for i in range(len(self.list_polygons)):
             new_column_name = "shape_" + str(i)
-            df_gaze_data[new_column_name] = df_gaze_data.apply(lambda x: is_in_polygon(shapes[i], x['x_coordinate'],x['y_coordinate']),axis=1)
+            df_gaze_data[new_column_name] = df_gaze_data.apply(lambda x: is_in_polygon(self.list_polygons[i], x['x_coordinate'],x['y_coordinate']),axis=1)
             results.update({new_column_name : df_gaze_data[new_column_name].mean()})
         print(df_gaze_data.head(200))
         print(results)

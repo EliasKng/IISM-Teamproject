@@ -8,7 +8,7 @@ sys.path.append(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "V
 import numpy as np
 import pandas as pd
 from Filter import prepare_dataframe, calculate_theta, final_prep
-from Eye-Tracker import Eye-Tracker, is_in_polygon
+from EyeTracker import EyeTracker, is_in_polygon
 from BarChart import BarChart
 from ColumnChart import ColumnChart
 from PieChart import PieChart
@@ -187,8 +187,8 @@ def nl4dv_query():
 def eye_tracker():
     if request.method == "POST": 
         post_data = request.get_json()
-        eye-tracker = Eye-Tracker(post_data["elements"])
-        return jsonify(eye-tracker.execute())
+        eye_tracker = EyeTracker(post_data["elements"])
+        return jsonify(eye_tracker.execute())
 
 
 
