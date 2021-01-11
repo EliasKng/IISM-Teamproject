@@ -8,6 +8,7 @@ sys.path.append(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "V
 import numpy as np
 import pandas as pd
 from Filter import prepare_dataframe, calculate_theta, final_prep
+from Eye-Tracker import Eye-Tracker, is_in_polygon
 from BarChart import BarChart
 from ColumnChart import ColumnChart
 from PieChart import PieChart
@@ -15,10 +16,10 @@ from ScatterPlot import ScatterPlot
 from VisHandler import VisHandler
 from flask import Flask, jsonify, request, session
 from flask_cors import CORS
-from flask_socketio import SocketIO
 from nl4dv import NL4DV
 from nl4dv_parser import nl4dv_output_parser
 from jsonPrinter import jsonPrettyPrinter
+
 
 #NL4DV
 def nl4dvQueryAnalyzerFinancialsDataset(query) :
@@ -62,8 +63,6 @@ app.config.from_object(__name__)
 # enable CORS
 CORS(app, resources={r'/*': {'origins': '*'}})
 
-#socketio 
-socketio = SocketIO(app)
 
 #********************************************************************************************************************************
 
@@ -183,6 +182,16 @@ def nl4dv_query():
 
 
 
+#eye-tracker
+@app.route('/eye-tracker', methods=['GET', 'POST'])
+def eye_tracker():
+    if request.method == "POST": 
+        post_data = request.get_json()
+        eye-tracker = Eye-Tracker(post_data["elements"])
+        return jsonify(eye-tracker.execute())
+
+
+
 #Data for frontend
 @app.route('/data', methods=['GET'])
 def all_data():
@@ -194,4 +203,3 @@ def all_data():
 if __name__ == '__main__':
     app.debug = True
     app.run()
-    socketio.run(app)
