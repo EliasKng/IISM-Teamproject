@@ -13,16 +13,14 @@ public class BOT_Api
 {
     public static void SendRemoveVisualization()
     {
-        Json json = new Json();
-        ConsoleWriter.WriteLineInfo("Removing VIsualization");
-        HttpPostRequestAsync("http://localhost:5000/remove-visualization", json);
+        
     }
 
     public static void SendClearFilter()
     {
         FilterForWordJson json = new FilterForWordJson();
         //Set keywords to none
-        HttpPostRequestAsync("http://localhost:5000/keywords/set", json);
+        HttpPostRequestAsync("http://localhost:5000/keywords/delete/all", json);
     }
     public static async Task SendChangeChartTypeAsync(string toCharttype)
     {

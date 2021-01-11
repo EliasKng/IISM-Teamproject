@@ -168,10 +168,6 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     BOT_Api.SendClearFilter();
                     break;
 
-                case VisualizationInteraction.Intent.RemoveVisualization:
-                    BOT_Api.SendRemoveVisualization();
-                    break;
-
                 //intent not recognized
                 default:
                     // Catch all for unhandled intents
