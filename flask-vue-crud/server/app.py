@@ -35,17 +35,42 @@ BOOKS = [
 ]
 
 #data
-columns_output = ["Country", "Sales"]
+""" columns_output = ["Country", "Sales"]
 data_output = [["Canada", 2894762.65],["France",6539875.15]]
-type_output = 'ColumnChart'
+type_output = 'ColumnChart' """
 
 @app.route('/data', methods=['GET'])
 def all_data(): 
-    return jsonify({
-        'type_output': type_output,
-        'columns_output': columns_output,
-        'data_output': data_output 
-    })
+    return jsonify('''{
+    "columns": [
+        "Country",
+        "Sales"
+    ],
+    "data": [
+        [
+            "Canada",
+            2894762.65
+        ],
+        [
+            "France",
+            6539875.15
+        ],
+        [
+            "Germany",
+            1741522.0214285713
+        ],
+        [
+            "Mexico",
+            1119275.1
+        ],
+        [
+            "United States of America",
+            3281771.992857143
+        ]
+    ],
+    "type": "BarChart"
+    }​​​​​​​''')
+
    # return deserialize_object(session["final_vis_data"]).jsonify_vis()
 
 
