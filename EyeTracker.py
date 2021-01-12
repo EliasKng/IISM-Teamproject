@@ -56,6 +56,8 @@ class EyeTracker:
 
         gaze_data_x_final = np.array(gaze_data_x,dtype=float).tolist()
         gaze_data_y_final = np.array(gaze_data_y,dtype=float).tolist()
+        print(gaze_data_x_final)
+        print(gaze_data_y_final)
         df_gaze_data = pd.DataFrame({"x_coordinate" : gaze_data_x_final, "y_coordinate" : gaze_data_y_final})
 
 

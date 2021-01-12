@@ -76,9 +76,16 @@ class VisHandler():
     def jsonify_vis(self): 
         result = (self.vis_object.get_data()).reset_index().to_json(orient="split")
         parsed = json.loads(result)
-        parsed.update({"type": self.vis_object.type})
         #entferne überflüssige infos 
         parsed.pop("index")
+        parsed.pop("columns")
+        #ergänze zusätzliche Informationen 
+        parsed.update({"type": self.vis_object.type})
+        if self.vis_object.type in ("BarChart", "ColumnChart" , "ScatterPlot"): 
+            parsed.update({"columns" : {"x-axis" : self.vis_object.get_x_encoding()["field"], "y-axis" : self.vis_object.get_y_encoding()["field"]}})
+        else: 
+            parsed.update({"columns" : {"color" : self.vis_object.get_color_encoding()["field"], "theta" : self.vis_object.get_theta_encoding()["field"]}})
+            
         return json.dumps(parsed, indent=4)
     
 
