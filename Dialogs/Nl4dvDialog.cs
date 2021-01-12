@@ -65,6 +65,10 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 } else
                 {
                     nl4dvQueryDetails.queryText = nl4dvQueryDetails.queryText.Replace("chart", choiceText);
+                    if(!nl4dvQueryDetails.queryText.Contains(choiceText))
+                    {
+                        nl4dvQueryDetails.queryText = nl4dvQueryDetails.queryText + " in a " + choiceText;
+                    }
                 }
                 
                 
