@@ -14,7 +14,7 @@ public class BOT_Api
 {
     public static void SendRemoveVisualization()
     {
-        
+
     }
 
     public static void SendClearFilter()
@@ -100,7 +100,7 @@ public class BOT_Api
         HttpPostRequestAsync("http://localhost:5000/keywords/add-word", json);
     }
 
-    static HttpClient httpClient = new HttpClient();
+    public static HttpClient httpClient = new HttpClient();
     public static async void HttpPostRequestAsync(string url, Json jsonObject)
     {
         try
@@ -110,27 +110,24 @@ public class BOT_Api
             ConsoleWriter.WriteLineInfo("Sending JSON: " + jsonString);
 
             var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            // Do the actual request and await the response
+            var httpResponse = await httpClient.PostAsync(url, httpContent);
 
-
-            using (httpClient)
+            // If the response contains content we want to read it!
+            if (httpResponse.Content != null)
             {
-
-                // Do the actual request and await the response
-                var httpResponse = await httpClient.PostAsync(url, httpContent);
-
-                // If the response contains content we want to read it!
-                if (httpResponse.Content != null)
-                {
-                    var responseContent = await httpResponse.Content.ReadAsStringAsync();
-                    ConsoleWriter.WriteLineInfo("Output: " + responseContent);
-                    // From here on you could deserialize the ResponseContent back again to a concrete C# type using Json.Net
-                }
+                var responseContent = await httpResponse.Content.ReadAsStringAsync();
+                ConsoleWriter.WriteLineInfo("Output: " + responseContent);
+                // From here on you could deserialize the ResponseContent back again to a concrete C# type using Json.Net
             }
-        } catch(Exception e)
+
+        }
+        catch (Exception e)
         {
             ConsoleWriter.WriteLineInfo("Error sending POST request to: " + url);
+            ConsoleWriter.WriteLineInfo("Exception: " + e.Message);
         }
-        
+
     }
 }
 
