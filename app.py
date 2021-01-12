@@ -138,10 +138,10 @@ def change_fields():
     if request.method == "POST":
         post_data = request.get_json()
         temp_vis = deserialize_object(session["final_vis_data"])
-        if post_data["fields"].get("x-color") and post_data["fields"].get("y-theta")=="null":
-            temp_vis.vis_object.set_fields(post_data["fields"]["x-color"])
+        if post_data["x-color"] and post_data["y-theta"]=="null":
+            temp_vis.vis_object.set_fields(post_data["x-color"])
         else:
-            temp_vis.vis_object.set_fields(None, post_data["fields"]["y-theta"])
+            temp_vis.vis_object.set_fields(None, post_data["y-theta"])
         session["final_vis_data"] = temp_vis.serialize_object()
         return session["final_vis_data"]
 
@@ -152,10 +152,10 @@ def change_aggregate():
     if request.method == "POST":
         post_data = request.get_json()
         temp_vis = deserialize_object(session["final_vis_data"])
-        if post_data["aggregate"].get("x-color") and post_data["aggregate"].get("y-theta")=="null":
-            temp_vis.vis_object.set_aggregate(post_data["aggregate"]["x-color"])
+        if post_data["x-color"] and post_data["y-theta"]=="null":
+            temp_vis.vis_object.set_aggregate(post_data["x-color"])
         else:
-            temp_vis.vis_object.set_aggregate(None, post_data["aggregate"]["y-theta"])
+            temp_vis.vis_object.set_aggregate(None, post_data["y-theta"])
         session["final_vis_data"] = temp_vis.serialize_object()
         return session["final_vis_data"]
 
