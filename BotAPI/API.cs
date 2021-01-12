@@ -56,10 +56,10 @@ public class BOT_Api
                 json.xcolor = toColumn;
                 break;
             case "yAxis":
-                json.ytetha = toColumn;
+                json.ytheta = toColumn;
                 break;
-            case "tetha":
-                json.ytetha = toColumn;
+            case "theta":
+                json.ytheta = toColumn;
                 break;
             case "color":
                 json.xcolor = toColumn;
@@ -141,8 +141,8 @@ public class ChangeVisPartJson : Json
 {
     [JsonProperty("x-color")]
     public string xcolor { get; set; }
-    [JsonProperty("y-tetha")]
-    public string ytetha { get; set; }
+    [JsonProperty("y-theta")]
+    public string ytheta { get; set; }
 }
 public class NL4DVJson : Json
 {
