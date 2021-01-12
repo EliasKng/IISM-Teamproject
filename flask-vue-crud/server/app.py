@@ -41,35 +41,10 @@ type_output = 'ColumnChart' """
 
 @app.route('/data', methods=['GET'])
 def all_data(): 
-    return jsonify('''{
-    "columns": [
-        "Country",
-        "Sales"
-    ],
-    "data": [
-        [
-            "Canada",
-            2894762.65
-        ],
-        [
-            "France",
-            6539875.15
-        ],
-        [
-            "Germany",
-            1741522.0214285713
-        ],
-        [
-            "Mexico",
-            1119275.1
-        ],
-        [
-            "United States of America",
-            3281771.992857143
-        ]
-    ],
-    "type": "BarChart"
-    }​​​​​​​''')
+    """
+    return jsonify(columns_output = ["Country", "Sales"]
+data_output = [["Canada", 2894762.65],["France",6539875.15]]
+type_output = 'ColumnChart)"""
 
    # return deserialize_object(session["final_vis_data"]).jsonify_vis()
 

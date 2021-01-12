@@ -1,4 +1,7 @@
 <template>
+ <div id="app">
+</div>
+  <!--
   <div id="app">
     <div id="content">
       <div id= "diagramm">
@@ -9,9 +12,11 @@
       </div>
     </div>
     </div>
+    -->
 </template>
 
 <script>
+/*
 import Visualization from './Visualization.vue';
 
 export default {
@@ -19,9 +24,11 @@ export default {
     Visualization,
   },
 };
+*/
 </script>
 
 <style>
+/*
 body {
   margin: 0;
 }
@@ -58,4 +65,5 @@ body {
   float: right;
   height: 900px;
 }
+*/
 </style>

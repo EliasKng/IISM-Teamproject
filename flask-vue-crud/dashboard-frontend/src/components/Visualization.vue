@@ -1,5 +1,11 @@
 <template>
   <div>
+
+
+
+
+
+    <!--
     <h1>Vis Bar Chart</h1>
     <p>{{ charttype }}</p>
     <D3BarChart :config="barconfig" :datum="bardata"></D3BarChart>
@@ -14,17 +20,13 @@
             <td>{{ x }}</td>
         </tr>
     </tbody>
-    <div id="scatter">
-    <h1>Scatter Chart</h1>
-    <scatter-chart :data="dataChart" x="270" y="270"/>
-    </div>
+    -->
   </div>
 </template>
 
 <script>
 import axios from 'axios';
 import { D3BarChart } from 'vue-d3-charts';
-import ScatterChart from './ScatterChart.vue';
 import D3BarchartHorizontal from './Columnchart/d3-barchart-horizontal.vue';
 /*
 function setBarChartConfig(xAxis, yAxis) {
@@ -55,7 +57,6 @@ export default {
   },
   components: {
     D3BarChart,
-    ScatterChart,
     D3BarchartHorizontal,
   },
   methods: {
@@ -63,6 +64,8 @@ export default {
       const path = 'http://localhost:5000/data';
       axios.get(path)
         .then((res) => {
+
+          
         // get return from app.py
           /* this.columns_output = res.data.columns_output;
           const [x, y] = res.data.columns_output;
