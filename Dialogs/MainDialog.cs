@@ -168,6 +168,13 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     BOT_Api.SendClearFilter();
                     break;
 
+                case VisualizationInteraction.Intent.Help:
+                    var helpMessageText = $"By starting your query with \"Show me\" you can enter a natural language query, e.g. \"Show me a distribution of sales\". After that, you can tell me to change the charttype, an attribute or even filter for attributes. Clear those filters by telling me e.g. \"clear filter\". You can also reset your visualization or simply type in another \"Show me\" query.";
+                    var helpMessage = MessageFactory.Text(helpMessageText, helpMessageText, InputHints.IgnoringInput);
+                    await stepContext.Context.SendActivityAsync(helpMessage, cancellationToken);
+                    break;
+
+
                 //intent not recognized
                 default:
                     // Catch all for unhandled intents

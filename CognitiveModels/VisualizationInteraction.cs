@@ -22,6 +22,7 @@ namespace Microsoft.BotBuilderSamples
             ChangeVisualizationPart,
             RemoveVisualization,
             ClearFilter,
+            Help,
             None
         };
         public Dictionary<Intent, IntentScore> Intents;
