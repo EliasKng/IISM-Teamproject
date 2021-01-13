@@ -50,7 +50,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             }
 
             Activity message = MessageFactory.Text("Test123");
-            message.Value = new string[] { "testString1inArray", "testString2inArray" };
+            message.Value = "{\"endpoint\" : \"/nl4dv\", \"query\" : \"show me sales by country\"}";
             await stepContext.Context.SendActivityAsync(message);
 
 
