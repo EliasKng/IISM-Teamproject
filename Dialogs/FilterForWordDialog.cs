@@ -105,7 +105,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     filterForWordDetails.columnName = list.ToArray();
                     ConsoleWriter.WriteLineInfo("Filter for: " + string.Join(", ", list));
                     ConsoleWriter.WriteLineInfo("ColumnName: " + filterForWordDetails.columnName[0]);
-                    BOT_Api.SendFilterForWord(usedColumn, list.ToArray());
+                    await BOT_Api.SendFilterForWord(stepContext, usedColumn, list.ToArray());
                     return await stepContext.EndDialogAsync(filterForWordDetails.columnName);
                 }
             }
@@ -176,7 +176,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
 
                 ConsoleWriter.WriteLineInfo("ColumnName: " + filterForWordDetails.columnName[0]);
-                BOT_Api.SendFilterForWord(usedColumn, list.ToArray());
+                await BOT_Api.SendFilterForWord(stepContext, usedColumn, list.ToArray());
 
                 return await stepContext.EndDialogAsync(list, cancellationToken);
             }

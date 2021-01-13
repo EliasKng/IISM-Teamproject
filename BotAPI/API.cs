@@ -9,21 +9,25 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
 
 public class BOT_Api
 {
-    public static void SendRemoveVisualization()
+    public async static void SendRemoveVisualization()
     {
 
     }
 
-    public static void SendClearFilter()
+    public async static Task SendClearFilter(WaterfallStepContext stepContext)
     {
         FilterForWordJson json = new FilterForWordJson();
         //Set keywords to none
-        HttpPostRequestAsync("http://localhost:5000/keywords/delete/all", json);
+        string messageFoUser = "Clearing all Filters";
+        await HttpPostRequestAsync(stepContext, "http://localhost:5000/keywords/delete/all", json, messageFoUser);
     }
-    public static async Task SendChangeChartTypeAsync(string toCharttype)
+    public async static Task SendChangeChartTypeAsync(WaterfallStepContext stepContext, string toCharttype)
     {
         switch (toCharttype)
         {
@@ -44,10 +48,11 @@ public class BOT_Api
         {
             target_vis = toCharttype
         };
-        HttpPostRequestAsync("http://localhost:5000/change", json);
+        string messageForUser = "changing charttype to " + toCharttype;
+        await HttpPostRequestAsync(stepContext, "http://localhost:5000/change", json, messageForUser);
     }
 
-    public static void SendChangeVisualizationPart(string visPart, string toColumn)
+    public async static Task SendChangeVisualizationPart(WaterfallStepContext stepContext, string visPart, string toColumn)
     {
         ChangeVisPartJson json = new ChangeVisPartJson();
         switch (visPart)
@@ -68,17 +73,19 @@ public class BOT_Api
                 ConsoleWriter.WriteLineInfo("Error while determining the right vispart for json serialization");
                 break;
         }
-        HttpPostRequestAsync("http://localhost:5000/change-fields", json);
+        string messageForUser = "changing " + visPart + " to " + toColumn;
+        await HttpPostRequestAsync(stepContext, "http://localhost:5000/change-fields", json, messageForUser);
     }
 
-    public static void SendNL4DV(string query)
+    public async static Task SendNL4DV(WaterfallStepContext stepContext, string query)
     {
         NL4DVJson json = new NL4DVJson();
         json.query = query;
-        HttpPostRequestAsync("http://localhost:5000/nl4dv", json);
+        string messageForUser = "Executing NL4DV-Query";
+        await HttpPostRequestAsync(stepContext, "http://localhost:5000/nl4dv", json, messageForUser);
     }
 
-    public static void SendFilterForNumber(string columnName, string comparisonOperator, string number)
+    public async static Task SendFilterForNumber(WaterfallStepContext stepContext, string columnName, string comparisonOperator, string number)
     {
         FilterForNumberJson json = new FilterForNumberJson
         {
@@ -86,22 +93,23 @@ public class BOT_Api
             comparisonOperator = comparisonOperator,
             number = number
         };
-        HttpPostRequestAsync("http://localhost:5000/keywords/add-number", json);
+        string messageForUser = "Filter for " + columnName + " " + comparisonOperator + " " + number;
+        await HttpPostRequestAsync(stepContext, "http://localhost:5000/keywords/add-number", json, messageForUser);
     }
 
-    public static void SendFilterForWord(string p_column, string[] p_values)
+    public async static Task SendFilterForWord(WaterfallStepContext stepContext, string p_column, string[] p_values)
     {
         FilterForWordJson json = new FilterForWordJson
         {
             column = p_column,
             values = p_values
         };
-
-        HttpPostRequestAsync("http://localhost:5000/keywords/add-word", json);
+        string messageForUser = "Filter for " + String.Join(", ",p_values);
+        await HttpPostRequestAsync(stepContext, "http://localhost:5000/keywords/add-word", json, messageForUser);
     }
 
     public static HttpClient httpClient = new HttpClient();
-    public static async void HttpPostRequestAsync(string url, Json jsonObject)
+    public static async Task HttpPostRequestAsync(WaterfallStepContext stepContext, string url, Json jsonObject, string messageForUser)
     {
         try
         {
@@ -119,6 +127,12 @@ public class BOT_Api
                 var responseContent = await httpResponse.Content.ReadAsStringAsync();
                 ConsoleWriter.WriteLineInfo("Output: " + responseContent);
                 // From here on you could deserialize the ResponseContent back again to a concrete C# type using Json.Net
+                
+                
+                //Sending activity to the frontend
+                Activity message = MessageFactory.Text(messageForUser);
+                message.Value = responseContent;
+                await stepContext.Context.SendActivityAsync(message);
             }
 
         }

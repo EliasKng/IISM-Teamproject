@@ -85,7 +85,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             //Now the Object is set right and we can print, what we want to change our charttype to
             ConsoleWriter.WriteLineInfo("Filtering " + filterForNumberDetails.columnName[0] + " " + filterForNumberDetails.comparisonOperator + " " + filterForNumberDetails.filterNumber);
 
-            BOT_Api.SendFilterForNumber(filterForNumberDetails.columnName[0], filterForNumberDetails.comparisonOperator, filterForNumberDetails.filterNumber);
+            await BOT_Api.SendFilterForNumber(stepContext, filterForNumberDetails.columnName[0], filterForNumberDetails.comparisonOperator, filterForNumberDetails.filterNumber);
 
             return await stepContext.EndDialogAsync(filterForNumberDetails, cancellationToken);
         }

@@ -75,7 +75,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             }
             //Now the Object is set right and we can print, what we want to change our charttype to
 
-            BOT_Api.SendNL4DV(nl4dvQueryDetails.queryText);
+            await BOT_Api.SendNL4DV(stepContext, nl4dvQueryDetails.queryText);
 
             return await stepContext.EndDialogAsync(nl4dvQueryDetails, cancellationToken);
         }

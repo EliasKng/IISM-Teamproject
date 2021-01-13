@@ -45,7 +45,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             {
                 await stepContext.Context.SendActivityAsync(
                     MessageFactory.Text("NOTE: LUIS is not configured. To enable all capabilities, add 'LuisAppId', 'LuisAPIKey' and 'LuisAPIHostName' to the appsettings.json file.", inputHint: InputHints.IgnoringInput), cancellationToken);
-
+                
                 return await stepContext.NextAsync(null, cancellationToken);
             }
 
@@ -165,7 +165,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     return await stepContext.BeginDialogAsync(nameof(ChangeVisualizationPartDialog), changeVisualizationPartDetails, cancellationToken);
 
                 case VisualizationInteraction.Intent.ClearFilter:
-                    BOT_Api.SendClearFilter();
+                    await BOT_Api.SendClearFilter(stepContext);
                     break;
 
                 case VisualizationInteraction.Intent.Help:
