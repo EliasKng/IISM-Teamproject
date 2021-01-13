@@ -49,6 +49,11 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 return await stepContext.NextAsync(null, cancellationToken);
             }
 
+            Activity message = MessageFactory.Text("Test123");
+            message.Value = new string[] { "testString1inArray", "testString2inArray" };
+            await stepContext.Context.SendActivityAsync(message);
+
+
             // Use the text provided in FinalStepAsync or the default if it is the first time.
             var messageText = stepContext.Options?.ToString() ?? "What can I help you with today?";
             var promptMessage = MessageFactory.Text(messageText, messageText, InputHints.ExpectingInput);
