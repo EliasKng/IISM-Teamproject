@@ -1,0 +1,29 @@
+{
+    "data": [
+        [
+            "Canada",
+            66.8999622162
+        ],
+        [
+            "France",
+            151.1410272044
+        ],
+        [
+            "Germany",
+            40.2477755585
+        ],
+        [
+            "Mexico",
+            25.8672198564
+        ],
+        [
+            "United States of America",
+            75.8440151646
+        ]
+    ],
+    "type": "PieChart",
+    "columns": {
+        "color": "Country",
+        "theta": "Sales"
+    }
+}
