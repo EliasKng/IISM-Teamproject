@@ -74,7 +74,7 @@ def change_object():
         temp_vis = deserialize_object(session["final_vis_data"])
         temp_vis.change_vistype(post_data["target_vis"])
         session["final_vis_data"] = temp_vis.serialize_object()
-        return session["final_vis_data"]
+        return temp_vis.jsonify_vis()
 
 
 #**************************KEYWORDS********************************************
@@ -86,7 +86,7 @@ def set_keywords():
         temp_vis = deserialize_object(session["final_vis_data"])
         temp_vis.vis_object.set_keywords(post_data["keywords"])
         session["final_vis_data"] = temp_vis.serialize_object()
-        return session["final_vis_data"]
+        return temp_vis.jsonify_vis()
 
 
 #add/update nominal filter
@@ -98,7 +98,7 @@ def add_number():
         temp_vis = deserialize_object(session["final_vis_data"])
         temp_vis.vis_object.add_keyword(add_number_filter)
         session["final_vis_data"] = temp_vis.serialize_object()
-        return session["final_vis_data"]
+        return temp_vis.jsonify_vis()
 
 #add/update number filter
 @app.route('/keywords/add-word', methods=['GET', 'POST'])
@@ -109,7 +109,7 @@ def add_word():
         temp_vis = deserialize_object(session["final_vis_data"])
         temp_vis.vis_object.add_keyword(add_word_filter)
         session["final_vis_data"] = temp_vis.serialize_object()
-        return session["final_vis_data"]
+        return temp_vis.jsonify_vis()
 
 
 #delete all keywords/ all applied fiter 
@@ -119,7 +119,7 @@ def delete_all_keywords():
         temp_vis = deserialize_object(session["final_vis_data"])
         temp_vis.vis_object.set_keywords({})
         session["final_vis_data"] = temp_vis.serialize_object()
-        return session["final_vis_data"]
+        return temp_vis.jsonify_vis()
 
 #delete single keyword / applied filter
 @app.route('/keywords/delete', methods=['GET', 'POST'])
@@ -129,7 +129,7 @@ def delete_single_keyword():
         temp_vis = deserialize_object(session["final_vis_data"])
         temp_vis.vis_object.delete_keyword(post_data["keywords"])
         session["final_vis_data"] = temp_vis.serialize_object()
-        return session["final_vis_data"]
+        return temp_vis.jsonify_vis()
 
 #************************************************************************************
 #set/change fields 
@@ -143,7 +143,7 @@ def change_fields():
         else:
             temp_vis.vis_object.set_fields(None, post_data["y-theta"])
         session["final_vis_data"] = temp_vis.serialize_object()
-        return session["final_vis_data"]
+        return temp_vis.jsonify_vis()
 
 
 #set/change aggregate 
@@ -157,7 +157,7 @@ def change_aggregate():
         else:
             temp_vis.vis_object.set_aggregate(None, post_data["y-theta"])
         session["final_vis_data"] = temp_vis.serialize_object()
-        return session["final_vis_data"]
+        return temp_vis.jsonify_vis()
 
 #nl4dv
 @app.route('/nl4dv', methods=['GET', 'POST'])
@@ -178,7 +178,7 @@ def nl4dv_query():
             scatter_plot = ScatterPlot(working_dataframe, nl4dv_results["encoding"]["x"], nl4dv_results["encoding"]["y"])
             final_vis = VisHandler(scatter_plot)
             session["final_vis_data"] = final_vis.serialize_object()
-    return session["final_vis_data"]
+    return final_vis.jsonify_vis()
 
 
 
