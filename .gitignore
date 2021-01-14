@@ -19,3 +19,12 @@ __pycache__/
 .venv/
 IISMvenv/
 
+
+#Exclude libraries 
+.dll 
+
+
+#c++
+cpp_sample.obj
+cpp_stream_data.exe 
+tobii_interaction_lib_cs.deps.json
