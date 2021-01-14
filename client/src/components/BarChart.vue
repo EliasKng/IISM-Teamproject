@@ -1,7 +1,17 @@
 <template>
-  <svg :width="width" :height="height" ref="svg">
-    <g ref="chart"></g>
-    <g ref="circle"></g>
+  <svg :width="width" :height="height">
+    <g ref="chart">
+      <rect
+        v-for="(d, i) in data"
+        :key="i"
+        :width="w"
+        :height="calcHeight(d)"
+        :x="xScale(d)"
+        :y="yScale(d)"
+        stroke="#ff6347"
+        strokeWidth="3"
+        fill="#f5f5f5"/>
+    </g>
     <g ref="axis"></g>
   </svg>
 </template>
@@ -11,29 +21,23 @@ import * as d3 from 'd3';
 import { xSelector, ySelector } from '../utils';
 
 export default {
-  name: 'ScatterChart',
-  props: ['data'],
+  name: 'BarChart',
+  props: ['data', 'width', 'height'],
   data() {
     return {
-      width: 500,
-      height: 500,
-      path: '',
+      w: 0,
     };
   },
   mounted() {
     const xScale = d3
-      .scaleLinear()
+      .scaleBand()
       .range([0, 400])
-      .domain([0, 10]);
+      .domain(this.data.map((d) => xSelector(d)))
+      .padding(0.3);
     const yScale = d3
       .scaleLinear()
       .range([420, 0])
-      .domain([0, 420]);
-    const path = d3
-      .line()
-      .x((d) => xScale(xSelector(d)))
-      .y((d) => yScale(ySelector(d)));
-    this.path = path(this.data);
+      .domain([0, 500]);
 
     const margin = {
       top: 40, left: 40, bottom: 40, right: 0,
@@ -43,6 +47,8 @@ export default {
 
     const chartWidth = this.width - (margin.left + margin.right);
     const chartHeight = this.height - (margin.top + margin.bottom);
+
+    this.w = xScale.bandwidth();
 
     d3
       .select(this.$refs.chart)
@@ -66,38 +72,45 @@ export default {
       )
       .attr('class', 'axis x')
       .call(xAxis);
-
-    this.data.forEach((d) => {
-      d3
-        .select(this.$refs.circle)
-        .attr('transform', `translate(130, ${margin.top})`)
-        .append('circle')
-        .attr('cx', this.xPoint(d))
-        .attr('cy', this.yPoint(d))
-        .attr('r', '5')
-        .attr('stroke', '#fff')
-        .attr('strokeWidth', 2)
-        .attr('fill', '#ff6347');
-    });
   },
   methods: {
-    xPoint(d) {
-      const xScale = d3
-        .scaleLinear()
-        .range([0, 400])
-        .domain([0, 10]);
-      return xScale(xSelector(d));
-    },
-    yPoint(d) {
+    yScale(d) {
       const yScale = d3
         .scaleLinear()
         .range([420, 0])
-        .domain([0, 420]);
+        .domain([0, 500]);
       return yScale(ySelector(d));
+    },
+    xScale(d) {
+      const xScale = d3
+        .scaleBand()
+        .range([420, 0])
+        .domain([0, 420])
+        .padding(0.3);
+      return xScale(xSelector(d));
+    },
+    calcHeight(d) {
+      const yScale = d3
+        .scaleLinear()
+        .range([420, 0])
+        .domain([0, 500]);
+      const margin = {
+        top: 40, left: 100, bottom: 40, right: 0,
+      };
+
+      const chartHeight = this.height - (margin.top + margin.bottom);
+
+      const yValue = yScale(ySelector(d));
+      const barHeight = chartHeight - yValue;
+      return barHeight;
     },
   },
 };
 </script>
 
 <style>
+.tick line {
+  stroke-dasharray: 2 2;
+  stroke: #ccc;
+}
 </style>
