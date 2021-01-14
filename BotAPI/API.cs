@@ -24,8 +24,11 @@ public class BOT_Api
     {
         FilterForWordJson json = new FilterForWordJson();
         //Set keywords to none
-        string messageFoUser = "Clearing all Filters";
-        await HttpPostRequestAsync(stepContext, "http://localhost:5000/keywords/delete/all", json, messageFoUser);
+        string messageForUser = "Clearing all Filters";
+        //This would send the JSON to the Backend
+        //await HttpPostRequestAsync(stepContext, "http://localhost:5000/keywords/delete/all", json, messageFoUser);
+        //This sends the json to the frontend
+        await SendActivityAsync(stepContext, "/keywords/delete/all",json,messageForUser);
     }
     public async static Task SendChangeChartTypeAsync(WaterfallStepContext stepContext, string toCharttype)
     {
@@ -49,7 +52,9 @@ public class BOT_Api
             target_vis = toCharttype
         };
         string messageForUser = "changing charttype to " + toCharttype;
-        await HttpPostRequestAsync(stepContext, "http://localhost:5000/change", json, messageForUser);
+        //await HttpPostRequestAsync(stepContext, "http://localhost:5000/change", json, messageForUser);
+        //This sends the json to the frontend
+        await SendActivityAsync(stepContext, "/change", json, messageForUser);
     }
 
     public async static Task SendChangeVisualizationPart(WaterfallStepContext stepContext, string visPart, string toColumn)
@@ -74,7 +79,9 @@ public class BOT_Api
                 break;
         }
         string messageForUser = "changing " + visPart + " to " + toColumn;
-        await HttpPostRequestAsync(stepContext, "http://localhost:5000/change-fields", json, messageForUser);
+        //await HttpPostRequestAsync(stepContext, "http://localhost:5000/change-fields", json, messageForUser);
+        //This sends the json to the frontend
+        await SendActivityAsync(stepContext, "/change", json, messageForUser);
     }
 
     public async static Task SendNL4DV(WaterfallStepContext stepContext, string query)
@@ -82,7 +89,9 @@ public class BOT_Api
         NL4DVJson json = new NL4DVJson();
         json.query = query;
         string messageForUser = "Executing NL4DV-Query";
-        await HttpPostRequestAsync(stepContext, "http://localhost:5000/nl4dv", json, messageForUser);
+        //await HttpPostRequestAsync(stepContext, "http://localhost:5000/nl4dv", json, messageForUser);
+        //This sends the json to the frontend
+        await SendActivityAsync(stepContext, "/change", json, messageForUser);
     }
 
     public async static Task SendFilterForNumber(WaterfallStepContext stepContext, string columnName, string comparisonOperator, string number)
@@ -94,7 +103,9 @@ public class BOT_Api
             number = number
         };
         string messageForUser = "Filter for " + columnName + " " + comparisonOperator + " " + number;
-        await HttpPostRequestAsync(stepContext, "http://localhost:5000/keywords/add-number", json, messageForUser);
+        //await HttpPostRequestAsync(stepContext, "http://localhost:5000/keywords/add-number", json, messageForUser);
+        //This sends the json to the frontend
+        await SendActivityAsync(stepContext, "/change", json, messageForUser);
     }
 
     public async static Task SendFilterForWord(WaterfallStepContext stepContext, string p_column, string[] p_values)
@@ -105,7 +116,9 @@ public class BOT_Api
             values = p_values
         };
         string messageForUser = "Filter for " + String.Join(", ",p_values);
-        await HttpPostRequestAsync(stepContext, "http://localhost:5000/keywords/add-word", json, messageForUser);
+        //await HttpPostRequestAsync(stepContext, "http://localhost:5000/keywords/add-word", json, messageForUser);
+        //This sends the json to the frontend
+        await SendActivityAsync(stepContext, "/change", json, messageForUser);
     }
 
     public static HttpClient httpClient = new HttpClient();
@@ -142,6 +155,20 @@ public class BOT_Api
             ConsoleWriter.WriteLineInfo("Exception: " + e.Message);
         }
 
+    }
+
+    public static async Task SendActivityAsync(WaterfallStepContext stepContext, string endpoint, Json jsonObject, string messageForUser)
+    {
+        jsonObject.endpoint = endpoint;
+
+        var jsonString = await Task.Run(() => JsonConvert.SerializeObject(jsonObject));
+
+        ConsoleWriter.WriteLineInfo("Sending JSON: " + jsonString);
+
+        //Sending activity to the frontend
+        Activity message = MessageFactory.Text(messageForUser);
+        message.Value = jsonString;
+        await stepContext.Context.SendActivityAsync(message);
     }
 }
 
@@ -185,4 +212,6 @@ public class FilterForNumberJson : Json
 
 public class Json
 {
+    [JsonProperty("endpoint")]
+    public string endpoint { get; set; }
 }
