@@ -28,3 +28,12 @@ IISMvenv/
 cpp_sample.obj
 cpp_stream_data.exe 
 tobii_interaction_lib_cs.deps.json
+
+#Visual Studio and Bot
+.vs/
+CoreBot.csproj.user
+Properties/
+bin/
+obj/
+publish.cmd
+visbotapp.PublishSettings
