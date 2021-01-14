@@ -81,7 +81,7 @@ public class BOT_Api
         string messageForUser = "changing " + visPart + " to " + toColumn;
         //await HttpPostRequestAsync(stepContext, "http://localhost:5000/change-fields", json, messageForUser);
         //This sends the json to the frontend
-        await SendActivityAsync(stepContext, "/change", json, messageForUser);
+        await SendActivityAsync(stepContext, "/change-fields", json, messageForUser);
     }
 
     public async static Task SendNL4DV(WaterfallStepContext stepContext, string query)
@@ -91,7 +91,7 @@ public class BOT_Api
         string messageForUser = "Executing NL4DV-Query";
         //await HttpPostRequestAsync(stepContext, "http://localhost:5000/nl4dv", json, messageForUser);
         //This sends the json to the frontend
-        await SendActivityAsync(stepContext, "/change", json, messageForUser);
+        await SendActivityAsync(stepContext, "/nl4dv", json, messageForUser);
     }
 
     public async static Task SendFilterForNumber(WaterfallStepContext stepContext, string columnName, string comparisonOperator, string number)
@@ -105,7 +105,7 @@ public class BOT_Api
         string messageForUser = "Filter for " + columnName + " " + comparisonOperator + " " + number;
         //await HttpPostRequestAsync(stepContext, "http://localhost:5000/keywords/add-number", json, messageForUser);
         //This sends the json to the frontend
-        await SendActivityAsync(stepContext, "/change", json, messageForUser);
+        await SendActivityAsync(stepContext, "/keywords/add-number", json, messageForUser);
     }
 
     public async static Task SendFilterForWord(WaterfallStepContext stepContext, string p_column, string[] p_values)
@@ -118,7 +118,7 @@ public class BOT_Api
         string messageForUser = "Filter for " + String.Join(", ",p_values);
         //await HttpPostRequestAsync(stepContext, "http://localhost:5000/keywords/add-word", json, messageForUser);
         //This sends the json to the frontend
-        await SendActivityAsync(stepContext, "/change", json, messageForUser);
+        await SendActivityAsync(stepContext, "/keywords/add-word", json, messageForUser);
     }
 
     public static HttpClient httpClient = new HttpClient();
