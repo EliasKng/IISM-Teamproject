@@ -9,7 +9,8 @@
     <D3BarChart :config="columnconfig" :datum="barcolumndata" title="Lm" source="Dt" v-if="showchart === 'Columnchart'"></D3BarChart>
     <!-- eslint-disable-next-line -->
     <D3PieChart :config="pieconfig" :datum="piedata" title="Lo" source="Dl" v-if="showchart === 'Piechart'"></D3PieChart>
-    <scatter-chart :data="Scatterchartdata" v-if="showchart === 'Scatterplot'"/>
+    <scatter-chart :data="Scatterchartdata" xAxisLabel="xAxis" yAxisLabel="yAxis"
+     v-if="showchart === 'Scatterplot'"/>
     <div id="bot">
         <iframe src='https://webchat.botframework.com/embed/VisBot?s=hklRsvlqmDU.LlAinDiX1BF1692uQtyfVBMkEun7xtEe_smE_UvH6N4'  style='width: 100%; height: 100%;'></iframe>
     </div>
@@ -27,7 +28,7 @@ export default {
   data() {
     return {
       // 0 - barchart, 1 - column, 2 - pie, 3 - scatter
-      showchart: charttype[0],
+      showchart: charttype[3],
       Scatterchartdata: data,
       barcolumndata: [
         { name: '1992', total: 4748 },

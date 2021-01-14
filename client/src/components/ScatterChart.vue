@@ -12,7 +12,7 @@ import { xSelector, ySelector } from '../utils';
 
 export default {
   name: 'ScatterChart',
-  props: ['data'],
+  props: ['data', 'xAxisLabel', 'yAxisLabel'],
   data() {
     return {
       width: 500,
@@ -50,13 +50,7 @@ export default {
       .attr('height', chartHeight)
       .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-    d3
-      .select(this.$refs.axis)
-      .append('g')
-      .attr('transform', `translate(${margin.left}, ${margin.top})`)
-      .attr('class', 'axis y')
-      .call(yAxis);
-
+    // set xAxis
     d3
       .select(this.$refs.axis)
       .append('g')
@@ -65,7 +59,32 @@ export default {
         `translate(${margin.left}, ${chartHeight + margin.top})`,
       )
       .attr('class', 'axis x')
+      .text('xAxis')
       .call(xAxis);
+
+    // set xAxis Label
+    d3
+      .select(this.$refs.axis)
+      .append('text')
+      .attr('transform', `translate(${(chartWidth / 2)}, ${chartHeight + 35 + margin.bottom})`)
+      .style('text-anchor', 'middle')
+      .text(this.xAxisLabel);
+    // set yAxis
+    d3
+      .select(this.$refs.axis)
+      .append('g')
+      .attr('transform', `translate(${margin.left}, ${margin.top})`)
+      .attr('class', 'axis y')
+      .call(yAxis);
+
+    // set yAxis Label
+    d3
+      .select(this.$refs.axis)
+      .append('text')
+      .attr('transform', `translate(${margin.left}, ${0 + margin.bottom - 35})`)
+      .attr('dy', '1em')
+      .style('text-anchor', 'middle')
+      .text(this.yAxisLabel);
 
     this.data.forEach((d) => {
       d3
@@ -76,8 +95,8 @@ export default {
         .attr('cy', this.yPoint(d))
         .attr('r', '5')
         .attr('stroke', '#fff')
-        .attr('strokeWidth', 2)
-        .attr('fill', '#ff6347');
+        .attr('strokeWidth', 3)
+        .attr('fill', '#3CB371');
     });
   },
   methods: {
