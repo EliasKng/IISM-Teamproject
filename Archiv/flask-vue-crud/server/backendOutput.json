@@ -1,0 +1,17 @@
+{
+    "columns": [
+        "Country",
+        "Sales"
+    ],
+    "data": [
+        [
+            "Canada",
+            2894762.65
+        ],
+        [
+            "France",
+            6539875.15
+        ]
+    ],
+    "type": "BarChart"
+}
