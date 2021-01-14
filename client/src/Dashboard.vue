@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <header id="header"><h1>IISM Teamprojekt Dashboard</h1></header>
+    <p> {{ showchart  }} </p>
     <!--v-if="charttype === 'Barchart'"-->
     <!-- eslint-disable-next-line -->
     <D3BarChart :config="barconfig" :datum="barcolumndata" title="Lm" source="Dt" v-if="showchart === 'Barchart'"></D3BarChart>
@@ -8,8 +9,7 @@
     <D3BarChart :config="columnconfig" :datum="barcolumndata" title="Lm" source="Dt" v-if="showchart === 'Columnchart'"></D3BarChart>
     <!-- eslint-disable-next-line -->
     <D3PieChart :config="pieconfig" :datum="piedata" title="Lo" source="Dl" v-if="showchart === 'Piechart'"></D3PieChart>
-    <h1>Scatter Chart</h1>
-        <scatter-chart :data="Scatterchartdata" v-if="showchart === 'Scatterchart'"/>
+    <scatter-chart :data="Scatterchartdata" v-if="showchart === 'Scatterplot'"/>
     <div id="bot">
         <iframe src='https://webchat.botframework.com/embed/VisBot?s=hklRsvlqmDU.LlAinDiX1BF1692uQtyfVBMkEun7xtEe_smE_UvH6N4'  style='width: 100%; height: 100%;'></iframe>
     </div>
@@ -26,6 +26,7 @@ export default {
   name: 'app',
   data() {
     return {
+      // 0 - barchart, 1 - column, 2 - pie, 3 - scatter
       showchart: charttype[0],
       Scatterchartdata: data,
       barcolumndata: [
