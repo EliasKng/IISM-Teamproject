@@ -20,7 +20,6 @@
 <script>
 import { D3BarChart, D3PieChart } from 'vue-d3-charts';
 import ScatterChart from './components/ScatterChart.vue';
-import { data } from './components/data';
 import { charttype } from './components/charttype';
 
 export default {
@@ -29,7 +28,11 @@ export default {
     return {
       // 0 - barchart, 1 - column, 2 - pie, 3 - scatter
       showchart: charttype[3],
-      Scatterchartdata: data,
+      Scatterchartdata: [
+        { name: 0, total: 60 },
+        { name: 1, total: 60 },
+        { name: 2, total: 60 },
+      ],
       barcolumndata: [
         { name: '1992', total: 4748 },
         { name: '1993', total: 5526 },

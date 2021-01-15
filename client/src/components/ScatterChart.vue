@@ -30,7 +30,7 @@ export default {
     const yScale = d3
       .scaleLinear()
       .range([420, 0])
-      .domain([0, 200]);
+      .domain([0, 100]);
     const path = d3
       .line()
       .x((d) => xScale(xSelector(d)))
@@ -91,7 +91,7 @@ export default {
 
     const tooltip = d3.select('#my_dataviz')
       .append('div')
-      .style('opacity', 1)
+      .style('opacity', 0)
       .attr('class', 'tooltip')
       .style('background-color', 'white')
       .style('border', 'solid')
