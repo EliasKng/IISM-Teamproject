@@ -14,12 +14,11 @@ from ColumnChart import ColumnChart
 from PieChart import PieChart
 from ScatterPlot import ScatterPlot
 from VisHandler import VisHandler
-from flask import Flask, jsonify, request, session
-from flask_cors import CORS
+from flask import Flask, jsonify, request, session, make_response
+from flask_cors import CORS, cross_origin
 from nl4dv import NL4DV
 from nl4dv_parser import nl4dv_output_parser
 from jsonPrinter import jsonPrettyPrinter
-
 
 #NL4DV
 def nl4dvQueryAnalyzerFinancialsDataset(query) :
@@ -57,11 +56,13 @@ DEBUG = True
 
 # instantiate the app
 app = Flask(__name__)
-app.secret_key = "wbkVWnT0zV!6StVzLUG2PwQTr5NHP6$&R^i0huxdt4#eNUXbbso8oQJeiWjDYG6StVzLUG2PwQTr5NHP6$&R^i0huxdt4#eNUXbbsoFO"
+app.secret_key = "wbkVWnT0zV!6StVzLUG2PwQTr"
 app.config.from_object(__name__)
+app.config['PROPAGATE_EXCEPTIONS'] = False
+
 
 # enable CORS
-CORS(app, resources={r'/*': {'origins': '*'}})
+CORS(app, supports_credentials=True, origins=['http://localhost:3000'])
 
 
 #********************************************************************************************************************************
@@ -86,10 +87,13 @@ def set_keywords():
         temp_vis = deserialize_object(session["final_vis_data"])
         temp_vis.vis_object.set_keywords(post_data["keywords"])
         session["final_vis_data"] = temp_vis.serialize_object()
-        return temp_vis.jsonify_vis()
+        response = make_response(temp_vis.jsonify_vis(), 200)
+        response.headers['Access-Control-Allow-Credentials'] = 'true'
+        response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+        return response
 
 
-#add/update nominal filter
+#add/update number filter
 @app.route('/keywords/add-number', methods=['GET', 'POST'])
 def add_number():
     if request.method == "POST":
@@ -100,16 +104,17 @@ def add_number():
         session["final_vis_data"] = temp_vis.serialize_object()
         return temp_vis.jsonify_vis()
 
-#add/update number filter
+#add/update nominal filter
 @app.route('/keywords/add-word', methods=['GET', 'POST'])
 def add_word():
     if request.method == "POST":
         post_data = request.get_json()
+        print(post_data)
         add_word_filter = {post_data["column"] : ["in", post_data["values"]]}
         temp_vis = deserialize_object(session["final_vis_data"])
         temp_vis.vis_object.add_keyword(add_word_filter)
         session["final_vis_data"] = temp_vis.serialize_object()
-        return temp_vis.jsonify_vis()
+        return  temp_vis.jsonify_vis()
 
 
 #delete all keywords/ all applied fiter 
@@ -157,10 +162,10 @@ def change_aggregate():
         else:
             temp_vis.vis_object.set_aggregate(None, post_data["y-theta"])
         session["final_vis_data"] = temp_vis.serialize_object()
-        return temp_vis.jsonify_vis()
+    return  temp_vis.jsonify_vis()
 
 #nl4dv
-@app.route('/nl4dv', methods=['GET', 'POST'])
+@app.route('/nl4dv', methods=[ 'GET', 'POST'])
 def nl4dv_query():
     if request.method == "POST": 
         post_data = request.get_json()
@@ -201,5 +206,4 @@ def all_data():
         return jsonify("null")
 
 if __name__ == '__main__':
-    app.debug = True
     app.run()
