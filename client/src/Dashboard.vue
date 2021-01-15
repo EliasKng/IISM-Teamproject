@@ -1,10 +1,11 @@
 <template>
   <div id="app">
     <header id="header"><h1>IISM Teamprojekt Dashboard</h1></header>
-    <p> {{ showchart  }} </p>
+    <p> {{  barcolumndata  }} </p>
+    <p> {{ exp }} </p>
     <!--v-if="charttype === 'Barchart'"-->
     <!-- eslint-disable-next-line -->
-    <D3BarChart :config="barconfig" :datum="barcolumndata" title="Lm" source="Dt" v-if="showchart === 'Barchart'"></D3BarChart>
+    <D3BarChart :config="barconfig" :datum="JSON.parse(exp)" title="Lm" source="Dt" v-if="showchart === 'Barchart'"></D3BarChart>
     <!-- eslint-disable-next-line -->
     <D3BarChart :config="columnconfig" :datum="barcolumndata" title="Lm" source="Dt" v-if="showchart === 'Columnchart'"></D3BarChart>
     <!-- eslint-disable-next-line -->
@@ -21,18 +22,21 @@
 import { D3BarChart, D3PieChart } from 'vue-d3-charts';
 import ScatterChart from './components/ScatterChart.vue';
 import { charttype } from './components/charttype';
+// eslint-disable-next-line
+import { ex } from './components/datatransform';
 
 export default {
   name: 'app',
   data() {
     return {
       // 0 - barchart, 1 - column, 2 - pie, 3 - scatter
-      showchart: charttype[3],
+      showchart: charttype[0],
       Scatterchartdata: [
         { name: 0, total: 60 },
         { name: 1, total: 60 },
         { name: 2, total: 60 },
       ],
+      exp: (ex[0]),
       barcolumndata: [
         { name: '1992', total: 4748 },
         { name: '1993', total: 5526 },
