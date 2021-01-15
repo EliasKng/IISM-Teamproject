@@ -58,11 +58,10 @@ DEBUG = True
 app = Flask(__name__)
 app.secret_key = "wbkVWnT0zV!6StVzLUG2PwQTr"
 app.config.from_object(__name__)
-app.config['PROPAGATE_EXCEPTIONS'] = False
 
 
 # enable CORS
-CORS(app, supports_credentials=True, origins=['http://localhost:3000'])
+CORS(app, supports_credentials=True, headers=['Content-Type'], expose_headers=['Access-Control-Allow-Origin'])
 
 
 #********************************************************************************************************************************
