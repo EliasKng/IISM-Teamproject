@@ -1,42 +1,50 @@
 <template>
   <div id="app">
     <header id="header"><h1>IISM Teamprojekt Dashboard</h1></header>
-    <p> {{  barcolumndata  }} </p>
-    <p> {{ exp }} </p>
-    <!--v-if="charttype === 'Barchart'"-->
+    <h3>this is the data : {{this.$store.state.type}}  {{allData}}</h3>
+    <textarea v-model="rawJSON" placeholder="add Data here"></textarea>
+    <br>
+    <button v-on:click="changeData(rawJSON)">Submit</button>
     <!-- eslint-disable-next-line -->
-    <D3BarChart :config="barconfig" :datum="JSON.parse(exp)" title="Lm" source="Dt" v-if="showchart === 'Barchart'"></D3BarChart>
+    <D3BarChart :config="barconfig" :datum="allData" title="Lm" source="Dt" v-if="this.$store.state.type === 'BarChart'"></D3BarChart>
     <!-- eslint-disable-next-line -->
-    <D3BarChart :config="columnconfig" :datum="barcolumndata" title="Lm" source="Dt" v-if="showchart === 'Columnchart'"></D3BarChart>
+    <D3BarChart :config="columnconfig" :datum="barcolumndata" title="Lm" source="Dt" v-if="this.$store.state.type === 'ColumnChart'"></D3BarChart>
     <!-- eslint-disable-next-line -->
-    <D3PieChart :config="pieconfig" :datum="piedata" title="Lo" source="Dl" v-if="showchart === 'Piechart'"></D3PieChart>
+    <D3PieChart :config="pieconfig" :datum="piedata" title="Lo" source="Dl" v-if="this.$store.state.type === 'PieChart'"></D3PieChart>
     <scatter-chart :data="Scatterchartdata" xAxisLabel="xAxis" yAxisLabel="yAxis"
-     v-if="showchart === 'Scatterplot'"/>
+     v-if="this.$store.state.type === 'ScatterPlot'"/>
     <div id="bot">
-        <iframe src='https://webchat.botframework.com/embed/VisBot?s=hklRsvlqmDU.LlAinDiX1BF1692uQtyfVBMkEun7xtEe_smE_UvH6N4'  style='width: 100%; height: 100%;'></iframe>
     </div>
   </div>
 </template>
 
 <script>
+/* eslint-disable */
 import { D3BarChart, D3PieChart } from 'vue-d3-charts';
 import ScatterChart from './components/ScatterChart.vue';
-import { charttype } from './components/charttype';
-// eslint-disable-next-line
-import { ex } from './components/datatransform';
 
 export default {
   name: 'app',
+  computed: {
+    allData() {
+      return this.$store.getters.formattedData;
+    },
+  },
+  methods: {
+    changeData: function (rawJSON) {
+      this.$store.dispatch('changeData', rawJSON);
+    },
+  },
   data() {
     return {
+      rawJSON: "",
+
       // 0 - barchart, 1 - column, 2 - pie, 3 - scatter
-      showchart: charttype[0],
       Scatterchartdata: [
         { name: 0, total: 60 },
         { name: 1, total: 60 },
         { name: 2, total: 60 },
       ],
-      exp: (ex[0]),
       barcolumndata: [
         { name: '1992', total: 4748 },
         { name: '1993', total: 5526 },

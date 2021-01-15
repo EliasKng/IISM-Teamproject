@@ -8,4 +8,3 @@ new Vue({
   store,
   render: (h) => h(Dashboard),
 }).$mount('#app');
-
