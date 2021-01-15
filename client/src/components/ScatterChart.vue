@@ -20,15 +20,17 @@ export default {
       path: '',
     };
   },
+
+  // get highest values for x and y Axis for domain
   mounted() {
     const xScale = d3
       .scaleLinear()
       .range([0, 400])
-      .domain([0, 10]);
+      .domain([0, 200]);
     const yScale = d3
       .scaleLinear()
       .range([420, 0])
-      .domain([0, 420]);
+      .domain([0, 200]);
     const path = d3
       .line()
       .x((d) => xScale(xSelector(d)))
@@ -69,6 +71,7 @@ export default {
       .attr('transform', `translate(${(chartWidth / 2)}, ${chartHeight + 35 + margin.bottom})`)
       .style('text-anchor', 'middle')
       .text(this.xAxisLabel);
+
     // set yAxis
     d3
       .select(this.$refs.axis)
@@ -86,6 +89,35 @@ export default {
       .style('text-anchor', 'middle')
       .text(this.yAxisLabel);
 
+    const tooltip = d3.select('#my_dataviz')
+      .append('div')
+      .style('opacity', 1)
+      .attr('class', 'tooltip')
+      .style('background-color', 'white')
+      .style('border', 'solid')
+      .style('border-width', '1px')
+      .style('border-radius', '5px')
+      .style('padding', '10px');
+
+    // A function that change this tooltip when the user hover a point.
+    const mouseover = function () {
+      tooltip.style('opacity', 1);
+    };
+
+    const mousemove = function () {
+      tooltip
+        .html('test')
+        .style('left', (d3.mouse(this)[0] + 90))
+        .style('top', (d3.mouse(this)[1]));
+    };
+
+    const mouseleave = function () {
+      tooltip
+        .transition()
+        .duration(200)
+        .style('opacity', 0);
+    };
+
     this.data.forEach((d) => {
       d3
         .select(this.$refs.circle)
@@ -96,7 +128,10 @@ export default {
         .attr('r', '5')
         .attr('stroke', '#fff')
         .attr('strokeWidth', 3)
-        .attr('fill', '#3CB371');
+        .attr('fill', '#3CB371')
+        .on('mouseover', mouseover)
+        .on('mousemove', mousemove)
+        .on('mouseleave', mouseleave);
     });
   },
   methods: {
