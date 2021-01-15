@@ -3,6 +3,7 @@
     <g ref="chart"></g>
     <g ref="circle"></g>
     <g ref="axis"></g>
+    <g ref="text"></g>
   </svg>
 </template>
 
@@ -15,8 +16,10 @@ export default {
   props: ['data', 'xAxisLabel', 'yAxisLabel'],
   data() {
     return {
-      width: 500,
+      width: 800,
       height: 500,
+      paddingH: 45,
+      paddingV: 50,
       path: '',
     };
   },
@@ -25,12 +28,12 @@ export default {
   mounted() {
     const xScale = d3
       .scaleLinear()
-      .range([0, 400])
-      .domain([0, 200]);
+      .range([0, this.width - this.paddingH])
+      .domain([0, 50 + d3.max(this.data, (x) => x.name)]);
     const yScale = d3
       .scaleLinear()
-      .range([420, 0])
-      .domain([0, 100]);
+      .range([this.height - (this.paddingV * 2), 0])
+      .domain([0, 50 + d3.max(this.data, (x) => x.total)]);
     const path = d3
       .line()
       .x((d) => xScale(xSelector(d)))
@@ -40,11 +43,15 @@ export default {
     const margin = {
       top: 40, left: 40, bottom: 40, right: 0,
     };
-    const yAxis = d3.axisLeft(yScale).tickSizeInner(-420);
-    const xAxis = d3.axisBottom(xScale);
 
     const chartWidth = this.width - (margin.left + margin.right);
     const chartHeight = this.height - (margin.top + margin.bottom);
+
+    // tickSizeInner draws line
+    const xAxis = d3.axisBottom(xScale)
+      .tickSize(-(chartHeight - 20))
+      .tickPadding(10);
+    const yAxis = d3.axisLeft(yScale).tickSize(-(this.width - this.paddingH)).tickPadding(10);
 
     d3
       .select(this.$refs.chart)
@@ -58,7 +65,7 @@ export default {
       .append('g')
       .attr(
         'transform',
-        `translate(${margin.left}, ${chartHeight + margin.top})`,
+        `translate(${margin.left}, ${-20 + chartHeight + margin.top})`,
       )
       .attr('class', 'axis x')
       .text('xAxis')
@@ -89,64 +96,33 @@ export default {
       .style('text-anchor', 'middle')
       .text(this.yAxisLabel);
 
-    const tooltip = d3.select('#my_dataviz')
-      .append('div')
-      .style('opacity', 0)
-      .attr('class', 'tooltip')
-      .style('background-color', 'white')
-      .style('border', 'solid')
-      .style('border-width', '1px')
-      .style('border-radius', '5px')
-      .style('padding', '10px');
-
-    // A function that change this tooltip when the user hover a point.
-    const mouseover = function () {
-      tooltip.style('opacity', 1);
-    };
-
-    const mousemove = function () {
-      tooltip
-        .html('test')
-        .style('left', (d3.mouse(this)[0] + 90))
-        .style('top', (d3.mouse(this)[1]));
-    };
-
-    const mouseleave = function () {
-      tooltip
-        .transition()
-        .duration(200)
-        .style('opacity', 0);
-    };
-
     this.data.forEach((d) => {
       d3
         .select(this.$refs.circle)
-        .attr('transform', `translate(130, ${margin.top})`)
+        .attr('transform', `translate(${margin.left}, ${margin.top})`)
         .append('circle')
         .attr('cx', this.xPoint(d))
         .attr('cy', this.yPoint(d))
         .attr('r', '5')
         .attr('stroke', '#fff')
         .attr('strokeWidth', 3)
-        .attr('fill', '#3CB371')
-        .on('mouseover', mouseover)
-        .on('mousemove', mousemove)
-        .on('mouseleave', mouseleave);
+        .attr('fill', '#3CB371');
     });
   },
+
   methods: {
     xPoint(d) {
       const xScale = d3
         .scaleLinear()
-        .range([0, 400])
-        .domain([0, 10]);
+        .range([0, this.width - this.paddingH])
+        .domain([0, 50 + d3.max(this.data, (x) => x.name)]);
       return xScale(xSelector(d));
     },
     yPoint(d) {
       const yScale = d3
         .scaleLinear()
-        .range([420, 0])
-        .domain([0, 420]);
+        .range([this.height - (this.paddingV * 2), 0])
+        .domain([0, 50 + d3.max(this.data, (x) => x.total)]);
       return yScale(ySelector(d));
     },
   },
