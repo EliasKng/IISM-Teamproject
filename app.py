@@ -179,6 +179,7 @@ def nl4dv_query():
             final_vis =  VisHandler(pie_chart)
             session["final_vis_data"] = final_vis.serialize_object()
         if nl4dv_results["vis_type"] == "point":
+            print(nl4dv_results)
             scatter_plot = ScatterPlot(working_dataframe, nl4dv_results["encoding"]["x"], nl4dv_results["encoding"]["y"])
             final_vis = VisHandler(scatter_plot)
             session["final_vis_data"] = final_vis.serialize_object()

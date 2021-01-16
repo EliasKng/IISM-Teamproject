@@ -74,7 +74,11 @@ class VisHandler():
 
     #returns parsed JSON for frontend
     def jsonify_vis(self): 
-        result = (self.vis_object.get_data()).reset_index().to_json(orient="split")
+        result = (self.vis_object.get_data()).reset_index()
+        if 'index' in result.columns:
+            result = result.drop(["index"], axis=1).to_json(orient="split")
+        else:
+            result = result.to_json(orient="split")
         parsed = json.loads(result)
         #entferne überflüssige infos 
         parsed.pop("index")
