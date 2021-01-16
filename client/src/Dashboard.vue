@@ -1,17 +1,17 @@
 <template>
   <div id="app">
     <header id="header"><h1>IISM Teamprojekt Dashboard</h1></header>
-    <h3>this is the data : {{this.$store.state.type}}  {{allData}}</h3>
+    <h3>this is the data : {{this.$store.state.type}}  {{formattedData}}</h3>
     <textarea v-model="rawJSON" placeholder="add Data here"></textarea>
     <br>
     <button v-on:click="changeData(rawJSON)">Submit</button>
     <!-- eslint-disable-next-line -->
-    <D3BarChart :config="barconfig" :datum="allData" title="Lm" source="Dt" v-if="this.$store.state.type === 'BarChart'"></D3BarChart>
+    <D3BarChart :config="barconfig" :datum="formattedData" title="Lm" source="Dt" v-if="this.$store.state.type === 'BarChart'"></D3BarChart>
     <!-- eslint-disable-next-line -->
-    <D3BarChart :config="columnconfig" :datum="barcolumndata" title="Lm" source="Dt" v-if="this.$store.state.type === 'ColumnChart'"></D3BarChart>
+    <D3BarChart :config="columnconfig" :datum="formattedData" title="Lm" source="Dt" v-if="this.$store.state.type === 'ColumnChart'"></D3BarChart>
     <!-- eslint-disable-next-line -->
-    <D3PieChart :config="pieconfig" :datum="piedata" title="Lo" source="Dl" v-if="this.$store.state.type === 'PieChart'"></D3PieChart>
-    <scatter-chart :data="Scatterchartdata" xAxisLabel="xAxis" yAxisLabel="yAxis"
+    <D3PieChart :config="pieconfig" :datum="formattedData" title="Lo" source="Dl" v-if="this.$store.state.type === 'PieChart'"></D3PieChart>
+    <scatter-chart :data="formattedData" xAxisLabel="xAxis" yAxisLabel="yAxis"
      v-if="this.$store.state.type === 'ScatterPlot'"/>
     <div id="bot">
     </div>
@@ -26,9 +26,32 @@ import ScatterChart from './components/ScatterChart.vue';
 export default {
   name: 'app',
   computed: {
-    allData() {
+    formattedData() {
       return this.$store.getters.formattedData;
     },
+    formattedDataPieChart() {
+      return this.$store.getters.formattedDataPieChart;
+    },
+    barconfig() { 
+      return {
+        key: 'name',
+        values: ['total'],
+        orientation: 'vertical',
+        color: { current: '#41B882' },
+        axis: { yTitle: this.$store.state.columns["y-axis"], yTicks: 10, yFormat: '.0s' },
+        transition: { ease: 'easeBounceOut', duration: 1000 },
+      };
+    },
+    columnconfig() { 
+      return {
+        key: 'name',
+        values: ['total'],
+        orientation: 'horizontal',
+        color: { current: '#41B882' },
+        axis: { yTitle: this.$store.state.columns["x-axis"], yTicks: 10, yFormat: '.0s' },
+        transition: { ease: 'easeBounceOut', duration: 1000 },
+      };
+    },  
   },
   methods: {
     changeData: function (rawJSON) {
@@ -38,52 +61,14 @@ export default {
   data() {
     return {
       rawJSON: "",
-
-      // 0 - barchart, 1 - column, 2 - pie, 3 - scatter
-      Scatterchartdata: [
-        { name: 0, total: 60 },
-        { name: 1, total: 60 },
-        { name: 2, total: 60 },
-      ],
-      barcolumndata: [
-        { name: '1992', total: 4748 },
-        { name: '1993', total: 5526 },
-        { name: '1994', total: 8574 },
-        { name: '1995', total: 15805 },
-        { name: '1996', total: 14582 },
-        { name: '1997', total: 26694 },
-        { name: '1998', total: 35205 },
-        { name: '1999', total: 45944 },
-        { name: '2000', total: 78595 },
-        { name: '2001', total: 78530 },
-        { name: '2002', total: 45407 },
-        { name: '2003', total: 54044 },
-        { name: '2004', total: 69165 },
-        { name: '2005', total: 61798 },
-        { name: '2006', total: 63686 },
-      ],
+    
       piedata: [
         { name: 'Lorem', total: 30, color: '#425265' },
         { name: 'Ipsum', total: 21, color: '#3e9a70' },
         { name: 'Dolor', total: 20, color: '#41ab7b' },
         { name: 'Sit', total: 112, color: '#222f3e' },
       ],
-      barconfig: {
-        key: 'name',
-        values: ['total'],
-        orientation: 'vertical',
-        color: { current: '#41B882' },
-        axis: { yTitle: 'Lorem ipsum dolor sit amet', yTicks: 10, yFormat: '.0s' },
-        transition: { ease: 'easeBounceOut', duration: 1000 },
-      },
-      columnconfig: {
-        key: 'name',
-        values: ['total'],
-        orientation: 'horizontal',
-        color: { current: '#41B882' },
-        axis: { yTitle: 'Lorem ipsum dolor sit amet', yTicks: 10, yFormat: '.0s' },
-        transition: { ease: 'easeBounceOut', duration: 1000 },
-      },
+      
       pieconfig: {
         key: 'name',
         value: 'total',

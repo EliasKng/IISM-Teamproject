@@ -30,6 +30,15 @@ export default new Vuex.Store({
           }
         });
       return formattedData;
+    },
+    formattedDataPieChart: (state) => {
+      var formattedDataPieChart = state.data.map(dataElem =>{
+      return {name: dataElem[0],
+            total:  dataElem[1],
+            color: 'red'
+          }
+        });
+      return formattedDataPieChart;
     }
   },
 
