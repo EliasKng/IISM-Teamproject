@@ -14,7 +14,7 @@ from ColumnChart import ColumnChart
 from PieChart import PieChart
 from ScatterPlot import ScatterPlot
 from VisHandler import VisHandler
-from flask import Flask, jsonify, request, session, make_response
+from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS, cross_origin
 from nl4dv import NL4DV
 from nl4dv_parser import nl4dv_output_parser
@@ -61,7 +61,8 @@ app.config.from_object(__name__)
 
 
 # enable CORS
-CORS(app, supports_credentials=True, headers=['Content-Type'], expose_headers=['Access-Control-Allow-Origin'])
+CORS(app, resources={r'/*': {'origins': '*'}})
+
 
 
 #********************************************************************************************************************************
@@ -164,26 +165,28 @@ def change_aggregate():
     return  temp_vis.jsonify_vis()
 
 #nl4dv
-@app.route('/nl4dv', methods=[ 'GET', 'POST'])
+@app.route('/nl4dv', methods=['POST'])
+@cross_origin()
 def nl4dv_query():
     if request.method == "POST": 
-        post_data = request.get_json()
+        post_data = request.get_json(force=True)
+        #print("***" + post_data)
         nl4dv_results = nl4dv_output_parser(nl4dvQueryAnalyzerFinancialsDataset(post_data["query"]))
         #decide which object to create 
         if nl4dv_results["vis_type"] == "bar": 
             bar_chart = BarChart(working_dataframe, nl4dv_results["encoding"]["x"], nl4dv_results["encoding"]["y"])
             final_vis =  VisHandler(bar_chart)
-            session["final_vis_data"] = final_vis.serialize_object()
+            #session["final_vis_data"] = final_vis.serialize_object()
         if nl4dv_results["vis_type"] == "arc":
             pie_chart = PieChart(working_dataframe, nl4dv_results["encoding"]["color"], nl4dv_results["encoding"]["theta"])
             final_vis =  VisHandler(pie_chart)
-            session["final_vis_data"] = final_vis.serialize_object()
+            #session["final_vis_data"] = final_vis.serialize_object()
         if nl4dv_results["vis_type"] == "point":
             print(nl4dv_results)
             scatter_plot = ScatterPlot(working_dataframe, nl4dv_results["encoding"]["x"], nl4dv_results["encoding"]["y"])
             final_vis = VisHandler(scatter_plot)
-            session["final_vis_data"] = final_vis.serialize_object()
-    return final_vis.jsonify_vis()
+            #session["final_vis_data"] = final_vis.serialize_object()
+        return final_vis.jsonify_vis()
 
 
 
@@ -206,4 +209,4 @@ def all_data():
         return jsonify("null")
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
