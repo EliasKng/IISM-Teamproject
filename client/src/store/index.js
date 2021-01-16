@@ -8,6 +8,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    specs: {},
     type: "",
     columns: {},
     data: 
@@ -35,7 +36,7 @@ export default new Vuex.Store({
       var formattedDataPieChart = state.data.map(dataElem =>{
       return {name: dataElem[0],
             total:  dataElem[1],
-            color: 'red'
+            color:  
           }
         });
       return formattedDataPieChart;
@@ -46,6 +47,16 @@ export default new Vuex.Store({
     changeData(context, rawJSON) {
       context.commit('changeData', rawJSON);
     },
+    changeDataBot(context, Query, Endpoint) {
+      var url = 'http://127.0.0.1:5000' + Endpoint;
+      var json = JSON.stringify(Query);
+      axios(url, {
+        method: "post",
+        data: json,
+        withCredentials: true
+      })
+      .then(response => {context.commit('changeData', response.data)})
+  },
   },
   modules: {
   },
