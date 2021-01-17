@@ -2,7 +2,6 @@ import os
 import sys
 import json
 import requests
-import ast 
 
 sys.path.append(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "Visualization"))
 
@@ -72,11 +71,11 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 @app.route('/change', methods=['GET', 'POST'])
 def change_object():
     if request.method == "POST": 
-        JSONlist = request.get_json()
-        post_data = [ast.literal_eval(str(JSONlist[0]).replace("\'", "\"").replace("null", "\"null\"")), ast.literal_eval(str(JSONlist[1]).replace("\'", "\"").replace("null", "\"null\""))]
-        temp_vis = deserialize_object(post_data[1])
-        temp_vis.change_vistype(post_data[0]["target_vis"])
-        return {"values" : temp_vis.jsonify_vis(), "specs" : temp_vis.serialize_object()}
+        post_data = request.get_json()
+        temp_vis = deserialize_object(session["final_vis_data"])
+        temp_vis.change_vistype(post_data["target_vis"])
+        session["final_vis_data"] = temp_vis.serialize_object()
+        return temp_vis.jsonify_vis()
 
 
 #**************************KEYWORDS********************************************
@@ -84,107 +83,111 @@ def change_object():
 @app.route('/keywords/set', methods=['GET', 'POST'])
 def set_keywords():
     if request.method == "POST":
-        JSONlist = request.get_json()
-        post_data = [ast.literal_eval(str(JSONlist[0]).replace("\'", "\"").replace("null", "\"null\"")), ast.literal_eval(str(JSONlist[1]).replace("\'", "\"").replace("null", "\"null\""))]
-        temp_vis = deserialize_object(post_data[1])
-        temp_vis.vis_object.set_keywords(post_data[0]["keywords"])
-        return {"values" : temp_vis.jsonify_vis(), "specs" : temp_vis.serialize_object()}
+        post_data = request.get_json()
+        temp_vis = deserialize_object(session["final_vis_data"])
+        temp_vis.vis_object.set_keywords(post_data["keywords"])
+        session["final_vis_data"] = temp_vis.serialize_object()
+        response = make_response(temp_vis.jsonify_vis(), 200)
+        response.headers['Access-Control-Allow-Credentials'] = 'true'
+        response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+        return response
 
 
 #add/update number filter
-@app.route('/keywords/add-number', methods=['OPTIONS', 'GET', 'POST'])
-@cross_origin()
+@app.route('/keywords/add-number', methods=['GET', 'POST'])
 def add_number():
     if request.method == "POST":
-        JSONlist = request.get_json()
-        post_data = [ast.literal_eval(str(JSONlist[0]).replace("\'", "\"").replace("null", "\"null\"")), ast.literal_eval(str(JSONlist[1]).replace("\'", "\"").replace("null", "\"null\""))]
-        add_number_filter = {post_data[0]["column"] : [post_data[0]["comparisonOperator"], [post_data[0]["number"]]]}
-        print(add_number_filter)
-        temp_vis = deserialize_object(post_data[1])
+        post_data = request.get_json()
+        add_number_filter = {post_data["column"] : [post_data["comparisonOperator"], [post_data["number"]]]}
+        temp_vis = deserialize_object(session["final_vis_data"])
         temp_vis.vis_object.add_keyword(add_number_filter)
-        return {"values" : temp_vis.jsonify_vis(), "specs" : temp_vis.serialize_object()}
+        session["final_vis_data"] = temp_vis.serialize_object()
+        return temp_vis.jsonify_vis()
 
 #add/update nominal filter
 @app.route('/keywords/add-word', methods=['GET', 'POST'])
 def add_word():
     if request.method == "POST":
-        JSONlist = request.get_json()
-        post_data = [ast.literal_eval(str(JSONlist[0]).replace("\'", "\"").replace("null", "\"null\"")), ast.literal_eval(str(JSONlist[1]).replace("\'", "\"").replace("null", "\"null\""))]
-        add_word_filter = {post_data[0]["column"] : ["in", post_data[0]["values"]]}
-        temp_vis = deserialize_object(post_data[1])
+        post_data = request.get_json()
+        print(post_data)
+        add_word_filter = {post_data["column"] : ["in", post_data["values"]]}
+        temp_vis = deserialize_object(session["final_vis_data"])
         temp_vis.vis_object.add_keyword(add_word_filter)
-        return  {"values" : temp_vis.jsonify_vis(), "specs" : temp_vis.serialize_object()}
+        session["final_vis_data"] = temp_vis.serialize_object()
+        return  temp_vis.jsonify_vis()
 
 
 #delete all keywords/ all applied fiter 
 @app.route('/keywords/delete/all', methods=['GET', 'POST'])
 def delete_all_keywords():
     if request.method == "POST":
-        JSONlist = request.get_json()
-        post_data = [ast.literal_eval(str(JSONlist[0]).replace("\'", "\"").replace("null", "\"null\"")), ast.literal_eval(str(JSONlist[1]).replace("\'", "\"").replace("null", "\"null\""))]
-        temp_vis = deserialize_object(post_data[1])
+        temp_vis = deserialize_object(session["final_vis_data"])
         temp_vis.vis_object.set_keywords({})
-        return {"values" : temp_vis.jsonify_vis(), "specs" : temp_vis.serialize_object()}
+        session["final_vis_data"] = temp_vis.serialize_object()
+        return temp_vis.jsonify_vis()
 
 #delete single keyword / applied filter
 @app.route('/keywords/delete', methods=['GET', 'POST'])
 def delete_single_keyword():
     if request.method == "POST":
-        JSONlist = request.get_json()
-        post_data = [ast.literal_eval(str(JSONlist[0]).replace("\'", "\"").replace("null", "\"null\"")), ast.literal_eval(str(JSONlist[1]).replace("\'", "\"").replace("null", "\"null\""))]
-        temp_vis = deserialize_object(post_data[1])
-        temp_vis.vis_object.delete_keyword(post_data[0]["keywords"])
-        return {"values" : temp_vis.jsonify_vis(), "specs" : temp_vis.serialize_object()}
+        post_data = request.get_json()
+        temp_vis = deserialize_object(session["final_vis_data"])
+        temp_vis.vis_object.delete_keyword(post_data["keywords"])
+        session["final_vis_data"] = temp_vis.serialize_object()
+        return temp_vis.jsonify_vis()
 
 #************************************************************************************
 #set/change fields 
 @app.route('/change-fields', methods=['GET', 'POST'])
 def change_fields():
     if request.method == "POST":
-        JSONlist = request.get_json()
-        print(JSONlist)
-        post_data = [ast.literal_eval(str(JSONlist[0]).replace("\'", "\"").replace("null", "\"null\"")), ast.literal_eval(str(JSONlist[1]).replace("\'", "\"").replace("null", "\"null\""))]
-        temp_vis = deserialize_object(post_data[1])
-        if post_data[0]["x-color"] and post_data[0]["y-theta"]=="null":
-            temp_vis.vis_object.set_fields(post_data[0]["x-color"])
+        post_data = request.get_json()
+        temp_vis = deserialize_object(session["final_vis_data"])
+        if post_data["x-color"] and post_data["y-theta"]=="null":
+            temp_vis.vis_object.set_fields(post_data["x-color"])
         else:
-            temp_vis.vis_object.set_fields(None, post_data[0]["y-theta"])
-        return {"values" : temp_vis.jsonify_vis(), "specs" : temp_vis.serialize_object()}
+            temp_vis.vis_object.set_fields(None, post_data["y-theta"])
+        session["final_vis_data"] = temp_vis.serialize_object()
+        return temp_vis.jsonify_vis()
 
 
 #set/change aggregate 
 @app.route('/change-aggregate', methods=['GET', 'POST'])
 def change_aggregate():
     if request.method == "POST":
-        JSONlist = request.get_json()
-        post_data = [ast.literal_eval(str(JSONlist[0]).replace("\'", "\"").replace("null", "\"null\"")), ast.literal_eval(str(JSONlist[1]).replace("\'", "\"").replace("null", "\"null\""))]
-        temp_vis = deserialize_object(post_data[1])
-        if post_data["data"]["x-color"] and post_data[0]["y-theta"]=="null":
-            temp_vis.vis_object.set_aggregate(post_data[0]["x-color"])
+        post_data = request.get_json()
+        temp_vis = deserialize_object(session["final_vis_data"])
+        if post_data["x-color"] and post_data["y-theta"]=="null":
+            temp_vis.vis_object.set_aggregate(post_data["x-color"])
         else:
-            temp_vis.vis_object.set_aggregate(None, post_data[0]["y-theta"])
-    return  {"values" : temp_vis.jsonify_vis(), "specs" : temp_vis.serialize_object()}
+            temp_vis.vis_object.set_aggregate(None, post_data["y-theta"])
+        session["final_vis_data"] = temp_vis.serialize_object()
+    return  temp_vis.jsonify_vis()
 
 #nl4dv
-@app.route('/nl4dv', methods=['OPTIONS', 'POST'])
+@app.route('/nl4dv', methods=['POST'])
 @cross_origin()
 def nl4dv_query():
     if request.method == "POST": 
-        post_data = (request.get_json())
-        nl4dv_results = nl4dv_output_parser(nl4dvQueryAnalyzerFinancialsDataset(post_data[0]))
+        post_data = request.get_json()
+        #print("***" + post_data)
+        nl4dv_results = nl4dv_output_parser(nl4dvQueryAnalyzerFinancialsDataset(post_data["query"]))
         #decide which object to create 
         if nl4dv_results["vis_type"] == "bar": 
             bar_chart = BarChart(working_dataframe, nl4dv_results["encoding"]["x"], nl4dv_results["encoding"]["y"])
             final_vis =  VisHandler(bar_chart)
+            #session["final_vis_data"] = final_vis.serialize_object()
         if nl4dv_results["vis_type"] == "arc":
             pie_chart = PieChart(working_dataframe, nl4dv_results["encoding"]["color"], nl4dv_results["encoding"]["theta"])
             final_vis =  VisHandler(pie_chart)
+            #session["final_vis_data"] = final_vis.serialize_object()
         if nl4dv_results["vis_type"] == "point":
             print(nl4dv_results)
             scatter_plot = ScatterPlot(working_dataframe, nl4dv_results["encoding"]["x"], nl4dv_results["encoding"]["y"])
             final_vis = VisHandler(scatter_plot)
-            print(final_vis.jsonify_vis())
-        return ({'values' : final_vis.jsonify_vis(), 'specs' : final_vis.serialize_object()})
+            #session["final_vis_data"] = final_vis.serialize_object()
+        print(final_vis.jsonify_vis())
+        return final_vis.jsonify_vis()
 
 
 
@@ -193,18 +196,18 @@ def nl4dv_query():
 def eye_tracker():
     if request.method == "POST": 
         post_data = request.get_json()
-        eye_tracker = EyeTracker(post_data["data"]["elements"])
+        eye_tracker = EyeTracker(post_data["elements"])
         return jsonify(eye_tracker.execute())
 
 
-'''
+
 #Data for frontend
 @app.route('/data', methods=['GET'])
 def all_data():
     if  session.get("final_vis_data") is not None:
-        return {"data" : final_vis.jsonify_vis(), "specs" : final_vis.serialize_object()}
+        return deserialize_object(session["final_vis_data"]).jsonify_vis()
     else: 
-        return jsonify("null")'''
+        return jsonify("null")
 
 if __name__ == '__main__':
     app.run(debug=True)
