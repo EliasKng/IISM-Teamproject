@@ -34,6 +34,10 @@ def nl4dvQueryAnalyzerFinancialsDataset(query) :
 #working_dataframe = pd.read_csv(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "examples", "assets", "data", "FinancialSample.csv"))
 working_dataframe = pd.read_excel(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "examples", "assets", "data", "FinancialSample.xlsx"), engine='openpyxl')
 
+#edit JSON to properly convert it into a dict/list 
+def JSON_list_conv(JSONlist):
+    return [ast.literal_eval(str(JSONlist[0]).replace("\'", "\"").replace("null", "\"null\"")), ast.literal_eval(str(JSONlist[1]).replace("\'", "\"").replace("null", "\"null\""))]
+
 
 #help function to create object 
 def deserialize_object(final_vis_data): 
@@ -72,8 +76,7 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 @app.route('/change', methods=['GET', 'POST'])
 def change_object():
     if request.method == "POST": 
-        JSONlist = request.get_json()
-        post_data = [ast.literal_eval(str(JSONlist[0]).replace("\'", "\"").replace("null", "\"null\"")), ast.literal_eval(str(JSONlist[1]).replace("\'", "\"").replace("null", "\"null\""))]
+        post_data = JSON_list_conv(request.get_json())
         temp_vis = deserialize_object(post_data[1])
         temp_vis.change_vistype(post_data[0]["target_vis"])
         return {"values" : temp_vis.jsonify_vis(), "specs" : temp_vis.serialize_object()}
@@ -84,8 +87,7 @@ def change_object():
 @app.route('/keywords/set', methods=['GET', 'POST'])
 def set_keywords():
     if request.method == "POST":
-        JSONlist = request.get_json()
-        post_data = [ast.literal_eval(str(JSONlist[0]).replace("\'", "\"").replace("null", "\"null\"")), ast.literal_eval(str(JSONlist[1]).replace("\'", "\"").replace("null", "\"null\""))]
+        post_data = JSON_list_conv(request.get_json())
         temp_vis = deserialize_object(post_data[1])
         temp_vis.vis_object.set_keywords(post_data[0]["keywords"])
         return {"values" : temp_vis.jsonify_vis(), "specs" : temp_vis.serialize_object()}
@@ -96,8 +98,7 @@ def set_keywords():
 @cross_origin()
 def add_number():
     if request.method == "POST":
-        JSONlist = request.get_json()
-        post_data = [ast.literal_eval(str(JSONlist[0]).replace("\'", "\"").replace("null", "\"null\"")), ast.literal_eval(str(JSONlist[1]).replace("\'", "\"").replace("null", "\"null\""))]
+        post_data = JSON_list_conv(request.get_json())
         add_number_filter = {post_data[0]["column"] : [post_data[0]["comparisonOperator"], [post_data[0]["number"]]]}
         print(add_number_filter)
         temp_vis = deserialize_object(post_data[1])
@@ -108,8 +109,7 @@ def add_number():
 @app.route('/keywords/add-word', methods=['GET', 'POST'])
 def add_word():
     if request.method == "POST":
-        JSONlist = request.get_json()
-        post_data = [ast.literal_eval(str(JSONlist[0]).replace("\'", "\"").replace("null", "\"null\"")), ast.literal_eval(str(JSONlist[1]).replace("\'", "\"").replace("null", "\"null\""))]
+        post_data = JSON_list_conv(request.get_json())
         add_word_filter = {post_data[0]["column"] : ["in", post_data[0]["values"]]}
         temp_vis = deserialize_object(post_data[1])
         temp_vis.vis_object.add_keyword(add_word_filter)
@@ -120,8 +120,7 @@ def add_word():
 @app.route('/keywords/delete/all', methods=['GET', 'POST'])
 def delete_all_keywords():
     if request.method == "POST":
-        JSONlist = request.get_json()
-        post_data = [ast.literal_eval(str(JSONlist[0]).replace("\'", "\"").replace("null", "\"null\"")), ast.literal_eval(str(JSONlist[1]).replace("\'", "\"").replace("null", "\"null\""))]
+        post_data = JSON_list_conv(request.get_json())
         temp_vis = deserialize_object(post_data[1])
         temp_vis.vis_object.set_keywords({})
         return {"values" : temp_vis.jsonify_vis(), "specs" : temp_vis.serialize_object()}
@@ -130,8 +129,7 @@ def delete_all_keywords():
 @app.route('/keywords/delete', methods=['GET', 'POST'])
 def delete_single_keyword():
     if request.method == "POST":
-        JSONlist = request.get_json()
-        post_data = [ast.literal_eval(str(JSONlist[0]).replace("\'", "\"").replace("null", "\"null\"")), ast.literal_eval(str(JSONlist[1]).replace("\'", "\"").replace("null", "\"null\""))]
+        post_data = JSON_list_conv(request.get_json())
         temp_vis = deserialize_object(post_data[1])
         temp_vis.vis_object.delete_keyword(post_data[0]["keywords"])
         return {"values" : temp_vis.jsonify_vis(), "specs" : temp_vis.serialize_object()}
@@ -141,9 +139,8 @@ def delete_single_keyword():
 @app.route('/change-fields', methods=['GET', 'POST'])
 def change_fields():
     if request.method == "POST":
-        JSONlist = request.get_json()
-        print(JSONlist)
-        post_data = [ast.literal_eval(str(JSONlist[0]).replace("\'", "\"").replace("null", "\"null\"")), ast.literal_eval(str(JSONlist[1]).replace("\'", "\"").replace("null", "\"null\""))]
+        post_data = JSON_list_conv(request.get_json())
+        print(post_data)
         temp_vis = deserialize_object(post_data[1])
         if post_data[0]["x-color"] and post_data[0]["y-theta"]=="null":
             temp_vis.vis_object.set_fields(post_data[0]["x-color"])
@@ -156,8 +153,7 @@ def change_fields():
 @app.route('/change-aggregate', methods=['GET', 'POST'])
 def change_aggregate():
     if request.method == "POST":
-        JSONlist = request.get_json()
-        post_data = [ast.literal_eval(str(JSONlist[0]).replace("\'", "\"").replace("null", "\"null\"")), ast.literal_eval(str(JSONlist[1]).replace("\'", "\"").replace("null", "\"null\""))]
+        post_data = JSON_list_conv(request.get_json())
         temp_vis = deserialize_object(post_data[1])
         if post_data["data"]["x-color"] and post_data[0]["y-theta"]=="null":
             temp_vis.vis_object.set_aggregate(post_data[0]["x-color"])
@@ -186,8 +182,6 @@ def nl4dv_query():
             print(final_vis.jsonify_vis())
         return ({'values' : final_vis.jsonify_vis(), 'specs' : final_vis.serialize_object()})
 
-
-
 #eye-tracker
 @app.route('/eye-tracker', methods=['GET', 'POST'])
 def eye_tracker():
@@ -195,16 +189,6 @@ def eye_tracker():
         post_data = request.get_json()
         eye_tracker = EyeTracker(post_data["data"]["elements"])
         return jsonify(eye_tracker.execute())
-
-
-'''
-#Data for frontend
-@app.route('/data', methods=['GET'])
-def all_data():
-    if  session.get("final_vis_data") is not None:
-        return {"data" : final_vis.jsonify_vis(), "specs" : final_vis.serialize_object()}
-    else: 
-        return jsonify("null")'''
 
 if __name__ == '__main__':
     app.run(debug=True)
