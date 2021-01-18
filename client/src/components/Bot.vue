@@ -53,7 +53,7 @@ export default {
 
             console.log("CALLING FUNCTION");
             console.log(endpoint)
-            storemounted.dispatch('changeDataBot', {"endpoint" : endpoint, "data" : value_obj, "specs" : storemounted.state.specs});
+            storemounted.dispatch('changeDataBot', {"endpoint" : endpoint, "data" : JSON.stringify(value_obj), "specs" : storemounted.state.specs});
           }
         });
 
