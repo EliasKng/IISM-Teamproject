@@ -1,0 +1,29 @@
+# Exclude Jars
+jars/
+*.jar
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+#Visual Studio COde Files
+.vscode/
+
+#Virtual Environment
+.venv/
+
+#Visual Studio Gitignore
+*.dll
+*.pdb
+obj/**
+bin/**
+runtimes/**
+*.user
+*.PublishSettings
+publish.cmd
+packages/
+.vs/
+
+Properties/PublishProfiles
+Properties/ServiceDependencies
