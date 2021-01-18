@@ -32,3 +32,5 @@ packages/
 cpp_sample.obj
 cpp_stream_data.exe 
 
+#Bot
+Bot/
