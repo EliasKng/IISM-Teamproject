@@ -1,19 +1,25 @@
 <template>
+  <div id="my_dataviz">
   <svg :width="width" :height="height" ref="svg">
     <g ref="chart"></g>
     <g ref="circle"></g>
     <g ref="axis"></g>
     <g ref="text"></g>
   </svg>
+  </div>
 </template>
 
 <script>
+/* eslint-disable */
 import * as d3 from 'd3';
-import { xSelector, ySelector } from '../utils';
+
+var div = d3.select("body").append("div")
+     .attr("class", "tooltip")
+     .style("opacity", 1);
 
 export default {
   name: 'ScatterChart',
-  props: ['data', 'xAxisLabel', 'yAxisLabel'],
+  props: ['data'],
   data() {
     return {
       width: 800,
@@ -29,15 +35,15 @@ export default {
     const xScale = d3
       .scaleLinear()
       .range([0, this.width - this.paddingH])
-      .domain([0, 50 + d3.max(this.data, (x) => x.name)]);
+      .domain([50 + d3.min(this.data, (x) => x.name), 50 + d3.max(this.data, (x) => x.name)]);
     const yScale = d3
       .scaleLinear()
       .range([this.height - (this.paddingV * 2), 0])
-      .domain([0, 50 + d3.max(this.data, (x) => x.total)]);
+      .domain([50 + d3.min(this.data, (x) => x.total), 50 + d3.max(this.data, (x) => x.total)]);
     const path = d3
       .line()
-      .x((d) => xScale(xSelector(d)))
-      .y((d) => yScale(ySelector(d)));
+      .x((d) => xScale(d.name))
+      .y((d) => yScale(d.total));
     this.path = path(this.data);
 
     const margin = {
@@ -70,14 +76,13 @@ export default {
       .attr('class', 'axis x')
       .text('xAxis')
       .call(xAxis);
-
     // set xAxis Label
     d3
       .select(this.$refs.axis)
       .append('text')
       .attr('transform', `translate(${(chartWidth / 2)}, ${chartHeight + 35 + margin.bottom})`)
       .style('text-anchor', 'middle')
-      .text(this.xAxisLabel);
+      .text(this.$store.state.columns['x-axis']);
 
     // set yAxis
     d3
@@ -86,7 +91,6 @@ export default {
       .attr('transform', `translate(${margin.left}, ${margin.top})`)
       .attr('class', 'axis y')
       .call(yAxis);
-
     // set yAxis Label
     d3
       .select(this.$refs.axis)
@@ -94,7 +98,30 @@ export default {
       .attr('transform', `translate(${margin.left}, ${0 + margin.bottom - 35})`)
       .attr('dy', '1em')
       .style('text-anchor', 'middle')
-      .text(this.yAxisLabel);
+      .text(this.$store.state.columns['y-axis']);
+
+    // A function that change this tooltip when the user hover a point.
+    const mouseover = function (d, i) {
+          d3.select(this).transition()
+                .duration('100')
+                .attr("r", 7);
+          div.transition()
+               .duration(100)
+               .style("opacity", 1);
+          div.html(i)
+               .style('left', (d.event.pageX + 30) + 'px')
+               .style('top', (d.event.pageY - 15) + "px");
+     };
+
+    const mouseout = function (d) {
+          d3.select(this).transition()
+               .duration('200')
+               .attr("r", 5);
+          div.transition()
+               .duration('200')
+               .style("opacity", 0);
+    };
+
 
     this.data.forEach((d) => {
       d3
@@ -106,7 +133,14 @@ export default {
         .attr('r', '5')
         .attr('stroke', '#fff')
         .attr('strokeWidth', 3)
-        .attr('fill', '#3CB371');
+        .attr('fill', '#3CB371')
+        .on('mouseover', function(x) {
+       div.transition()
+         .duration(200)
+         .style("opacity", 1);
+       div.html( d.total)
+        .css( {position:"absolute", top:x.pageY, left: x.pageX});
+       });
     });
   },
 
@@ -115,19 +149,16 @@ export default {
       const xScale = d3
         .scaleLinear()
         .range([0, this.width - this.paddingH])
-        .domain([0, 50 + d3.max(this.data, (x) => x.name)]);
-      return xScale(xSelector(d));
+        .domain([50 + d3.min(this.data, (x) => x.name), 50 + d3.max(this.data, (x) => x.name)]);
+      return xScale(d.name);
     },
     yPoint(d) {
       const yScale = d3
         .scaleLinear()
         .range([this.height - (this.paddingV * 2), 0])
-        .domain([0, 50 + d3.max(this.data, (x) => x.total)]);
-      return yScale(ySelector(d));
+        .domain([50 + d3.min(this.data, (x) => x.total), 50 + d3.max(this.data, (x) => x.total)]);
+      return yScale(d.total);
     },
   },
 };
 </script>
-
-<style>
-</style>

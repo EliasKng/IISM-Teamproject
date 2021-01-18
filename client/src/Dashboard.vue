@@ -15,10 +15,8 @@
     <D3BarChart :config="columnconfig" :datum="formattedData" title="Lm" source="Dt" v-if="this.$store.state.type === 'ColumnChart'"></D3BarChart>
     <!-- eslint-disable-next-line -->
     <D3PieChart :config="pieconfig" :datum="formattedData" title="Lo" source="Dl" v-if="this.$store.state.type === 'PieChart'"></D3PieChart>
-    <scatter-chart :data="formattedData" xAxisLabel="xAxis" yAxisLabel="yAxis"
-     v-if="this.$store.state.type === 'ScatterPlot'"/>
-    <div id="bot">
-    </div>
+    <scatter-chart :data="formattedData" v-if="this.$store.state.type === 'ScatterPlot'"/>
+    <bot></bot>
   </div>
 </template>
 
@@ -26,6 +24,7 @@
 /* eslint-disable */
 import { D3BarChart, D3PieChart } from 'vue-d3-charts';
 import ScatterChart from './components/ScatterChart.vue';
+import Bot from './components/Bot';
 
 export default {
   name: 'app',
@@ -90,6 +89,7 @@ export default {
     D3BarChart,
     D3PieChart,
     ScatterChart,
+    Bot,
   },
 };
 </script>
