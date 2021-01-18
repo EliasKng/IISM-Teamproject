@@ -16,7 +16,7 @@
     <!-- eslint-disable-next-line -->
     <D3PieChart :config="pieconfig" :datum="formattedData" title="Lo" source="Dl" v-if="this.$store.state.type === 'PieChart'"></D3PieChart>
     <scatter-chart :data="formattedData" v-if="this.$store.state.type === 'ScatterPlot'"/>
-    <bot></bot>
+    <bot @callStore="changeDataBot"></bot>
   </div>
 </template>
 
