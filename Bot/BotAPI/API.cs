@@ -88,7 +88,7 @@ public class BOT_Api
     {
         NL4DVJson json = new NL4DVJson();
         json.query = query;
-        string messageForUser = "Executing NL4DV-Query";
+        string messageForUser = "Executing your query";
         //await HttpPostRequestAsync(stepContext, "http://localhost:5000/nl4dv", json, messageForUser);
         //This sends the json to the frontend
         await SendActivityAsync(stepContext, "/nl4dv", json, messageForUser);
