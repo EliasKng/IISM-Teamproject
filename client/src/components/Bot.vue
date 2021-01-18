@@ -9,14 +9,13 @@
 export default {
   name: 'botscript',
   mounted() {
+      console.log(this.$store);
+      const storemounted  = this.$store; 
       let webchatScript = document.createElement('script');
       webchatScript.setAttribute('src', 'https://cdn.botframework.com/botframework-webchat/latest/webchat.js');
       webchatScript.setAttribute('crossOrigin', 'anonymous');
       document.head.appendChild(webchatScript);
 
-      function callBotData(data, endpoint) {
-      this.$store.dispatch('changeDataBot', {"endpoint" : endpoint, "data" : data, "specs" : this.$store.state.specs});
-    }
 
       (async function() {
         const res = await fetch('https://webchat-mockbot.azurewebsites.net/directline/token', { method: 'POST' });
@@ -43,17 +42,18 @@ export default {
           document.getElementById('webchat')
         );
 
-        window.addEventListener('webchatincomingactivity', ({ data }) => {
+        window.addEventListener('webchatincomingactivity', function({ data }) {
           console.log(`Received an activity of type "${data.type}":`);
           if (data.hasOwnProperty("value")) {
             console.log("DataValue: " + data["value"]);
             
             var value_obj = JSON.parse(data["value"]);
-            var endpoint = 'http://127.0.0.1:5000' + value_obj["endpoint"];
+            var endpoint = value_obj["endpoint"];
             delete value_obj["endpoint"];
 
             console.log("CALLING FUNCTION");
-            callBotData(value_obj, endpoint);
+            console.log(endpoint)
+            storemounted.dispatch('changeDataBot', {"endpoint" : endpoint, "data" : value_obj, "specs" : storemounted.state.specs});
           }
         });
 
@@ -65,6 +65,7 @@ export default {
       rawJSON: "",
       data: "",
       endpoint: "",
+      value_obj: {},
     };
   },
   
