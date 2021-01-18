@@ -4,7 +4,11 @@
     <h3>this is the data : {{this.$store.state.type}}  {{formattedData}}</h3>
     <textarea v-model="rawJSON" placeholder="add Data here"></textarea>
     <br>
-    <button v-on:click="changeData(rawJSON)">Submit</button>
+    <textarea v-model="data" placeholder="add Query/params/commands here"></textarea>
+    <br>
+    <textarea v-model="endpoint" placeholder="add endpoint here"></textarea>
+
+    <button v-on:click="changeDataBot(data, endpoint)">Submit</button>
     <!-- eslint-disable-next-line -->
     <D3BarChart :config="barconfig" :datum="formattedData" title="Lm" source="Dt" v-if="this.$store.state.type === 'BarChart'"></D3BarChart>
     <!-- eslint-disable-next-line -->
@@ -38,7 +42,7 @@ export default {
         values: ['total'],
         orientation: 'vertical',
         color: { current: '#41B882' },
-        axis: { yTitle: this.$store.state.columns["y-axis"], yTicks: 10, yFormat: '.0s' },
+        axis: {xTitle: this.$store.state.columns["x-axis"], yTitle: this.$store.state.columns["y-axis"], yTicks: 10, yFormat: '.0s' },
         transition: { ease: 'easeBounceOut', duration: 1000 },
       };
     },
@@ -57,11 +61,15 @@ export default {
     changeData: function (rawJSON) {
       this.$store.dispatch('changeData', rawJSON);
     },
+    changeDataBot: function (data, endpoint) {
+      this.$store.dispatch('changeDataBot', {"endpoint" : endpoint, "data" : data, "specs" : this.$store.state.specs});
+    },
   },
   data() {
     return {
       rawJSON: "",
-    
+      data: "",
+      endpoint: "",    
       piedata: [
         { name: 'Lorem', total: 30, color: '#425265' },
         { name: 'Ipsum', total: 21, color: '#3e9a70' },
