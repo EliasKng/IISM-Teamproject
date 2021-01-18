@@ -8,23 +8,15 @@
 /* eslint-disable */
 export default {
   name: 'botscript',
-  methods: {
-    changeDataBot: function (data, endpoint) {
-      this.$store.dispatch('changeDataBot', {"endpoint" : endpoint, "data" : data, "specs" : this.$store.state.specs});
-    },
-  },
-  data() {
-    return {
-      rawJSON: "",
-      data: "",
-      endpoint: "",
-    };
-  },
   mounted() {
       let webchatScript = document.createElement('script');
       webchatScript.setAttribute('src', 'https://cdn.botframework.com/botframework-webchat/latest/webchat.js');
       webchatScript.setAttribute('crossOrigin', 'anonymous');
       document.head.appendChild(webchatScript);
+
+      function callBotData(data, endpoint) {
+      this.$store.dispatch('changeDataBot', {"endpoint" : endpoint, "data" : data, "specs" : this.$store.state.specs});
+    }
 
       (async function() {
         const res = await fetch('https://webchat-mockbot.azurewebsites.net/directline/token', { method: 'POST' });
@@ -61,13 +53,21 @@ export default {
             delete value_obj["endpoint"];
 
             console.log("CALLING FUNCTION");
-            this.changeDataBot(value_obj, endpoint);
+            callBotData(value_obj, endpoint);
           }
         });
 
         document.querySelector('#webchat > *').focus();
       })().catch(err => console.error(err));
-  }
+  },
+  data() {
+    return {
+      rawJSON: "",
+      data: "",
+      endpoint: "",
+    };
+  },
+  
 };
 </script>
 
