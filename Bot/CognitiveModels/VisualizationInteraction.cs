@@ -20,6 +20,7 @@ namespace Microsoft.BotBuilderSamples
             FilterForWord,
             Nl4dv,
             ChangeVisualizationPart,
+            ChangeAggregate,
             RemoveVisualization,
             ClearFilter,
             Help,
@@ -33,6 +34,7 @@ namespace Microsoft.BotBuilderSamples
             public string[][] chartType;
             public string[] filterAttribute;
             public string[][] visualizationPart;
+            public string[][] aggregateType;
 
 
             //Attributes which depend on the dataset
@@ -50,7 +52,8 @@ namespace Microsoft.BotBuilderSamples
             {
                 public InstanceData[] chartType;
                 public InstanceData[] filterAttribute;
-                public InstanceData[] visualitationPart;
+                public InstanceData[] visualizationPart;
+                public InstanceData[] aggregateType;
                 public InstanceData[] financialSampleColumnName;
                 public InstanceData[] country;
                 public InstanceData[] segment;
@@ -158,10 +161,21 @@ namespace Microsoft.BotBuilderSamples
                 string visualizationPart = Entities?.visualizationPart?[0]?[0];
                 //take first entity recognized and return it (toValue (what should visualizationPart be changed to))
                 string[] toValue = Entities?.financialSampleColumnName?[0];
-                ConsoleWriter.WriteLineInfo("Get ChangeVisualizationPartEntities: Change " + visualizationPart + "To " + toValue);
-
                 //Gib beide Werte zurück
                 return (visualizationPart, toValue);
+            }
+        }
+
+        public (string, string) ChangeAggregateEntities
+        {
+            get
+            {
+                //take first entity recognized and return it (visualizationPart)
+                string visualizationPart = Entities?.visualizationPart?[0]?[0];
+                //take first entity recognized and return it (toAggregate (the agregate you want to change to))
+                string toAggregate = Entities?.aggregateType?[0]?[0];
+                //Gib beide Werte zurück
+                return (visualizationPart, toAggregate);
             }
         }
     }

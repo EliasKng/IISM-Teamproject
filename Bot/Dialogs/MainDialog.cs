@@ -14,7 +14,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         protected readonly ILogger Logger;
 
         // Dependency injection uses this constructor to instantiate MainDialog
-        public MainDialog(LuisRecognizer luisRecognizer,Nl4dvDialog nl4DvDialog, FilterForNumberDialog filterForNumberDialog, ChangeVisualizationPartDialog changeVisualizationPartDialog, FilterForWordDialog filterForWordDialog, ChangeChartTypeDialog chartTypeDialog, AmbiguityDialog ambiguityDialog, ILogger<MainDialog> logger)
+        public MainDialog(LuisRecognizer luisRecognizer,Nl4dvDialog nl4DvDialog, FilterForNumberDialog filterForNumberDialog, ChangeAggregateDialog changeAggregateDialog, ChangeVisualizationPartDialog changeVisualizationPartDialog, FilterForWordDialog filterForWordDialog, ChangeChartTypeDialog chartTypeDialog, AmbiguityDialog ambiguityDialog, ILogger<MainDialog> logger)
             : base(nameof(MainDialog))
         {
             _luisRecognizer = luisRecognizer;
@@ -27,6 +27,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             AddDialog(ambiguityDialog);
             AddDialog(filterForNumberDialog);
             AddDialog(nl4DvDialog);
+            AddDialog(changeAggregateDialog);
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 IntroStepAsync,
@@ -163,6 +164,20 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     };
 
                     return await stepContext.BeginDialogAsync(nameof(ChangeVisualizationPartDialog), changeVisualizationPartDetails, cancellationToken);
+
+                // user wants to change the aggregate of an axis
+                case VisualizationInteraction.Intent.ChangeAggregate:
+
+                    (string toVisPartLuis, string toAggregateLuis) = luisResult.ChangeAggregateEntities;
+
+
+                    var changeAggregateDetails = new ChangeAggregateDetails
+                    {
+                        visualizationPart = toVisPartLuis,
+                        toAggregate = toAggregateLuis
+                    };
+
+                    return await stepContext.BeginDialogAsync(nameof(ChangeAggregateDialog), changeAggregateDetails, cancellationToken);
 
                 case VisualizationInteraction.Intent.ClearFilter:
                     await BOT_Api.SendClearFilter(stepContext);

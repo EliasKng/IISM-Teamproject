@@ -27,3 +27,6 @@ packages/
 
 Properties/PublishProfiles
 Properties/ServiceDependencies
+
+#frontend
+client/

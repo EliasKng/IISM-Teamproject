@@ -84,6 +84,33 @@ public class BOT_Api
         await SendActivityAsync(stepContext, "/change-fields", json, messageForUser);
     }
 
+    public async static Task SendChangeAggregate(WaterfallStepContext stepContext, string visPart, string toAggregate)
+    {
+        ChangeVisPartJson json = new ChangeVisPartJson();
+        switch (visPart)
+        {
+            case "xAxis":
+                json.xcolor = toAggregate;
+                break;
+            case "yAxis":
+                json.ytheta = toAggregate;
+                break;
+            case "theta":
+                json.ytheta = toAggregate;
+                break;
+            case "color":
+                json.xcolor = toAggregate;
+                break;
+            default:
+                ConsoleWriter.WriteLineInfo("Error while determining the right vispart for json serialization");
+                break;
+        }
+        string messageForUser = "changing aggregate of " + visPart + " to " + toAggregate;
+        //await HttpPostRequestAsync(stepContext, "http://localhost:5000/change-fields", json, messageForUser);
+        //This sends the json to the frontend
+        await SendActivityAsync(stepContext, "/change-aggregate", json, messageForUser);
+    }
+
     public async static Task SendNL4DV(WaterfallStepContext stepContext, string query)
     {
         NL4DVJson json = new NL4DVJson();
