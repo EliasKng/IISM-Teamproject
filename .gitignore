@@ -34,3 +34,6 @@ cpp_stream_data.exe
 
 #Bot
 Bot/
+
+#Frontend
+client/

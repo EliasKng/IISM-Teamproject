@@ -140,7 +140,6 @@ def delete_single_keyword():
 def change_fields():
     if request.method == "POST":
         post_data = JSON_list_conv(request.get_json())
-        print(post_data)
         temp_vis = deserialize_object(post_data[1])
         if post_data[0]["x-color"] and post_data[0]["y-theta"]=="null":
             temp_vis.vis_object.set_fields(post_data[0]["x-color"])
@@ -155,7 +154,7 @@ def change_aggregate():
     if request.method == "POST":
         post_data = JSON_list_conv(request.get_json())
         temp_vis = deserialize_object(post_data[1])
-        if post_data["data"]["x-color"] and post_data[0]["y-theta"]=="null":
+        if post_data[0]["x-color"] and post_data[0]["y-theta"]=="null":
             temp_vis.vis_object.set_aggregate(post_data[0]["x-color"])
         else:
             temp_vis.vis_object.set_aggregate(None, post_data[0]["y-theta"])
