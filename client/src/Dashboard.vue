@@ -9,14 +9,20 @@
     <textarea v-model="endpoint" placeholder="add endpoint here"></textarea>
 
     <button v-on:click="changeDataBot(data, endpoint)">Submit</button>
-    <!-- eslint-disable-next-line -->
-    <D3BarChart :config="barconfig" :datum="formattedData" title="Lm" source="Dt" v-if="this.$store.state.type === 'BarChart'"></D3BarChart>
-    <!-- eslint-disable-next-line -->
-    <D3BarChart :config="columnconfig" :datum="formattedData" title="Lm" source="Dt" v-if="this.$store.state.type === 'ColumnChart'"></D3BarChart>
-    <!-- eslint-disable-next-line -->
-    <D3PieChart :config="pieconfig" :datum="formattedData" title="Lo" source="Dl" v-if="this.$store.state.type === 'PieChart'"></D3PieChart>
-    <scatter-chart :data="formattedData" v-if="this.$store.state.type === 'ScatterPlot'"/>
+    <section class="container">
+        <div class="chartarea">
+            <!-- eslint-disable-next-line -->
+            <D3BarChart :config="barconfig" :datum="formattedData" title="Lm" source="Dt" v-if="this.$store.state.type === 'BarChart'"></D3BarChart>
+            <!-- eslint-disable-next-line -->
+            <D3BarChart :config="columnconfig" :datum="formattedData" title="Lm" source="Dt" v-if="this.$store.state.type === 'ColumnChart'"></D3BarChart>
+            <!-- eslint-disable-next-line -->
+            <D3PieChart :config="pieconfig" :datum="formattedData" title="Lo" source="Dl" v-if="this.$store.state.type === 'PieChart'"></D3PieChart>
+            <!-- eslint-disable-next-line -->
+            <scatter-chart :data="formattedData" v-if="this.$store.state.type === 'ScatterPlot'"/></div>
+        <div class="botarea">
     <bot @callStore="changeDataBot"></bot>
+        </div>
+      </section>
   </div>
 </template>
 
@@ -98,35 +104,33 @@ export default {
 body {
   margin: 0;
 }
-.header {
-/*  float:center;
-  font-weight: bold; */
-}
-.app {
-/*  margin-top: 20px;
-  width: 1920px;
-  height: 900px;
-  margin: 0 auto; */
+#header {
+  text-align: center;
+  font-weight: bold;
 }
 
-.grid {
-/*  display: grid;
-  grid-template-columns: repeat(2, 500px);
-  grid-gap: 20px; */
+.container {
+  width: 95%;
+  height: 800px;
+  background: rgb(230, 230, 230);
+  margin: auto;
+  padding: 10px;
 }
 
-#content {
-/*
-  background-color: aqua;
+.chartarea {
+  width: 75%;
+  height: 700px;
+  background: rgb(219, 255, 250);
   float: left;
-  width: 98%;
-  height: 100%; */
-  }
+}
 
-#bot {
-/*  background-color: rgb(200, 255, 0);
-  width: 450px;
-  float: right;
-  height: 900px; */
+.botarea {
+  margin-left: 25%;
+  height: 700px;
+  background: rgb(150, 11, 11);
+}
+#app {
+  height: 800px;
+  overflow: hidden;
 }
 </style>
