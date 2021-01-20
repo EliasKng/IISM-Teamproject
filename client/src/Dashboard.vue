@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <header id="header"><h1>IISM Teamprojekt Dashboard</h1></header>
+    <!--
     <h3>this is the data : {{this.$store.state.type}}  {{formattedData}}</h3>
     <textarea v-model="rawJSON" placeholder="add Data here"></textarea>
     <br>
@@ -9,8 +10,10 @@
     <textarea v-model="endpoint" placeholder="add endpoint here"></textarea>
 
     <button v-on:click="changeDataBot(data, endpoint)">Submit</button>
+    -->
     <section class="container">
         <div class="chartarea">
+          <div class="chart">
             <!-- eslint-disable-next-line -->
             <D3BarChart :config="barconfig" :datum="formattedData" title="Lm" source="Dt" v-if="this.$store.state.type === 'BarChart'"></D3BarChart>
             <!-- eslint-disable-next-line -->
@@ -19,8 +22,9 @@
             <D3PieChart :config="pieconfig" :datum="formattedData" title="Lo" source="Dl" v-if="this.$store.state.type === 'PieChart'"></D3PieChart>
             <!-- eslint-disable-next-line -->
             <scatter-chart :data="formattedData" v-if="this.$store.state.type === 'ScatterPlot'"/></div>
+          </div>
         <div class="botarea">
-    <bot @callStore="changeDataBot"></bot>
+          <bot @callStore="changeDataBot"></bot>
         </div>
       </section>
   </div>
@@ -111,26 +115,37 @@ body {
 
 .container {
   width: 95%;
-  height: 800px;
+  height: 900px;
   background: rgb(230, 230, 230);
   margin: auto;
   padding: 10px;
+  overflow: hidden;
 }
 
 .chartarea {
   width: 75%;
-  height: 700px;
-  background: rgb(219, 255, 250);
+  height: 800px;
+  background: rgb(225, 252, 248);
   float: left;
+  overflow: hidden;
+}
+
+.chart {
+  width: 90%;
+  height: 100%;  
+  margin-top:auto;;
+  margin-left: auto; 
+  margin-right: auto;
 }
 
 .botarea {
   margin-left: 25%;
-  height: 700px;
-  background: rgb(150, 11, 11);
+  height: 800px;
+  background: rgb(255, 255, 255);
+  overflow: hidden;
 }
 #app {
-  height: 800px;
+  height: 900px;
   overflow: hidden;
 }
 </style>

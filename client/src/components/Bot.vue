@@ -74,8 +74,6 @@ export default {
 
 <style>
     #webchat {
-       
-        height: 900px;
-        width: 576px;
-      }
+      height: 800px;
+}
 </style>
