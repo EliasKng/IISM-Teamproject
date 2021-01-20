@@ -77,7 +77,6 @@ export default {
     },
     forceRerender() {
        this.componentKey += 1; 
-       console.log("component key", this.componentKey)
     },
     changeButtonvalue() {
       this.buttonvalue += 1;
