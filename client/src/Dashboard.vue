@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <header id="header"><h1>IISM Teamprojekt Dashboard</h1></header>
-    <!--
     <h3>this is the data : {{this.$store.state.type}}  {{formattedData}}</h3>
     <textarea v-model="rawJSON" placeholder="add Data here"></textarea>
     <br>
@@ -10,7 +9,6 @@
     <textarea v-model="endpoint" placeholder="add endpoint here"></textarea>
 
     <button v-on:click="changeDataBot(data, endpoint)">Submit</button>
-    -->
     <section class="container">
         <div class="chartarea">
             <!-- eslint-disable-next-line -->
