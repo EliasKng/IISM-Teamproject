@@ -31,8 +31,10 @@ export default new Vuex.Store({
       console.log(typeof specs);
       state.data = values["data"];
       console.log(state.data);
+      state.type = "";
       state.type = values["type"];
       state.columns = values["columns"];
+
     },
   },
   getters: {

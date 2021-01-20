@@ -13,20 +13,22 @@
     -->
     <section class="container">
         <div class="chartarea">
-          <div class="chart">
+          <div class="chart" :key="componentKey">
             <!-- eslint-disable-next-line -->
             <D3BarChart :config="barconfig" :datum="formattedData" title="Lm" source="Dt" v-if="this.$store.state.type === 'BarChart'"></D3BarChart>
             <!-- eslint-disable-next-line -->
-            <D3BarChart :config="columnconfig" :datum="formattedData" title="Lm" source="Dt" v-if="this.$store.state.type === 'ColumnChart'"></D3BarChart>
+            <D3BarChart :config="columnconfig" :datum="formattedData" title="Lm" source="Dt" v-else-if="this.$store.state.type === 'ColumnChart'" ></D3BarChart>
             <!-- eslint-disable-next-line -->
-            <D3PieChart :config="pieconfig" :datum="formattedData" title="Lo" source="Dl" v-if="this.$store.state.type === 'PieChart'"></D3PieChart>
+            <D3PieChart :config="pieconfig" :datum="formattedData" title="Lo" source="Dl" v-else-if="this.$store.state.type === 'PieChart'"></D3PieChart>
             <!-- eslint-disable-next-line -->
-            <scatter-chart :data="formattedData" v-if="this.$store.state.type === 'ScatterPlot'"/></div>
+            <scatter-chart :data="formattedData" v-else-if="this.$store.state.type === 'ScatterPlot'"/></div>
           </div>
         <div class="botarea">
           <bot @callStore="changeDataBot"></bot>
         </div>
       </section>
+    <button v-on:click="forceRerender()">refresh</button>
+    <h1>{{ buttonvalue }}</h1>
   </div>
 </template>
 
@@ -73,19 +75,21 @@ export default {
     changeDataBot: function (data, endpoint) {
       this.$store.dispatch('changeDataBot', {"endpoint" : endpoint, "data" : data, "specs" : this.$store.state.specs});
     },
+    forceRerender() {
+       this.componentKey += 1; 
+       console.log("component key", this.componentKey)
+    },
+    changeButtonvalue() {
+      this.buttonvalue += 1;
+     },
   },
   data() {
     return {
       rawJSON: "",
+      buttonvalue: 1,
+      componentKey: 0,
       data: "",
-      endpoint: "",    
-      piedata: [
-        { name: 'Lorem', total: 30, color: '#425265' },
-        { name: 'Ipsum', total: 21, color: '#3e9a70' },
-        { name: 'Dolor', total: 20, color: '#41ab7b' },
-        { name: 'Sit', total: 112, color: '#222f3e' },
-      ],
-      
+      endpoint: "",      
       pieconfig: {
         key: 'name',
         value: 'total',
@@ -146,6 +150,5 @@ body {
 }
 #app {
   height: 900px;
-  overflow: hidden;
 }
 </style>
