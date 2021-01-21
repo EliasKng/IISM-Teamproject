@@ -15,18 +15,50 @@
         <div class="chartarea">
           <div class="chart" :key="componentKey">
             <!-- eslint-disable-next-line -->
-            <D3BarChart :config="barconfig" :datum="formattedData" title="Lm" source="Dt" v-if="this.$store.state.type === 'BarChart'" ></D3BarChart>
+            <h1 v-if="this.$store.state.type === 'BarChart'">{{this.$store.state.columns["y-axis"]}} by {{this.$store.state.columns["x-axis"]}}</h1>
             <!-- eslint-disable-next-line -->
-            <D3BarChart :config="columnconfig" :datum="formattedData" title="Lm" source="Dt" v-if="this.$store.state.type === 'ColumnChart'" ></D3BarChart>
+            <h1 v-if="this.$store.state.type === 'ColumnChart'">{{this.$store.state.columns["x-axis"]}} by {{this.$store.state.columns["y-axis"]}}</h1>
             <!-- eslint-disable-next-line -->
-            <D3PieChart :config="pieconfig" :datum="formattedData" title="Lo" source="Dl" v-if="this.$store.state.type === 'PieChart'"></D3PieChart>
+            <h1 v-if="this.$store.state.type === 'PieChart'">{{this.$store.state.columns["theta"]}} by {{this.$store.state.columns["color"]}}</h1>
             <!-- eslint-disable-next-line -->
-            <scatter-chart :data="formattedData" v-if="this.$store.state.type === 'ScatterPlot'"/></div>
+            <h1 v-if="this.$store.state.type === 'Scatterplot'">{{this.$store.state.columns["x-axis"]}} by {{this.$store.state.columns["y-axis"]}}</h1>
+              <div>
+                <!-- eslint-disable-next-line -->
+                <D3BarChart  :config="barconfig" :datum="formattedData" title="" v-if="this.$store.state.type === 'BarChart'" ></D3BarChart>
+                <!-- eslint-disable-next-line -->
+                <D3BarChart :config="columnconfig" :datum="formattedData" title="" v-if="this.$store.state.type === 'ColumnChart'" ></D3BarChart>
+                <!-- eslint-disable-next-line -->
+                <D3PieChart :config="pieconfig" :datum="formattedData" title="" v-if="this.$store.state.type === 'PieChart'"></D3PieChart>
+                <!-- eslint-disable-next-line -->
+                <scatter-chart :data="formattedData" v-if="this.$store.state.type === 'ScatterPlot'"/>
+                </div>
+          </div>
+          <div class=summary>
+            <h1>Summary</h1>
+            <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Charttype</th>
+              <th scope="col">Data</th>
+              <th scope="col">Aggregate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(type, index) in summarytype" :key="index">
+              <td>{{index +1}}</td>
+              <td>{{ summarytype[index] }}</td>
+              <td>{{summarydata[index]}}</td>
+              <td>n/a</td>
+            </tr>
+          </tbody>
+        </table>
+          </div>
           </div>
         <div class="botarea">
           <bot @callStore="changeDataBot"></bot>
         </div>
-      </section>
+    </section>
   </div>
 </template>
 
@@ -52,7 +84,7 @@ export default {
         values: ['total'],
         orientation: 'vertical',
         color: { current: '#41B882' },
-        axis: {xTitle: this.$store.state.columns["x-axis"], yTitle: this.$store.state.columns["y-axis"], yTicks: 10, yFormat: '.0s' },
+        axis: {xTitle: "hello", yTitle: this.$store.state.columns["y-axis"], yTicks: 10, yFormat: ".0s", xTicks: 10, xFormat: '.0s' },
         transition: { ease: 'easeBounceOut', duration: 1000 },
       };
     },
@@ -77,10 +109,23 @@ export default {
     forceRerender() {
        this.componentKey += 1; 
     },
+    updateSummary() {
+    this.summarytype.push(this.$store.state.type);
+    if(this.$store.state.type == 'PieChart'){
+    this.summarydata.push(this.$store.state.columns["theta"] +" by "+ this.$store.state.columns["color"]);
+    }
+    else{
+      this.summarydata.push(this.$store.state.columns["y-axis"] +" by "+ this.$store.state.columns["x-axis"]);
+    }
+    //this.summarytype.push(this.$store.state.type);
+    },
   },
    data() {
     return {
       rawJSON: "",
+      summarytype: [],
+      summarydata: [],
+      summaryaggregate: [],
       componentKey: 0,
       data: "",
       endpoint: "",      
@@ -88,10 +133,13 @@ export default {
         key: 'name',
         value: 'total',
         radius: { inner: 80 },
-        color: { key: 'color' },
+        color: { scheme: "schemeCategory10", },
         transition: { duration: 200 },
       },
     };
+  },
+  watch: {
+   componentKey:  "updateSummary",    
   },
   components: {
     D3BarChart,
@@ -121,6 +169,7 @@ body {
 }
 
 .chartarea {
+  text-align: center;
   width: 75%;
   height: 800px;
   background: rgb(225, 252, 248);
@@ -130,10 +179,12 @@ body {
 
 .chart {
   width: 90%;
-  height: 100%;  
-  margin-top:auto;;
+  height: 65%;
   margin-left: auto; 
   margin-right: auto;
+  background: rgb(255, 255, 255);
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .botarea {
@@ -142,8 +193,32 @@ body {
   background: rgb(255, 255, 255);
   overflow: hidden;
 }
+
+.summary {
+  background: rgb(255, 255, 255);
+  width: 90%;
+  height: 30%;
+  margin-left: auto; 
+  margin-right: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+table{
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
 #app {
-  height: 900px;
+  height: 900px;  
   overflow: hidden;
 }
 </style>
