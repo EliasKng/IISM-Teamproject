@@ -1,6 +1,6 @@
 <template>
-  <div id="my_dataviz">
-  <svg :width="width" :height="height" ref="svg">
+  <div id="app">
+    <svg :width="width" :height="height" ref="svg">
     <g ref="chart"></g>
     <g ref="circle"></g>
     <g ref="axis"></g>
@@ -13,9 +13,9 @@
 /* eslint-disable */
 import * as d3 from 'd3';
 
-var div = d3.select("body").append("div")
+var div = d3.select("header").append("div")
      .attr("class", "tooltip")
-     .style("opacity", 1);
+     .style("opacity", 0);
 
 export default {
   name: 'ScatterChart',
@@ -46,6 +46,9 @@ export default {
       .y((d) => yScale(d.total));
     this.path = path(this.data);
 
+    const xLabel = this.$store.state.columns['x-axis'];
+    const yLabel = this.$store.state.columns['y-axis'];
+
     const margin = {
       top: 40, left: 40, bottom: 40, right: 0,
     };
@@ -56,9 +59,9 @@ export default {
     // tickSizeInner draws line
     const xAxis = d3.axisBottom(xScale)
       .tickSize(-(chartHeight - 20))
-      .tickPadding(10);
-    const yAxis = d3.axisLeft(yScale).tickSize(-(this.width - this.paddingH)).tickPadding(10);
-
+      .tickPadding(10)
+      .tickFormat(d3.format(".0s"));
+    const yAxis = d3.axisLeft(yScale).tickSize(-(this.width - this.paddingH)).tickPadding(10).tickFormat(d3.format(".0s"));
     d3
       .select(this.$refs.chart)
       .attr('width', chartWidth)
@@ -100,28 +103,14 @@ export default {
       .style('text-anchor', 'middle')
       .text(this.$store.state.columns['y-axis']);
 
-    // A function that change this tooltip when the user hover a point.
-    const mouseover = function (d, i) {
-          d3.select(this).transition()
-                .duration('100')
-                .attr("r", 7);
-          div.transition()
-               .duration(100)
-               .style("opacity", 1);
-          div.html(i)
-               .style('left', (d.event.pageX + 30) + 'px')
-               .style('top', (d.event.pageY - 15) + "px");
-     };
-
     const mouseout = function (d) {
           d3.select(this).transition()
-               .duration('200')
+               .duration('1000')
                .attr("r", 5);
           div.transition()
-               .duration('200')
+               .duration('1000')
                .style("opacity", 0);
     };
-
 
     this.data.forEach((d) => {
       d3
@@ -135,12 +124,15 @@ export default {
         .attr('strokeWidth', 3)
         .attr('fill', '#3CB371')
         .on('mouseover', function(x) {
-       div.transition()
-         .duration(200)
-         .style("opacity", 1);
-       div.html( d.total)
-        .css( {position:"absolute", top:x.pageY, left: x.pageX});
-       });
+          d3.select(this).transition()
+            .duration('100')
+            .attr("r", 7);
+          div.transition()
+            .duration(100)
+            .style("opacity", 1);
+          div.html(xLabel + ": " + d.name + ", " + yLabel + ": " + d.total);
+       })
+       .on('mouseout', mouseout);
     });
   },
 
@@ -162,3 +154,17 @@ export default {
   },
 };
 </script>
+
+<style>
+div.tooltip {
+     position: absolute;
+     text-align: center;
+     padding: .2rem;
+     background: #3CB371;
+     color: #f9f9f9;
+     border: 0px;
+     border-radius: 8px;
+     pointer-events: none;
+     font-size: .9rem;
+}
+</style>

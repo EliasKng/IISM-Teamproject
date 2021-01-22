@@ -13,6 +13,8 @@ export default new Vuex.Store({
     type: "",
     columns: {},
     data: [],
+//    x_encoding: {},
+//    y_encoding: {},
   },
   mutations: {
     changeData(state, rawJSON) {
@@ -27,14 +29,11 @@ export default new Vuex.Store({
       var specs = rawJSON.specs;
       console.log(typeof values);
       state.specs = specs;
-      console.log(specs);
-      console.log(typeof specs);
       state.data = values["data"];
       console.log(state.data);
       state.type = "";
       state.type = values["type"];
       state.columns = values["columns"];
-
     },
   },
   getters: {

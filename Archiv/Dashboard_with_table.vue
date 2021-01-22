@@ -14,16 +14,14 @@
     <section class="container">
         <div class="chartarea">
           <div class="chart" :key="componentKey">
-            <div id="chartheader">
-              <!-- eslint-disable-next-line -->
-              <h1 v-if="this.$store.state.type === 'BarChart'">{{this.$store.state.columns["y-axis"]}} by {{this.$store.state.columns["x-axis"]}}</h1>
-              <!-- eslint-disable-next-line -->
-              <h1 v-if="this.$store.state.type === 'ColumnChart'">{{this.$store.state.columns["x-axis"]}} by {{this.$store.state.columns["y-axis"]}}</h1>
-              <!-- eslint-disable-next-line -->
-              <h1 v-if="this.$store.state.type === 'PieChart'">{{this.$store.state.columns["theta"]}} by {{this.$store.state.columns["color"]}}</h1>
-              <!-- eslint-disable-next-line -->
-              <h1 v-if="this.$store.state.type === 'Scatterplot'">{{this.$store.state.columns["x-axis"]}} by {{this.$store.state.columns["y-axis"]}}</h1>
-            </div>
+            <!-- eslint-disable-next-line -->
+            <h1 v-if="this.$store.state.type === 'BarChart'">{{this.$store.state.columns["y-axis"]}} by {{this.$store.state.columns["x-axis"]}}</h1>
+            <!-- eslint-disable-next-line -->
+            <h1 v-if="this.$store.state.type === 'ColumnChart'">{{this.$store.state.columns["x-axis"]}} by {{this.$store.state.columns["y-axis"]}}</h1>
+            <!-- eslint-disable-next-line -->
+            <h1 v-if="this.$store.state.type === 'PieChart'">{{this.$store.state.columns["theta"]}} by {{this.$store.state.columns["color"]}}</h1>
+            <!-- eslint-disable-next-line -->
+            <h1 v-if="this.$store.state.type === 'Scatterplot'">{{this.$store.state.columns["x-axis"]}} by {{this.$store.state.columns["y-axis"]}}</h1>
               <div>
                 <!-- eslint-disable-next-line -->
                 <D3BarChart  :config="barconfig" :datum="formattedData" title="" v-if="this.$store.state.type === 'BarChart'" ></D3BarChart>
@@ -51,7 +49,6 @@ import ScatterChart from './components/ScatterChart.vue';
 import Bot from './components/Bot';
 import Summary from './components/Summary.vue'
 
-
 export default {
   name: 'app',
   computed: {
@@ -68,7 +65,7 @@ export default {
         values: ['total'],
         orientation: 'vertical',
         color: { current: '#41B882' },
-        axis: {xTitle: "", yTitle:  "", yTicks: 10, yFormat: ".0s", xTicks: 10, xFormat: '.0s' },
+        axis: {xTitle: "hello", yTitle: this.$store.state.columns["y-axis"], yTicks: 10, yFormat: ".0s", xTicks: 10, xFormat: '.0s' },
         transition: { ease: 'easeBounceOut', duration: 1000 },
       };
     },
@@ -78,7 +75,7 @@ export default {
         values: ['total'],
         orientation: 'horizontal',
         color: { current: '#41B882' },
-        axis: {xTitle: "", yTitle:  "", yTicks: 10, yFormat: '.0s' },
+        axis: { yTitle: this.$store.state.columns["x-axis"], yTicks: 10, yFormat: '.0s' },
         transition: { ease: 'easeBounceOut', duration: 1000 },
       };
     },  
@@ -94,14 +91,14 @@ export default {
        this.componentKey += 1; 
     },
     updateSummary() {
-    
     this.summarytype.push(this.$store.state.type);
     if(this.$store.state.type == 'PieChart'){
     this.summarydata.push(this.$store.state.columns["theta"] +" by "+ this.$store.state.columns["color"]);
     }
     else{
       this.summarydata.push(this.$store.state.columns["y-axis"] +" by "+ this.$store.state.columns["x-axis"]);
-    }    
+    }
+    this.summaryspecsgregate.push(this.$store.state.specs);
     },
   },
    data() {
@@ -130,7 +127,6 @@ export default {
     D3PieChart,
     ScatterChart,
     Bot,
-    Summary
   },
 };
 </script>
@@ -140,14 +136,11 @@ body {
   margin: 0;
 }
 #header {
-  padding: 20px;
-   font-family: Arial, sans-serif;
   text-align: center;
   font-weight: bold;
 }
 
 .container {
-   font-family: Arial, sans-serif;
   width: 95%;
   height: 900px;
   background: rgb(230, 230, 230);
@@ -156,14 +149,11 @@ body {
   overflow: hidden;
 }
 
-#chartheader {
-  padding-top: 20px;
-}
 .chartarea {
   text-align: center;
   width: 75%;
   height: 800px;
-  background:rgb(230, 230, 230);
+  background: rgb(225, 252, 248);
   float: left;
   overflow: hidden;
 }
