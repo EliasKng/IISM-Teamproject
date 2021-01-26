@@ -9,14 +9,13 @@
 export default {
   name: "botscript",
   mounted() {
-    console.log(this.$store);
     const storemounted = this.$store;
     let webchatScript = document.createElement("script");
     webchatScript.setAttribute(
       "src",
       "https://cdn.botframework.com/botframework-webchat/latest/webchat.js"
     );
-    webchatScript.setAttribute("crossOrigin", "anonymous");
+    webchatScript.setAttribute("crossorigin", "anonymous");
     document.head.appendChild(webchatScript);
     let jqueryScript = document.createElement("script");
     jqueryScript.setAttribute(
@@ -32,7 +31,7 @@ export default {
       const speechServicesPonyfillFactory = await window.WebChat.createCognitiveServicesSpeechServicesPonyfillFactory({
         credentials: {
           region: 'westus2',
-          subscriptionKey: '1bdd6845e36e466cb1478114ea8d641c' //Hier kommt der key eines 'Cognitive Services' von Azure rein. Aktuell ist das einer von mir, den ihr zum testen verwenden könnt.
+          subscriptionKey: '1bdd6845e36e466cb1478114ea8d641c'
         }
       });
 
@@ -48,12 +47,15 @@ export default {
       }
     };
 
-
-
     (async function () {
 
+      const res = await fetch('https://webchat-mockbot.azurewebsites.net/directline/token', { method: 'POST' });
+        const { token } = await res.json();
+
+
+
       var directLine = window.WebChat.createDirectLine({
-        secret: "hklRsvlqmDU.LlAinDiX1BF1692uQtyfVBMkEun7xtEe_smE_UvH6N4", // Hier kommt euer directline secret key rein
+        secret: "hklRsvlqmDU.LlAinDiX1BF1692uQtyfVBMkEun7xtEe_smE_UvH6N4",
         webSocket: false
       });
 
@@ -74,9 +76,9 @@ export default {
           styleOptions: {
             botAvatarBackgroundColor: 'rgba(0, 0, 0)',
             hideUploadButton: true,
-            bubbleBackground: 'rgba(0, 0, 255, .1)',
-            bubbleFromUserBackground: 'rgba(0, 255, 0, .1)',
-            sendBoxButtonColor: 'rgba(255,153, 0, 1)',
+            bubbleBackground: 'rgba(0, 0, 0, .1)',
+            bubbleFromUserBackground: 'rgba(0, 0, 255, .2)',
+            sendBoxButtonColor: 'rgba(0, 0, 0, .4)',
             hideScrollToEndButton: true,
             sendBoxHeight: 70,
             bubbleMinHeight: 0,
@@ -86,7 +88,7 @@ export default {
           locale: 'en-US',
           store,
           overrideLocalizedStrings: {
-            TEXT_INPUT_PLACEHOLDER: 'Hier kann ein personalisierter Text rein'
+            TEXT_INPUT_PLACEHOLDER: 'Please type your task here'
           }
         },
         document.getElementById('webchat')
@@ -121,69 +123,6 @@ export default {
       });
 
     })().catch(err => console.error(err));
-
-
-
-
-
-
-
-
-
-
-
-    // (async function () {
-    //   const res = await fetch(
-    //     "https://webchat-mockbot.azurewebsites.net/directline/token",
-    //     { method: "POST" }
-    //   );
-    //   const { token } = await res.json();
-
-    //   const store = window.WebChat.createStore(
-    //     {},
-    //     ({ dispatch }) => (next) => (action) => {
-    //       if (action.type === "DIRECT_LINE/INCOMING_ACTIVITY") {
-    //         const event = new Event("webchatincomingactivity");
-
-    //         event.data = action.payload.activity;
-    //         window.dispatchEvent(event);
-    //       }
-
-    //       return next(action);
-    //     }
-    //   );
-
-    //   window.WebChat.renderWebChat(
-    //     {
-    //       directLine: window.WebChat.createDirectLine({
-    //         token: "hklRsvlqmDU.LlAinDiX1BF1692uQtyfVBMkEun7xtEe_smE_UvH6N4",
-    //       }),
-    //       store,
-    //     },
-    //     document.getElementById("webchat")
-    //   );
-
-    //   window.addEventListener("webchatincomingactivity", function ({ data }) {
-    //     console.log(`Received an activity of type "${data.type}":`);
-    //     if (data.hasOwnProperty("value")) {
-    //       console.log("DataValue: " + data["value"]);
-
-    //       var value_obj = JSON.parse(data["value"]);
-    //       var endpoint = value_obj["endpoint"];
-    //       delete value_obj["endpoint"];
-
-    //       console.log("CALLING FUNCTION");
-    //       console.log(endpoint);
-    //       storemounted.dispatch("changeDataBot", {
-    //         endpoint: endpoint,
-    //         data: JSON.stringify(value_obj),
-    //         specs: storemounted.state.specs,
-    //       });
-    //     }
-    //   });
-
-    //   document.querySelector("#webchat > *").focus();
-    // })().catch((err) => console.error(err));
   },
   data() {
     return {
