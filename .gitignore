@@ -13,8 +13,6 @@ __pycache__/
 #Visual Studio COde Files
 .vscode/
 
-#Virtual Environment
-.venv/
 
 #Visual Studio Gitignore
 *.dll
@@ -28,12 +26,4 @@ publish.cmd
 packages/
 .vs/
 
-#c++
-cpp_sample.obj
-cpp_stream_data.exe 
 
-#Bot
-Bot/
-
-#Frontend
-client/
