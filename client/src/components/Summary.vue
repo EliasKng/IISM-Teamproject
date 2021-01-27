@@ -19,7 +19,6 @@
             <li>{{this.$store.state.specs.y_encoding.field}}</li>
             <li v-if="(this.$store.state.specs.y_encoding.aggregate === null)||(this.$store.state.specs.y_encoding.aggregate == 'Null')">Aggregierung: keine</li>
             <li v-if="!(this.$store.state.specs.y_encoding.aggregate === null)||(this.$store.state.specs.y_encoding.aggregate == 'Null')">Aggregierung: {{this.$store.state.specs.y_encoding.aggregate}}</li>
-            <li>{{this.$store.state.specs.y_encoding.aggregate}}</li>
           </ul>
           <hr>
           <ul id="list">
