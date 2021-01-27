@@ -74,16 +74,18 @@ class VisHandler():
 
     #returns parsed JSON for frontend
     def jsonify_vis(self): 
+        #get data for the visualization and reset multiindex to regular dataframe
         result = (self.vis_object.get_data()).reset_index()
+        #create JSON
         if 'index' in result.columns:
             result = result.drop(["index"], axis=1).to_json(orient="split")
         else:
             result = result.to_json(orient="split")
         parsed = json.loads(result)
-        #entferne überflüssige infos 
+        #delete unnecessary informations 
         parsed.pop("index")
         parsed.pop("columns")
-        #ergänze zusätzliche Informationen 
+        #add additional informations  
         parsed.update({"type": self.vis_object.type})
         if self.vis_object.type in ("BarChart", "ColumnChart" , "ScatterPlot"): 
             parsed.update({"columns" : {"x-axis" : self.vis_object.get_x_encoding()["field"], "y-axis" : self.vis_object.get_y_encoding()["field"]}})
@@ -92,26 +94,6 @@ class VisHandler():
             
         return json.dumps(parsed, indent=4)
     
-
+    #returns dictionnary with all information of the object 
     def serialize_object(self):
         return self.vis_object.serialize_object()
-
-'''
-#test data
-keywords = {"Product" : ["==", "Carretera"]}
-x_encoding = {"field": "Country", "type": "nominal"}
-y_encoding = {"aggregate": "mean", "field": "Sales", "type": "quantitative"}
-
-
-#Import CSV Data
-working_dataframe = pd.read_csv(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "examples", "assets", "data", "FinancialSample.csv"))
-
-
-#create Objects
-b1 = BarChart(working_dataframe, x_encoding, y_encoding, keywords)
-vishandler1 =  VisHandler(b1)
-result = vishandler1.vis_object.get_data().to_json(orient="split")
-parsed = 
-print(vishandler1.vis_object.get_data())
-print(result)
-'''

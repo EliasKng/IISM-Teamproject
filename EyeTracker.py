@@ -6,22 +6,14 @@ from shapely.geometry import Polygon, MultiPoint, Point
 import pandas as pd
 
 
-
-'''test shapes 
-    poly1 = MultiPoint(((0,0), (1280,0), (0, 720), (1280, 720))).convex_hull
-    poly2 = MultiPoint(((0,1440), (0,720), (1280, 720), (1280, 1440))).convex_hull
-    poly3 = MultiPoint(((1280,0), (1280,720), (2560, 720), (2560, 0))).convex_hull
-    poly4 = MultiPoint(((1280,720), (1280,1440), (2560, 1440), (2560, 720))).convex_hull
-    shapes = [poly1, poly2, poly3, poly4]'''
-
-
+#decide whether gaze is within shape
 def is_in_polygon(shape, x_coordinate, y_coordinate):
     if shape.intersects(Point(x_coordinate, y_coordinate).buffer(20)): 
         return 1
     else: 
         return 0
 
-
+#create eyetracker object
 class EyeTracker: 
     def __init__(self, list_polygons_raw, list_polygons_name): 
         list_polygons = []
@@ -29,8 +21,7 @@ class EyeTracker:
             list_polygons.append(MultiPoint(list_polygons_raw[i]).convex_hull)
         self.list_polygons = list_polygons
         self.list_polygons_name = list_polygons_name
-
-
+#start eyetracking
     def execute(self):
         gaze_data_x = []
         gaze_data_y = []
@@ -50,24 +41,22 @@ class EyeTracker:
                     gaze_data_x.append(x_coordinate)
                     gaze_data_y.append(y_coordinate)
             i += 1 
-        
+#delete unnecessary informations
         gaze_data_x = [value for value in gaze_data_x if value not in ["interactio", "0", "updat"]]
         gaze_data_y = [value for value in gaze_data_y if value not in ["interactio", "0", "updat"]]
         print(gaze_data_x)
         print(gaze_data_y)
-
+#convert to integer
         gaze_data_x_final = np.array(gaze_data_x,dtype=float).tolist()
         gaze_data_y_final = np.array(gaze_data_y,dtype=float).tolist()
         print(gaze_data_x_final)
         print(gaze_data_y_final)
         df_gaze_data = pd.DataFrame({"x_coordinate" : gaze_data_x_final, "y_coordinate" : gaze_data_y_final})
-
-
+#calculate the amount of gazes within the shapes 
         results = {}
         for i in range(len(self.list_polygons)):
             new_column_name = self.list_polygons_name[i]
             df_gaze_data[new_column_name] = df_gaze_data.apply(lambda x: is_in_polygon(self.list_polygons[i], x['x_coordinate'],x['y_coordinate']),axis=1)
+#calculate the mean per shape and return it
             results.update({new_column_name : (df_gaze_data[new_column_name].mean())*100})
-        print(df_gaze_data.head(200))
-        print(results)
         return results

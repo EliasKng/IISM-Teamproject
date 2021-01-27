@@ -31,7 +31,6 @@ def nl4dvQueryAnalyzerFinancialsDataset(query) :
     return nl4dv_instance.analyze_query(queryInput)
 
 #Import XLXS Data
-#working_dataframe = pd.read_csv(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "examples", "assets", "data", "FinancialSample.csv"))
 working_dataframe = pd.read_excel(os.path.join(".", os.path.dirname(os.path.abspath(__file__)), "examples", "assets", "data", "FinancialSample.xlsx"), engine='openpyxl')
 
 #edit JSON to properly convert it into a dict/list 

@@ -32,12 +32,14 @@ class PieChart(Visualization):
     #set aggregate of values 
     def set_aggregate(self, theta_aggregate):
         self.theta_encoding["aggregate"] = theta_aggregate
-
+    #return  color-encoding
     def get_color_encoding(self): 
         return self.color_encoding
-
+    #return  theta-encoding
     def get_theta_encoding(self): 
         return self.theta_encoding
+    
+    #applies all properties/keywords/encodings and returns the data
     #Returns the prepared Data for this visualization. Instead of total Values, it returns angles
     def get_data(self):
         self.dataframe_prepared = prepare_dataframe(self.dataframe,self.color_encoding["field"],self.theta_encoding["field"],self.theta_encoding["aggregate"], self.keywords)
@@ -46,6 +48,6 @@ class PieChart(Visualization):
         
         self.dataframe_prepared[self.theta_encoding["field"]] = angle_series.values
         return self.dataframe_prepared
-    
+    #returns dictionnary with all information of the object 
     def serialize_object(self): 
         return {"type" : self.type, "keywords" : self.keywords, "color_encoding" : self.color_encoding, "theta_encoding" : self.theta_encoding}

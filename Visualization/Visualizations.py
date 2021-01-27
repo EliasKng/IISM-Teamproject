@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 class Visualization(object): 
 
     def __init__(self, dataframe, type, keywords=None):
+    #Class variables 
         self.type = type
         self.dataframe = dataframe
         self.dataframe_prepared = dataframe
@@ -16,7 +17,6 @@ class Visualization(object):
             self.keywords = dict()    
         else: 
             self.keywords = keywords
-        #Propertiesstatus
 
     #new keyword query
     def set_keywords(self, keywords):

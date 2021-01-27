@@ -47,7 +47,7 @@ def prepare_dataframe(dataframe, filter_index_row, values_row, aggregate=None, f
             return dataframe.filter([filter_index_row, values_row])
 
 
-
+#needed for piechart
 def calculate_theta(value_series):
     angle_list = []
     summe = value_series.sum()
@@ -57,26 +57,4 @@ def calculate_theta(value_series):
     data = np.array(angle_list)
     return pd.Series(data)
 
-
-'''
-def prepare_query(filterkeywords): 
-    # return "|".join('{0}'.format(prepare_string(value) for value in or_join)
-    #return "\'" + " or ".join(or_join) + "\'"
-    for k, value in filterkeywords.items():
-        print(value)
-        for index, elem in enumerate(value[1], start=0):
-            print("Test")
-            print(index)
-            print(elem)
-            if prepare_string(elem[1:-1]):
-                value[1][index] = int(elem)
-    return filterkeywords
-
-def prepare_dataframe(dataframe, filter_index_row, values_row, aggregate=None, filterkeywords=None): 
-    if filterkeywords:
-        return pd.pivot_table(dataframe.query(" & ".join('{0} {1} {2}'.format(k, cond[0], prepare_string(cond[1])) for k, cond in filterkeywords.items())), index=[filter_index_row], values=[values_row], aggfunc={values_row: aggregate})
-    elif aggregate:
-        return pd.pivot_table(dataframe, index=[filter_index_row], values=[values_row], aggfunc={values_row: aggregate})
-    return dataframe.filter([filter_index_row, values_row])
-'''
 

@@ -23,10 +23,12 @@ class BarChart(Visualization):
             "field": y_encoding["field"],
             "type": y_encoding["type"]
         }
-        
+    
+    #return  x-encoding
     def get_x_encoding(self): 
         return self.x_encoding
-
+    
+    #return  y-encoding
     def get_y_encoding(self): 
         return self.y_encoding
 
@@ -37,6 +39,7 @@ class BarChart(Visualization):
         if not yaxis==None:    
             self.y_encoding["field"] = yaxis
 
+    #change aggregate of x-axis/y-axis
     def set_aggregate(self, xaggregate=None, yaggregate=None):
         self.x_encoding["aggregate"] = xaggregate
         self.y_encoding["aggregate"] = yaggregate
@@ -54,10 +57,11 @@ class BarChart(Visualization):
                     min_value = self.dataframe_prepared[self.y_encoding["field"]].min()
                     self.dataframe_prepared[self.y_encoding["field"]] = (self.dataframe_prepared[self.y_encoding["field"]]) / (sum_value)
                     return self.dataframe_prepared
-
+    #applies all properties/keywords/encodings and returns the data
     def get_data(self):
         self.dataframe_prepared = prepare_dataframe(self.dataframe,self.x_encoding["field"],self.y_encoding["field"],self.y_encoding["aggregate"], self.keywords)
         return self.dataframe_prepared
-    
+
+    #returns dictionnary with all information of the object 
     def serialize_object(self): 
         return {"type" : self.type, "keywords" : self.keywords, "x_encoding" : self.x_encoding, "y_encoding" : self.y_encoding}
