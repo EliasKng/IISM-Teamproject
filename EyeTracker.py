@@ -16,18 +16,19 @@ import pandas as pd
 
 
 def is_in_polygon(shape, x_coordinate, y_coordinate):
-    if shape.intersects(Point(x_coordinate, y_coordinate).buffer(50)): 
+    if shape.intersects(Point(x_coordinate, y_coordinate).buffer(20)): 
         return 1
     else: 
         return 0
 
 
 class EyeTracker: 
-    def __init__(self, list_polygons_raw): 
+    def __init__(self, list_polygons_raw, list_polygons_name): 
         list_polygons = []
         for i in range(len(list_polygons_raw)):
             list_polygons.append(MultiPoint(list_polygons_raw[i]).convex_hull)
         self.list_polygons = list_polygons
+        self.list_polygons_name = list_polygons_name
 
 
     def execute(self):
@@ -48,11 +49,12 @@ class EyeTracker:
                     y_coordinate = y_coordinate[:len(y_coordinate)-1]
                     gaze_data_x.append(x_coordinate)
                     gaze_data_y.append(y_coordinate)
-            gaze_data_x.remove('interactio')
-            gaze_data_x.remove('0')
-            gaze_data_y.remove('0')
-            gaze_data_y.remove('updat')
             i += 1 
+        
+        gaze_data_x = [value for value in gaze_data_x if value not in ["interactio", "0", "updat"]]
+        gaze_data_y = [value for value in gaze_data_y if value not in ["interactio", "0", "updat"]]
+        print(gaze_data_x)
+        print(gaze_data_y)
 
         gaze_data_x_final = np.array(gaze_data_x,dtype=float).tolist()
         gaze_data_y_final = np.array(gaze_data_y,dtype=float).tolist()
@@ -63,9 +65,9 @@ class EyeTracker:
 
         results = {}
         for i in range(len(self.list_polygons)):
-            new_column_name = "shape_" + str(i)
+            new_column_name = self.list_polygons_name[i]
             df_gaze_data[new_column_name] = df_gaze_data.apply(lambda x: is_in_polygon(self.list_polygons[i], x['x_coordinate'],x['y_coordinate']),axis=1)
-            results.update({new_column_name : df_gaze_data[new_column_name].mean()})
+            results.update({new_column_name : (df_gaze_data[new_column_name].mean())*100})
         print(df_gaze_data.head(200))
         print(results)
         return results

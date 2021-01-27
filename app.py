@@ -186,7 +186,11 @@ def nl4dv_query():
 def eye_tracker():
     if request.method == "POST": 
         post_data = request.get_json()
-        eye_tracker = EyeTracker(post_data["data"]["elements"])
+        print(post_data["elements"]);
+        list_polygons_name = []
+        for value in post_data["data"]: 
+            list_polygons_name.append(value[0])
+        eye_tracker = EyeTracker(post_data["elements"], list_polygons_name)
         return jsonify(eye_tracker.execute())
 
 if __name__ == '__main__':
