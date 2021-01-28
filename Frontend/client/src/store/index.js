@@ -15,7 +15,7 @@ export default new Vuex.Store({
     data: [],
   },
   mutations: {
-    // sets the current state and assings the properties of the backend rawJSON to the state properties
+    // sets the current state and assigns the properties of the backend rawJSON to the state properties
     changeData(state, rawJSON) {
       var objJSON = JSON.parse(rawJSON);
       state.specs = {};
@@ -23,7 +23,7 @@ export default new Vuex.Store({
       state.type = objJSON["type"];
       state.columns = objJSON["columns"];
     },
-    // sets the current state and assings the properties of the backend rawJSON to the state properties
+    // sets the current state and assigns the properties of the backend rawJSON to the state properties
     changeDataBot(state, rawJSON) {
       var values = JSON.parse(rawJSON.values);
       var specs = rawJSON.specs;
@@ -37,9 +37,9 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    // assigns the data array to the state and returns it to the Dashboard.vue when called
+    // returns the data array  to the Dashboard.vue when called
     allData: (state) => state.data,
-    //
+    //getter that maps the state.data elems/arrays to an object needed for the visualization component(s)
     formattedData: (state) => {
       var formattedData = state.data.map(dataElem =>{
       return {name: dataElem[0],
@@ -55,7 +55,7 @@ export default new Vuex.Store({
     changeData(context, rawJSON) {
       context.commit('changeData', rawJSON);
     },
-    // calls the changeDataBot mutation and acceses backenddata via axios
+    // asynchron function that calls the changeDataBot mutation and acceses backenddata via axios
     changeDataBot(context, backendSpecs) {
       var value_obj = [backendSpecs["data"], backendSpecs["specs"]];
       var endpoint = 'http://127.0.0.1:5000' + backendSpecs["endpoint"];
