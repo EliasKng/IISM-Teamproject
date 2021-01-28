@@ -13,8 +13,6 @@ export default new Vuex.Store({
     type: "",
     columns: {},
     data: [],
-//    x_encoding: {},
-//    y_encoding: {},
   },
   mutations: {
     // sets the current state and assings the properties of the backend rawJSON to the state properties
@@ -39,7 +37,7 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    // assigns the data array to the state and returns it when called
+    // assigns the data array to the state and returns it to the Dashboard.vue when called
     allData: (state) => state.data,
     //
     formattedData: (state) => {
@@ -50,12 +48,7 @@ export default new Vuex.Store({
         });
       return formattedData;
     },
-    //
-    formattedDataPieChart: (state) => {
-      var formattedDataPieChart = state.data.map(dataElem =>{
-      return {name: dataElem[0], total:  dataElem[1], color:  'red'}});
-      return formattedDataPieChart;},
-  },
+
 
   actions: {
     // calls the changeData mutation 

@@ -42,10 +42,6 @@
 export default {
   name: 'Summary',
   computed: {  
-/*      filterCountry:  function() {return _.pickBy(this.$store.state.specs.keywords, function(a){return a})}
-    filterCountry: function() { 
-      return this.$store.state.specs.keywords.filter(function(c){
-        return c.country})} */
     },
   data() {
     return {

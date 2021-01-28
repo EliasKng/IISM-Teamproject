@@ -132,9 +132,6 @@ export default {
       },
     };
   },
-  /* watch: {
-   componentKey:  "updateSummary",    
-  }, */
   components: {
     D3BarChart,
     D3PieChart,
