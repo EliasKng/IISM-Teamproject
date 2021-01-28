@@ -1,4 +1,5 @@
 <template>
+<!-- eslint-disable -->
 <!-- Compoment for the Summary, in which the aplied filters, aggregate and axis labeling are shown -->
 <!-- eslint-disable -->
     <v-card class="summary">
