@@ -1,19 +1,23 @@
 <template>
+<!-- Compoment for the Summary, in which the aplied filters, aggregate and axis labeling are shown -->
 <!-- eslint-disable -->
     <v-card class="summary">
       <!-- <h1>{{this.$store.state.specs}}</h1> -->
       <v-card-title>Summary</v-card-title>
       <v-card-text>
         <ul id="list">
+          <!-- section for charttype -->
           <li>Diagrammtyp: {{this.$store.state.type}}</li>
           <hr v-if="Object.keys(this.$store.state.specs.keywords) != 0">
             <ul v-if="Object.keys(this.$store.state.specs.keywords) != 0" id="list">
             <li v-if="Object.keys(this.$store.state.specs.keywords) != 0">
+              <!-- section for the Filter -->
               <h3>Filter</h3>
             </li>
             <li v-for="(item, name) in this.$store.state.specs.keywords" >{{name}} {{item[0]}} {{item[1]}}</li>
           </ul>
           <hr>
+          <!-- section for y-Axis labeling and aggregate  -->
           <ul id="list">
             <h3>Y-Achse</h3>
             <li>{{this.$store.state.specs.y_encoding.field}}</li>

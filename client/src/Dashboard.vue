@@ -1,3 +1,4 @@
+/* main component */
 <template>
   <div id="app">
     <header id="header"><h1>IISM Teamprojekt Dashboard</h1></header>
@@ -14,6 +15,7 @@
     <section class="container">
         <div class="chartarea">
           <div class="chart" :key="componentKey">
+            <!-- Header for the Chart. Toggle for the specific figur names -->
             <div id="chartheader">
               <!-- eslint-disable-next-line -->
               <h1 v-if="this.$store.state.type === 'BarChart'">{{this.$store.state.columns["y-axis"]}} by {{this.$store.state.columns["x-axis"]}}</h1>
@@ -25,6 +27,7 @@
               <h1 v-if="this.$store.state.type === 'Scatterplot'">{{this.$store.state.columns["x-axis"]}} by {{this.$store.state.columns["y-axis"]}}</h1>
             </div>
               <div>
+                <!-- Implementation of the importet charts -->
                 <!-- eslint-disable-next-line -->
                 <D3BarChart  :config="barconfig" :datum="formattedData" title="" v-if="this.$store.state.type === 'BarChart'" ></D3BarChart>
                 <!-- eslint-disable-next-line -->
@@ -35,8 +38,10 @@
                 <scatter-chart :data="formattedData" v-if="this.$store.state.type === 'ScatterPlot'"/>
                 </div>
           </div>
+          <!-- Implementation of importet Summary -->
           <Summary></Summary>
           </div>
+          <!-- Implementation of importet Chatbot -->
         <div class="botarea">
           <bot @callStore="changeDataBot"></bot>
         </div>
@@ -55,13 +60,16 @@ import Summary from './components/Summary.vue'
 export default {
   name: 'app',
   computed: {
+    // forces to rerender and calls stores getter function formatedData
     formattedData() {
       this.forceRerender();
       return this.$store.getters.formattedData;
     },
+    // forces to rerender and calls stores getter function formattedDataPieChart
     formattedDataPieChart() {
       return this.$store.getters.formattedDataPieChart;
     },
+    // configuration for the barchart
     barconfig() { 
       return {
         key: 'name',
@@ -72,6 +80,7 @@ export default {
         transition: { ease: 'easeBounceOut', duration: 1000 },
       };
     },
+    // configuration for the columnchart
     columnconfig() { 
       return {
         key: 'name',
@@ -84,16 +93,19 @@ export default {
     },  
   },
   methods: {
+    // calls the store action changeData
     changeData: function (rawJSON) {
       this.$store.dispatch('changeData', rawJSON);
     },
+    // calls the store action changeDataBot
     changeDataBot: function (data, endpoint) {
       this.$store.dispatch('changeDataBot', {"endpoint" : endpoint, "data" : data, "specs" : this.$store.state.specs});
     },
+    // forces to rerender the chartarea via the "key"
     forceRerender() {
        this.componentKey += 1; 
     },
-    updateSummary() {
+/*     updateSummary() {
     
     this.summarytype.push(this.$store.state.type);
     if(this.$store.state.type == 'PieChart'){
@@ -102,17 +114,15 @@ export default {
     else{
       this.summarydata.push(this.$store.state.columns["y-axis"] +" by "+ this.$store.state.columns["x-axis"]);
     }    
-    },
+    }, */
   },
    data() {
     return {
       rawJSON: "",
-      summarytype: [],
-      summarydata: [],
-      summaryspecs: [],
       componentKey: 0,
       data: "",
-      endpoint: "",      
+      endpoint: "",
+      // configuration for the piechart      
       pieconfig: {
         key: 'name',
         value: 'total',
@@ -122,9 +132,9 @@ export default {
       },
     };
   },
-  watch: {
+  /* watch: {
    componentKey:  "updateSummary",    
-  },
+  }, */
   components: {
     D3BarChart,
     D3PieChart,
