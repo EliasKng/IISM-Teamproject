@@ -37,9 +37,9 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    // assigns the data array to the state and returns it to the Dashboard.vue when called
+    // returns the data array  to the Dashboard.vue when called
     allData: (state) => state.data,
-    //
+    //getter that maps the state.data elems/arrays to an object needed for the visualization component(s)
     formattedData: (state) => {
       var formattedData = state.data.map(dataElem =>{
       return {name: dataElem[0],
