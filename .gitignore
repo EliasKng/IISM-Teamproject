@@ -2,9 +2,6 @@
 jars/
 *.jar
 
-#Exclude Jsons
-*.json
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -15,3 +12,6 @@ __pycache__/
 
 #Virtual Environment
 .venv/
+
+#frontend
+client/

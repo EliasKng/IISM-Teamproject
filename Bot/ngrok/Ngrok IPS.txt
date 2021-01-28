@@ -1,0 +1,2 @@
+https://c4f10e741e16.ngrok.io/api/messages
+https://visbotapp.azurewebsites.net/api/messages
