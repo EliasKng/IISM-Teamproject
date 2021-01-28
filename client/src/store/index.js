@@ -48,7 +48,7 @@ export default new Vuex.Store({
         });
       return formattedData;
     },
-
+  },
 
   actions: {
     // calls the changeData mutation 
