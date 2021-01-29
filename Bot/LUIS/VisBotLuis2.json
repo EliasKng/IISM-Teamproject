@@ -1,0 +1,1425 @@
+{
+  "luis_schema_version": "7.0.0",
+  "intents": [
+    {
+      "name": "ChangeAggregate",
+      "features": []
+    },
+    {
+      "name": "ChangeChartType",
+      "features": []
+    },
+    {
+      "name": "ChangeVisualizationPart",
+      "features": []
+    },
+    {
+      "name": "ClearFilter",
+      "features": []
+    },
+    {
+      "name": "Filter",
+      "features": []
+    },
+    {
+      "name": "FilterForNumber",
+      "features": []
+    },
+    {
+      "name": "Help",
+      "features": []
+    },
+    {
+      "name": "Nl4dv",
+      "features": []
+    },
+    {
+      "name": "None",
+      "features": []
+    },
+    {
+      "name": "RemoveVisualization",
+      "features": []
+    }
+  ],
+  "entities": [
+    {
+      "name": "filterAttribute",
+      "children": [],
+      "roles": [],
+      "features": [
+        {
+          "modelName": "country",
+          "isRequired": false
+        },
+        {
+          "modelName": "segment",
+          "isRequired": false
+        }
+      ]
+    }
+  ],
+  "hierarchicals": [],
+  "composites": [],
+  "closedLists": [
+    {
+      "name": "aggregateType",
+      "subLists": [
+        {
+          "canonicalForm": "sum",
+          "list": []
+        },
+        {
+          "canonicalForm": "avg",
+          "list": [
+            "mean",
+            "average"
+          ]
+        },
+        {
+          "canonicalForm": "min",
+          "list": [
+            "minimum"
+          ]
+        },
+        {
+          "canonicalForm": "max",
+          "list": [
+            "maximum"
+          ]
+        },
+        {
+          "canonicalForm": "count",
+          "list": []
+        },
+        {
+          "canonicalForm": "median",
+          "list": []
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "chartType",
+      "subLists": [
+        {
+          "canonicalForm": "barchart",
+          "list": [
+            "bar chart",
+            "bar-chart",
+            "chart",
+            "horizontal barchart"
+          ]
+        },
+        {
+          "canonicalForm": "columnchart",
+          "list": [
+            "column chart",
+            "column-chart",
+            "chart",
+            "vertical chart"
+          ]
+        },
+        {
+          "canonicalForm": "scatterplot",
+          "list": [
+            "scatter plot",
+            "scatter-plot",
+            "plot"
+          ]
+        },
+        {
+          "canonicalForm": "piechart",
+          "list": [
+            "pie chart",
+            "pie-chart",
+            "chart"
+          ]
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "comparisonOperator",
+      "subLists": [
+        {
+          "canonicalForm": ">",
+          "list": [
+            "greater than",
+            "larger than",
+            "more than",
+            "over",
+            "exceeding",
+            "higher than"
+          ]
+        },
+        {
+          "canonicalForm": "=",
+          "list": [
+            "euqal",
+            "equals",
+            "equal to"
+          ]
+        },
+        {
+          "canonicalForm": "<",
+          "list": [
+            "less than",
+            "smaller than"
+          ]
+        },
+        {
+          "canonicalForm": ">=",
+          "list": [
+            "greater or equal",
+            "larger than or equal",
+            "larger or equal",
+            "more than or equal",
+            "over or equal",
+            "higher than or equal",
+            "greater than or equal"
+          ]
+        },
+        {
+          "canonicalForm": "<=",
+          "list": [
+            "less than or equal",
+            "smaller or equal",
+            "lass or equal",
+            "less or equal"
+          ]
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "country",
+      "subLists": [
+        {
+          "canonicalForm": "Germany",
+          "list": [
+            "germany"
+          ]
+        },
+        {
+          "canonicalForm": "Canada",
+          "list": [
+            "canada"
+          ]
+        },
+        {
+          "canonicalForm": "France",
+          "list": [
+            "france"
+          ]
+        },
+        {
+          "canonicalForm": "Mexico",
+          "list": [
+            "mexico"
+          ]
+        },
+        {
+          "canonicalForm": "United States of America",
+          "list": [
+            "usa",
+            "us",
+            "united states"
+          ]
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "financialSampleColumnName",
+      "subLists": [
+        {
+          "canonicalForm": "Segment",
+          "list": [
+            "segments"
+          ]
+        },
+        {
+          "canonicalForm": "Country",
+          "list": [
+            "countries"
+          ]
+        },
+        {
+          "canonicalForm": "Product",
+          "list": [
+            "products"
+          ]
+        },
+        {
+          "canonicalForm": "Discount Band",
+          "list": [
+            "discount"
+          ]
+        },
+        {
+          "canonicalForm": "Units Sold",
+          "list": []
+        },
+        {
+          "canonicalForm": "Manufacturing Price",
+          "list": [
+            "price"
+          ]
+        },
+        {
+          "canonicalForm": "Sale Price",
+          "list": [
+            "sales",
+            "price"
+          ]
+        },
+        {
+          "canonicalForm": "Gross Sales",
+          "list": [
+            "sales"
+          ]
+        },
+        {
+          "canonicalForm": "Discounts",
+          "list": [
+            "discount"
+          ]
+        },
+        {
+          "canonicalForm": "Sales",
+          "list": [
+            "sales",
+            "turnover"
+          ]
+        },
+        {
+          "canonicalForm": "COGS",
+          "list": []
+        },
+        {
+          "canonicalForm": "Profit",
+          "list": [
+            "profits"
+          ]
+        },
+        {
+          "canonicalForm": "Date",
+          "list": []
+        },
+        {
+          "canonicalForm": "Month Number",
+          "list": [
+            "month"
+          ]
+        },
+        {
+          "canonicalForm": "Month Name",
+          "list": [
+            "month"
+          ]
+        },
+        {
+          "canonicalForm": "Year",
+          "list": []
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "product",
+      "subLists": [
+        {
+          "canonicalForm": "carretera",
+          "list": []
+        },
+        {
+          "canonicalForm": "montana",
+          "list": []
+        },
+        {
+          "canonicalForm": "paseo",
+          "list": []
+        },
+        {
+          "canonicalForm": "velo",
+          "list": []
+        },
+        {
+          "canonicalForm": "VTT",
+          "list": []
+        },
+        {
+          "canonicalForm": "amarilla",
+          "list": []
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "segment",
+      "subLists": [
+        {
+          "canonicalForm": "Government",
+          "list": [
+            "governments"
+          ]
+        },
+        {
+          "canonicalForm": "Midmarket",
+          "list": [
+            "midmarkets",
+            "mid-market",
+            "mid-markets"
+          ]
+        },
+        {
+          "canonicalForm": "Chanel Partners",
+          "list": [
+            "chanel partner",
+            "chanel-partner"
+          ]
+        },
+        {
+          "canonicalForm": "Small Business",
+          "list": [
+            "small businesses",
+            "smallbusiness",
+            "small-business"
+          ]
+        },
+        {
+          "canonicalForm": "Enterprise",
+          "list": [
+            "enterprises"
+          ]
+        }
+      ],
+      "roles": []
+    },
+    {
+      "name": "visualizationPart",
+      "subLists": [
+        {
+          "canonicalForm": "yAxis",
+          "list": [
+            "y-axis",
+            "y axis"
+          ]
+        },
+        {
+          "canonicalForm": "xAxis",
+          "list": [
+            "x-axis",
+            "x axis"
+          ]
+        },
+        {
+          "canonicalForm": "color",
+          "list": [
+            "palette"
+          ]
+        },
+        {
+          "canonicalForm": "theta",
+          "list": [
+            "angles",
+            "angle"
+          ]
+        }
+      ],
+      "roles": []
+    }
+  ],
+  "prebuiltEntities": [
+    {
+      "name": "number",
+      "roles": []
+    }
+  ],
+  "utterances": [
+    {
+      "text": "!!noremalize\"",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "2",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "a",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "aggregate of xaxis to sum",
+      "intent": "ChangeAggregate",
+      "entities": []
+    },
+    {
+      "text": "book a flight from paris to berlin on march 22, 2020",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "book a hotel in new york",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "book a restaurant",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "cancel",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "change aggregate color to max",
+      "intent": "ChangeAggregate",
+      "entities": []
+    },
+    {
+      "text": "change aggregate of yaxis to sum",
+      "intent": "ChangeAggregate",
+      "entities": []
+    },
+    {
+      "text": "change aggregate theta to min",
+      "intent": "ChangeAggregate",
+      "entities": []
+    },
+    {
+      "text": "change aggregate xaxis avg",
+      "intent": "ChangeAggregate",
+      "entities": []
+    },
+    {
+      "text": "change barchart",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "change chart to barchart",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "change chart type",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "change chart type to barchart",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "change chart type to barchart and scatter plot",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "change chart type to scatterplot",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "change chart typt to scatterplot",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "change charttype",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "change charttype to barchart",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "change charttype to chart",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "change charttype to piechart",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "change charttype to scatterplot",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "change charttypt to chart",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "change color to sales",
+      "intent": "ChangeVisualizationPart",
+      "entities": []
+    },
+    {
+      "text": "change tetha to sales",
+      "intent": "ChangeVisualizationPart",
+      "entities": []
+    },
+    {
+      "text": "change the type of the chart to bar chart",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "change theta",
+      "intent": "ChangeVisualizationPart",
+      "entities": []
+    },
+    {
+      "text": "change to bar chart",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "change to barchart",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "change vistype",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "change visualization",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "change visualization to barchart",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "change xaxis to",
+      "intent": "ChangeVisualizationPart",
+      "entities": []
+    },
+    {
+      "text": "change xaxis to profit",
+      "intent": "ChangeVisualizationPart",
+      "entities": []
+    },
+    {
+      "text": "change xaxis to sales",
+      "intent": "ChangeVisualizationPart",
+      "entities": []
+    },
+    {
+      "text": "change y-axis to",
+      "intent": "ChangeVisualizationPart",
+      "entities": []
+    },
+    {
+      "text": "change yaxis to profit",
+      "intent": "ChangeVisualizationPart",
+      "entities": []
+    },
+    {
+      "text": "charttype scatterplot",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "charttype set barchart",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "clear all",
+      "intent": "RemoveVisualization",
+      "entities": []
+    },
+    {
+      "text": "clear filter",
+      "intent": "ClearFilter",
+      "entities": []
+    },
+    {
+      "text": "clear filters",
+      "intent": "ClearFilter",
+      "entities": []
+    },
+    {
+      "text": "filter",
+      "intent": "Filter",
+      "entities": []
+    },
+    {
+      "text": "filter for > 10",
+      "intent": "FilterForNumber",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 11,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for canada",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 16,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for canada >20",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 16,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for canada and germany",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 16,
+          "children": []
+        },
+        {
+          "entity": "filterAttribute",
+          "startPos": 22,
+          "endPos": 28,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for canada and small business",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 16,
+          "children": []
+        },
+        {
+          "entity": "filterAttribute",
+          "startPos": 22,
+          "endPos": 35,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for canada ang france",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 16,
+          "children": []
+        },
+        {
+          "entity": "filterAttribute",
+          "startPos": 22,
+          "endPos": 27,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for canada, france, germany and united states of america",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 16,
+          "children": []
+        },
+        {
+          "entity": "filterAttribute",
+          "startPos": 19,
+          "endPos": 24,
+          "children": []
+        },
+        {
+          "entity": "filterAttribute",
+          "startPos": 27,
+          "endPos": 33,
+          "children": []
+        },
+        {
+          "entity": "filterAttribute",
+          "startPos": 39,
+          "endPos": 62,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for canada, germany",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 16,
+          "children": []
+        },
+        {
+          "entity": "filterAttribute",
+          "startPos": 19,
+          "endPos": 25,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for carretera",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 19,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for countries",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 19,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for country",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 17,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for enterprise and germany",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 20,
+          "children": []
+        },
+        {
+          "entity": "filterAttribute",
+          "startPos": 26,
+          "endPos": 32,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for enterprise and government",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 20,
+          "children": []
+        },
+        {
+          "entity": "filterAttribute",
+          "startPos": 26,
+          "endPos": 35,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for enterprise, france and government",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 20,
+          "children": []
+        },
+        {
+          "entity": "filterAttribute",
+          "startPos": 23,
+          "endPos": 28,
+          "children": []
+        },
+        {
+          "entity": "filterAttribute",
+          "startPos": 34,
+          "endPos": 43,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for enterprise, midmarket and small business",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 20,
+          "children": []
+        },
+        {
+          "entity": "filterAttribute",
+          "startPos": 23,
+          "endPos": 31,
+          "children": []
+        },
+        {
+          "entity": "filterAttribute",
+          "startPos": 37,
+          "endPos": 50,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for france",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 16,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for germany",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 17,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for germany and canada",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 17,
+          "children": []
+        },
+        {
+          "entity": "filterAttribute",
+          "startPos": 23,
+          "endPos": 28,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for germany and enterprise",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 17,
+          "children": []
+        },
+        {
+          "entity": "filterAttribute",
+          "startPos": 23,
+          "endPos": 32,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for germany and france",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 17,
+          "children": []
+        },
+        {
+          "entity": "filterAttribute",
+          "startPos": 23,
+          "endPos": 28,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for germany and small business",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 17,
+          "children": []
+        },
+        {
+          "entity": "filterAttribute",
+          "startPos": 23,
+          "endPos": 36,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for germanz",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 17,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for midmarket and enterprise and government",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 19,
+          "children": []
+        },
+        {
+          "entity": "filterAttribute",
+          "startPos": 25,
+          "endPos": 34,
+          "children": []
+        },
+        {
+          "entity": "filterAttribute",
+          "startPos": 40,
+          "endPos": 49,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for montana",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 17,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for product montana",
+      "intent": "Filter",
+      "entities": []
+    },
+    {
+      "text": "filter for profit < 30",
+      "intent": "FilterForNumber",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 16,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for profit < 33,2",
+      "intent": "FilterForNumber",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 16,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for profit > 90.5",
+      "intent": "FilterForNumber",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 16,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for profit >=995",
+      "intent": "FilterForNumber",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 16,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for proit > 10",
+      "intent": "FilterForNumber",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 15,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for sales",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 15,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for sales < 90",
+      "intent": "FilterForNumber",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 15,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for sales > 99,3",
+      "intent": "FilterForNumber",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 15,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for sales larger than 1000",
+      "intent": "FilterForNumber",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 15,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter for segment enterprise",
+      "intent": "Filter",
+      "entities": []
+    },
+    {
+      "text": "filter for small business",
+      "intent": "Filter",
+      "entities": [
+        {
+          "entity": "filterAttribute",
+          "startPos": 11,
+          "endPos": 24,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "filter sales for smaller or equal than 300",
+      "intent": "FilterForNumber",
+      "entities": []
+    },
+    {
+      "text": "find an airport near me",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "hallo",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "hello",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "hi",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "how is the weather",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "hrlp",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i'd like to rent a car",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "nothing",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "remove filter",
+      "intent": "ClearFilter",
+      "entities": []
+    },
+    {
+      "text": "remove vis",
+      "intent": "RemoveVisualization",
+      "entities": []
+    },
+    {
+      "text": "remove visualization",
+      "intent": "RemoveVisualization",
+      "entities": []
+    },
+    {
+      "text": "reset",
+      "intent": "RemoveVisualization",
+      "entities": []
+    },
+    {
+      "text": "reset vis",
+      "intent": "ClearFilter",
+      "entities": []
+    },
+    {
+      "text": "reset visualization",
+      "intent": "ClearFilter",
+      "entities": []
+    },
+    {
+      "text": "s",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "sales by revenu",
+      "intent": "Nl4dv",
+      "entities": []
+    },
+    {
+      "text": "servus",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "set xaxis to profit",
+      "intent": "ChangeVisualizationPart",
+      "entities": []
+    },
+    {
+      "text": "set yaxis",
+      "intent": "ChangeVisualizationPart",
+      "entities": []
+    },
+    {
+      "text": "she me sales by country",
+      "intent": "Nl4dv",
+      "entities": []
+    },
+    {
+      "text": "show me a columnchart",
+      "intent": "ChangeChartType",
+      "entities": []
+    },
+    {
+      "text": "show me a distribution of sales",
+      "intent": "Nl4dv",
+      "entities": []
+    },
+    {
+      "text": "show me discount by segment",
+      "intent": "Nl4dv",
+      "entities": []
+    },
+    {
+      "text": "show me mean of sales",
+      "intent": "Nl4dv",
+      "entities": []
+    },
+    {
+      "text": "show me profit by country in a barchart",
+      "intent": "Nl4dv",
+      "entities": []
+    },
+    {
+      "text": "show me profit by date",
+      "intent": "Nl4dv",
+      "entities": []
+    },
+    {
+      "text": "show me profit by product",
+      "intent": "Nl4dv",
+      "entities": []
+    },
+    {
+      "text": "show me sales and profit in a chart",
+      "intent": "Nl4dv",
+      "entities": []
+    },
+    {
+      "text": "show me sales by countr",
+      "intent": "Nl4dv",
+      "entities": []
+    },
+    {
+      "text": "show me sales by country",
+      "intent": "Nl4dv",
+      "entities": []
+    },
+    {
+      "text": "show me sales by revenue",
+      "intent": "Nl4dv",
+      "entities": []
+    },
+    {
+      "text": "show ms sales by country",
+      "intent": "Nl4dv",
+      "entities": []
+    },
+    {
+      "text": "show sale by country",
+      "intent": "Nl4dv",
+      "entities": []
+    },
+    {
+      "text": "test",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "thx",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "weather",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "what can i do",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "whats the weather like for tomorrow",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "winter is coming",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "yaxis to sales",
+      "intent": "ChangeVisualizationPart",
+      "entities": []
+    }
+  ],
+  "versionId": "0.1",
+  "name": "VisBotLuis2",
+  "desc": "Luis Model for CoreBot",
+  "culture": "en-us",
+  "tokenizerVersion": "1.0.0",
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "phraselists": [],
+  "regex_features": [],
+  "patterns": [],
+  "settings": []
+}
