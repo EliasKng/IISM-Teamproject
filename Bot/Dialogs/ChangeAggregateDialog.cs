@@ -35,7 +35,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             if (changeAggregateDetails.toAggregate == null)
             {
                 //There is information missing to execute the task ==> tell the user how to do it in the right way
-                string message = "I could not regonize what aggregate you want to apply. Say something like \"change aggregate of xAxis to sum\"";
+                string message = "I could not recognize what aggregate you want to apply. Say something like \"change aggregate of xAxis to sum\"";
 
                 var cancelMessage = MessageFactory.Text(message, CancelMsgText, InputHints.IgnoringInput);
                 await stepContext.Context.SendActivityAsync(cancelMessage, cancellationToken);
@@ -43,7 +43,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             } else if (changeAggregateDetails.visualizationPart == null)
             {
                 //There is information missing to execute the task ==> tell the user how to do it in the right way
-                string message = "I could not regonize what axis you want to apply the aggregate " + changeAggregateDetails.toAggregate +" to. Say something like \"change xAxis to sum\"";
+                string message = "I could not recognize what axis you want to apply the aggregate " + changeAggregateDetails.toAggregate +" to. Say something like \"change xAxis to sum\"";
 
                 var cancelMessage = MessageFactory.Text(message, CancelMsgText, InputHints.IgnoringInput);
                 await stepContext.Context.SendActivityAsync(cancelMessage, cancellationToken);
