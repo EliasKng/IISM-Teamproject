@@ -51,7 +51,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             }
 
             // Use the text provided in FinalStepAsync or the default if it is the first time.
-            var messageText = stepContext.Options?.ToString() ?? "What can I help you with today?";
+            var messageText = stepContext.Options?.ToString() ?? "What can i help you with today?";
+
             var promptMessage = MessageFactory.Text(messageText, messageText, InputHints.ExpectingInput);
             return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
         }
@@ -184,7 +185,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     break;
 
                 case VisualizationInteraction.Intent.Help:
-                    var helpMessageText = $"By starting your query with \"Show me\" you can enter a natural language query, e.g. \"Show me a distribution of sales\". After that, you can tell me to change the charttype, an attribute or even filter for attributes. Clear those filters by telling me e.g. \"clear filter\". You can also reset your visualization or simply type in another \"Show me\" query.";
+                    var helpMessageText = "Here is a quick guide for you: say \"show me sales by country\" to create a new visualization || \"change yaxis to profit\" to change the label of y-axis to profit || \"change aggregate of yaxis to sum\" changes the data aggregation of yaxis to sum (you can say sum, count, average) || \"change charttype to piechart\" changes the visualization to a piechart || \"filter for sales >= 200\" filters the dataset for all rows containing sales >= 200 || \"clear filter\" to clear all added filters";
                     var helpMessage = MessageFactory.Text(helpMessageText, helpMessageText, InputHints.IgnoringInput);
                     await stepContext.Context.SendActivityAsync(helpMessage, cancellationToken);
                     break;
