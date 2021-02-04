@@ -8,7 +8,7 @@
       <v-card-text>
         <ul id="list">
           <!-- section for charttype -->
-          <li>Diagrammtyp: {{this.$store.state.type}}</li>
+          <li>Diagram Type: {{this.$store.state.type}}</li>
           <hr v-if="Object.keys(this.$store.state.specs.keywords) != 0">
             <ul v-if="Object.keys(this.$store.state.specs.keywords) != 0" id="list">
             <li v-if="Object.keys(this.$store.state.specs.keywords) != 0">
@@ -20,17 +20,18 @@
           <hr>
           <!-- section for y-Axis labeling and aggregate  -->
           <ul id="list">
-            <h3>Y-Achse</h3>
-            <li>{{this.$store.state.specs.y_encoding.field}}</li>
-            <li v-if="(this.$store.state.specs.y_encoding.aggregate === null)||(this.$store.state.specs.y_encoding.aggregate == 'Null')">Aggregierung: keine</li>
-            <li v-if="!(this.$store.state.specs.y_encoding.aggregate === null)||(this.$store.state.specs.y_encoding.aggregate == 'Null')">Aggregierung: {{this.$store.state.specs.y_encoding.aggregate}}</li>
+            <h3>Y-Axis</h3>
+            <li v-if="(this.$store.state.specs.type === 'PieChart')">{{this.$store.state.specs.theta_encoding.field}}</li>
+            <li v-else>{{this.$store.state.specs.y_encoding.field}}</li>
+           <li>Aggregation: {{yaggregation}}</li>
+
           </ul>
           <hr>
           <ul id="list">
-            <h3>X-Achse</h3>
-            <li>{{this.$store.state.specs.x_encoding.field}}</li>
-            <li v-if="(this.$store.state.specs.x_encoding.aggregate === null)||(this.$store.state.specs.x_encoding.aggregate == 'Null')">Aggregierung: keine</li>
-            <li v-if="!((this.$store.state.specs.x_encoding.aggregate === null)||(this.$store.state.specs.x_encoding.aggregate == 'Null'))">Aggregierung: {{this.$store.state.specs.x_encoding.aggregate}}</li>
+            <h3>X-Axis</h3>
+            <li v-if="(this.$store.state.specs.type === 'PieChart')">{{this.$store.state.specs.color_encoding.field}}</li>
+            <li v-else>{{this.$store.state.specs.x_encoding.field}}</li>
+            <li>Aggregation: {{xaggregation}}</li>
           </ul>
         </ul>
       </v-card-text>
@@ -43,6 +44,36 @@
 export default {
   name: 'Summary',
   computed: {  
+    yaggregation(){
+    if(this.$store.state.specs.type === 'PieChart'){
+      if(!(this.$store.state.specs.theta_encoding.aggregate === ''||this.$store.state.specs.theta_encoding.aggregate === null)||(this.$store.state.specs.theta_encoding.aggregate == 'Null')){
+        return this.$store.state.specs.theta_encoding.aggregate
+      }else{
+        return 'None'
+      }
+    };
+    if (!(this.$store.state.specs.y_encoding.aggregate === ''||this.$store.state.specs.y_encoding.aggregate === null)||(this.$store.state.specs.y_encoding.aggregate == 'Null')){
+      return this.$store.state.specs.y_encoding.aggregate
+    } else{
+       return 'None'
+    }
+
+    },
+    xaggregation(){
+    if(this.$store.state.specs.type === 'PieChart'){
+      if(!(this.$store.state.specs.color_encoding.aggregate === ''||this.$store.state.specs.color_encoding.aggregate === null)||(this.$store.state.specs.color_encoding.aggregate == 'Null')){
+        return this.$store.state.specs.color_encoding.aggregate
+      }else{
+        return 'None'
+      }
+    };
+    if (!(this.$store.state.specs.x_encoding.aggregate === ''||this.$store.state.specs.x_encoding.aggregate === null)||(this.$store.state.specs.x_encoding.aggregate == 'Null')){
+      return this.$store.state.specs.x_encoding.aggregate
+    } else{
+       return 'None'
+    }
+
+    }
     },
   data() {
     return {

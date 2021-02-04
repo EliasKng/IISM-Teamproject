@@ -170,6 +170,7 @@ def nl4dv_query():
         if nl4dv_results["vis_type"] == "bar": 
             bar_chart = BarChart(working_dataframe, nl4dv_results["encoding"]["x"], nl4dv_results["encoding"]["y"])
             final_vis =  VisHandler(bar_chart)
+            print(final_vis.serialize_object())
         if nl4dv_results["vis_type"] == "arc":
             pie_chart = PieChart(working_dataframe, nl4dv_results["encoding"]["color"], nl4dv_results["encoding"]["theta"])
             final_vis =  VisHandler(pie_chart)
