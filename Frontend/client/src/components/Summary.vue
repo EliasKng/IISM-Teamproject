@@ -49,13 +49,13 @@ export default {
       if(!(this.$store.state.specs.theta_encoding.aggregate === ''||this.$store.state.specs.theta_encoding.aggregate === null)||(this.$store.state.specs.theta_encoding.aggregate == 'Null')){
         return this.$store.state.specs.theta_encoding.aggregate
       }else{
-        return 'None'
+        return 'none'
       }
     };
     if (!(this.$store.state.specs.y_encoding.aggregate === ''||this.$store.state.specs.y_encoding.aggregate === null)||(this.$store.state.specs.y_encoding.aggregate == 'Null')){
       return this.$store.state.specs.y_encoding.aggregate
     } else{
-       return 'None'
+       return 'none'
     }
 
     },
@@ -64,13 +64,13 @@ export default {
       if(!(this.$store.state.specs.color_encoding.aggregate === ''||this.$store.state.specs.color_encoding.aggregate === null)||(this.$store.state.specs.color_encoding.aggregate == 'Null')){
         return this.$store.state.specs.color_encoding.aggregate
       }else{
-        return 'None'
+        return 'none'
       }
     };
     if (!(this.$store.state.specs.x_encoding.aggregate === ''||this.$store.state.specs.x_encoding.aggregate === null)||(this.$store.state.specs.x_encoding.aggregate == 'Null')){
       return this.$store.state.specs.x_encoding.aggregate
     } else{
-       return 'None'
+       return 'none'
     }
 
     }
