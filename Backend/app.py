@@ -181,17 +181,5 @@ def nl4dv_query():
             print(final_vis.jsonify_vis())
         return ({'values' : final_vis.jsonify_vis(), 'specs' : final_vis.serialize_object()})
 
-#eye-tracker
-@app.route('/eye-tracker', methods=['GET', 'POST'])
-def eye_tracker():
-    if request.method == "POST": 
-        post_data = request.get_json()
-        print(post_data["elements"]);
-        list_polygons_name = []
-        for value in post_data["data"]: 
-            list_polygons_name.append(value[0])
-        eye_tracker = EyeTracker(post_data["elements"], list_polygons_name)
-        return jsonify(eye_tracker.execute())
-
 if __name__ == '__main__':
     app.run(debug=True)
