@@ -2,7 +2,7 @@
 
 The dashboard was created as a part of the course 'Teamprojekt' in the winter semester of 2020/21 for the Institute of Information Systems and Marketing at KIT. The goal of the dashboard is to demonstrate several desing principles in intuitively working with data and its visualizations. For demonstrating purpose and comparability reasons the data being used is the [Financial Sample](https://docs.microsoft.com/en-us/power-bi/create-reports/sample-financial-download) for Power BI.
 
-The backend is implemented in Python using mainly the libraries flask, pandas and the package NL4DV. The frontend utilizes the JavaScript framework Vue.js and library D3.js. Frontend and backend are connected via REST API. [Bot]
+The backend is implemented in Python using mainly the libraries flask, pandas and the package NL4DV. The frontend utilizes the JavaScript framework Vue.js and library D3.js. Frontend and backend are connected via REST API. The Bot implements the MS Bot Framework, together with LUIS. It is then hosted on Azure as a WebService and connected to the frontend via the WebChat directLine.
 
 ## Backend
 ### Installation 
