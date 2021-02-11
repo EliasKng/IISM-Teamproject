@@ -10,6 +10,8 @@ For installing the backend cd into the Backend directory, then install the requi
 ```bash
 pip install -r requirements.txt 
 ```
+
+Please also follow the installtion guide for [NL4DV](https://github.com/nl4dv/nl4dv) . Especially the two stanfort jarfiles (stanford-english-corenlp-2018-10-05-models.jar & stanford-parser.jar) for NL4DV to work correctly. They have to be located in your local clone of the Repository in Backend/examples/assets/jars.
 ## Frontend
 ### Installation 
 For installing the frontend cd into the client directory. 
